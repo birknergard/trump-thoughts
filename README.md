@@ -1,6 +1,6 @@
 # Exam for web-development course
 
-# Pre exam TODO
+## Pre exam TODO
 
 - Set up backend ifrastructure
 - Figure out C# .NET framwork
@@ -10,7 +10,7 @@
 - Experiment with react
 
 
-# Complete
+## Complete
 - Set up frontend infrastructure
 - Prepare git repo
 
