@@ -1,9 +1,0 @@
-namespace models;
-
-public class Fruit{
-
-    public int id {get; set;}
-
-    public string? name {get; set;}
-
-}
