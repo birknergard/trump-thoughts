@@ -17,7 +17,7 @@
 
 - Set up Models
 
-- figure out whether i need multiple controllers or just one
+- figure out whether i need multiple controllers or just one ( Multiple**)
 
 ### Frontend
 
@@ -26,6 +26,8 @@
 
 - Set up Contexts
 - Set up Controller(s)
+- figure out uploadimagecontroller
+- Set up databases
 - Generate 8 database fields per entity from chatgpt
 
 
@@ -53,3 +55,4 @@ TrumpStaff:
 
 
 
+**
