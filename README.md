@@ -19,23 +19,29 @@
 
 - figure out whether i need multiple controllers or just one ( Multiple**)
 
+- Set up Contexts
+- Set up Controller(s)
+- figure out uploadimagecontroller
+
 ### Frontend
 
 ## Tasks
 ### Backend infrastructure
 
-- Set up Contexts
-- Set up Controller(s)
-- figure out uploadimagecontroller
-- Set up databases
+- Set up databases (Initialize)
 - Generate 8 database fields per entity from chatgpt
+
+- Set up CRUD for:
+    Merch
+    Staff
+    Thought
 
 
 ### Frontend app
 
 
-## Models structure
 
+## Models structure
 TrumpThought:
 - int Id
 - string Thought
@@ -49,7 +55,7 @@ TrumpMerch:
 TrumpStaff:
 - int Id,
 - string Name,
-- FileStream Image
+- string? ImageUrl
 
 
 

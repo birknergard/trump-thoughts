@@ -5,6 +5,7 @@ namespace backend.controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TrumpStaffController : ControllerBase{
+public class ThoughtController : ControllerBase{
+
 
 }

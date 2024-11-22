@@ -302,3 +302,4 @@ D:\HK\3-semester\web-utvikling\exam\web-exam\backend\bin\Debug\net8.0\runtimes\w
 D:\HK\3-semester\web-utvikling\exam\web-exam\backend\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
 D:\HK\3-semester\web-utvikling\exam\web-exam\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\HK\3-semester\web-utvikling\exam\web-exam\backend\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+D:\HK\3-semester\web-utvikling\exam\web-exam\backend\bin\Debug\net8.0\backend.staticwebassets.runtime.json

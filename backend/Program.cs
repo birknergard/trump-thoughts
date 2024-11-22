@@ -11,8 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Setting up database context (with SQLite)
-builder.Services.AddDbContext<ApiItemContext>(
-    options => options.UseSqlite("Data Source = ApiDatabase.db")
+builder.Services.AddDbContext<TrumpContext>(
+    options => options.UseSqlite("Data Source = Trump.db")
 );
 
 var app = builder.Build();

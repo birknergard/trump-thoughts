@@ -1,13 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Models;
 
-public class TrumpThought{
+public class Merch{
 
     [Key]
-    int Id {get; set;}
-    
-    string Thought {get; set;}
-
+    int Id {get; set;} 
+    string ItemName {get; set;} = "";
     string Category {get; set;} = "Uncategorized";
-
 }
