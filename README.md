@@ -1,7 +1,23 @@
 # Exam for web-development course
 
 
-## Complete
+### Frontend
+
+## Tasks
+### Backend infrastructure
+
+- Generate 8 database fields per entity from chatgpt
+
+- CRUD for Merch
+- CRUD for Staff
+- CRUD for Thought
+
+
+### Frontend app
+
+
+
+## Completeed tasks
 ### Pre exam
 - Set up Route controller
 - Set up frontend boilerplate
@@ -24,23 +40,11 @@
 - figure out uploadimagecontroller
 - Set up databases (Initialize)
 
-### Frontend
-
-## Tasks
-### Backend infrastructure
-
-- Generate 8 database fields per entity from chatgpt
-
-- CRUD for Merch
-- CRUD for Staff
-- CRUD for Thought
-
-
-### Frontend app
 
 
 
-## Models structure
+
+### Models structure
 TrumpThought:
 - int Id
 - string Thought
