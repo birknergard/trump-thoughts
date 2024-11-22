@@ -4,7 +4,11 @@ using backend.Models;
 public class Merch{
 
     [Key]
-    int Id {get; set;} 
-    string ItemName {get; set;} = "";
-    string Category {get; set;} = "Uncategorized";
+    public int Id {get; set;} 
+
+    public double Price {get; set;}
+    
+    public string ItemName {get; set;} = "";
+
+    public string Category {get; set;} = "Uncategorized";
 }

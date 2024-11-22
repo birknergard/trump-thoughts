@@ -22,19 +22,18 @@
 - Set up Contexts
 - Set up Controller(s)
 - figure out uploadimagecontroller
+- Set up databases (Initialize)
 
 ### Frontend
 
 ## Tasks
 ### Backend infrastructure
 
-- Set up databases (Initialize)
 - Generate 8 database fields per entity from chatgpt
 
-- Set up CRUD for:
-    Merch
-    Staff
-    Thought
+- CRUD for Merch
+- CRUD for Staff
+- CRUD for Thought
 
 
 ### Frontend app
@@ -50,6 +49,7 @@ TrumpThought:
 TrumpMerch:
 - int Id,
 - string Name,
+- double Price,
 - string Category
 
 TrumpStaff:
@@ -62,3 +62,17 @@ TrumpStaff:
 
 
 **
+
+## Useful commands
+
+Launch for backend
+    dotnet run --launch-profile https
+
+Launch for frontend
+    npm start
+
+Create database migration
+    dotnet ef migrations add "migration-name" 
+
+Update database
+    dotnet ef database update

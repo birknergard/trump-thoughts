@@ -4,10 +4,10 @@ using backend.Models;
 public class Thought{
 
     [Key]
-    int Id {get; set;}
+    public int Id {get; set;}
     
-    string Statement {get; set;} = "";
+    public string Statement {get; set;} = "";
 
-    string Category {get; set;} = "Uncategorized";
+    public string Category {get; set;} = "Uncategorized";
 
 }
