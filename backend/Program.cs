@@ -1,21 +1,18 @@
-using backend.models;
+using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<ModelContext>(options => 
-    options.UseInMemoryDatabase("Items")
-);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Setting up databse context (with SQLite)
-builder.Services.AddDbContext<ModelContext>(
-    options => options.UseSqlite("Data Source = Items")
+// Setting up database context (with SQLite)
+builder.Services.AddDbContext<ApiItemContext>(
+    options => options.UseSqlite("Data Source = ApiDatabase.db")
 );
 
 var app = builder.Build();

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.models;
+namespace backend.Models;
 
-public class Item{
+public class ApiItem{
     
     [Key]
     public int Id {get;set;}
