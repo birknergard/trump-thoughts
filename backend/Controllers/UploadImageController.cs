@@ -28,4 +28,6 @@ public class UploadImageController : ControllerBase{
         }
         return Ok(new {FileName = file.FileName});
     }
+
+
 }

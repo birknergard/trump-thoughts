@@ -19,9 +19,6 @@ public class ThoughtController : ControllerBase{
     [HttpGet]
     public async Task<List<Thought>> GetAll(){
         List<Thought> thoughts = await context.Thoughts.ToListAsync();
-        if(thoughts.IsNullOrEmpty()){
-            return [];
-        }
         return thoughts;
     }
 
@@ -69,7 +66,7 @@ public class ThoughtController : ControllerBase{
     public async Task<ActionResult<Thought>> Put(string id, Thought modifiedThought){
         Thought? thoughtToUpdate = await context.Thoughts.FindAsync(id);
         if(thoughtToUpdate == null){
-            NotFound();
+            return NotFound();
         }
         context.Entry(thoughtToUpdate).CurrentValues.SetValues(modifiedThought);
         context.Entry(thoughtToUpdate).State = EntityState.Modified;
