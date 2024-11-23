@@ -16,23 +16,6 @@ public class ThoughtController : ControllerBase{
         this.context = context;
     }
 
-    [HttpGet]
-    public async Task<List<Thought>> GetAll(){
-        List<Thought> thoughts = await context.Thoughts.ToListAsync();
-        return thoughts;
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Thought>> GetById(int id){
-        Thought? thought = await context.Thoughts.FindAsync(id);
-
-        if(thought != null){
-            return Ok(thought);
-        } else {
-            return NotFound();
-        }
-    }
-
     [HttpPost]
     public async Task<ActionResult<Thought>> Post([FromBody] Thought newThought){
         if(newThought == null){
@@ -51,17 +34,25 @@ public class ThoughtController : ControllerBase{
         await context.SaveChangesAsync();
         return CreatedAtAction("GetById", new {id = newThought.Id}, newThought);
     }
-    
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<Thought>> Delete(int id){
-        Thought? thought = await context.Thoughts.FindAsync(id);
-        if(thought != null){
-            context.Thoughts.Remove(thought);
-            await context.SaveChangesAsync();
-        }
-        return NoContent();
+
+    [HttpGet]
+    public async Task<List<Thought>> GetAll(){
+        List<Thought> thoughts = await context.Thoughts.ToListAsync();
+        return thoughts;
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Thought>> GetById(int id){
+        Thought? thought = await context.Thoughts.FindAsync(id);
+
+        if(thought != null){
+            return Ok(thought);
+        } else {
+            return NotFound();
+        }
+    }
+
+    
     [HttpPut("{id}")]
     public async Task<ActionResult<Thought>> Put(string id, Thought modifiedThought){
         Thought? thoughtToUpdate = await context.Thoughts.FindAsync(id);
@@ -73,4 +64,15 @@ public class ThoughtController : ControllerBase{
         await context.SaveChangesAsync();
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Thought>> Delete(int id){
+        Thought? thought = await context.Thoughts.FindAsync(id);
+        if(thought != null){
+            context.Thoughts.Remove(thought);
+            await context.SaveChangesAsync();
+        }
+        return NoContent();
+    }
+
 }

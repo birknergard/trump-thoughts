@@ -13,24 +13,8 @@ public class MerchController : ControllerBase{
     public MerchController(TrumpContext context){
         this.context = context;
     }
-
-    [HttpGet]
-    public async Task<List<Merch>> Get(){
-        List<Merch> merchandise = await context.Merchandise.ToListAsync();
-        return merchandise;
-    }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Merch>> GetById(int id){
-        Merch? merch = await context.Merchandise.FindAsync(id);
-        if(merch != null){
-            return NotFound();
-        } else {
-            return Ok(merch);
-        }
-    }
-
-   [HttpPost] 
+    
+    [HttpPost] 
     public async Task<ActionResult<Merch>> Post([FromBody] Merch newMerch){
         if(newMerch == null){
             return BadRequest("Error: No data provided.");
@@ -53,15 +37,21 @@ public class MerchController : ControllerBase{
         return CreatedAtAction("GetById", new {id = newMerch.Id}, newMerch);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<Merch>> Delete(int id){
+    [HttpGet]
+    public async Task<List<Merch>> Get(){
+        List<Merch> merchandise = await context.Merchandise.ToListAsync();
+        return merchandise;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Merch>> GetById(int id){
         Merch? merch = await context.Merchandise.FindAsync(id);
         if(merch != null){
-            context.Merchandise.Remove(merch);
-            await context.SaveChangesAsync();
+            return NotFound();
+        } else {
+            return Ok(merch);
         }
-        return NoContent();
-    }    
+    }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<Merch>> Put(string id, Merch modifiedMerch){
@@ -75,4 +65,15 @@ public class MerchController : ControllerBase{
         await context.SaveChangesAsync();
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Merch>> Delete(int id){
+        Merch? merch = await context.Merchandise.FindAsync(id);
+        if(merch != null){
+            context.Merchandise.Remove(merch);
+            await context.SaveChangesAsync();
+        }
+        return NoContent();
+    }    
+
 }
