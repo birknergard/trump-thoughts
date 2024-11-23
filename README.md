@@ -10,7 +10,6 @@
 
 - CRUD for Merch
 - CRUD for Staff
-- CRUD for Thought
 
 
 ### Frontend app
@@ -40,6 +39,7 @@
 - figure out uploadimagecontroller
 - Set up databases (Initialize)
 
+- CRUD for Thought
 
 
 
