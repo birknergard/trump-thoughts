@@ -8,7 +8,6 @@
 
 - Generate 8 database fields per entity from chatgpt
 
-- CRUD for Merch
 - CRUD for Staff
 
 
@@ -40,7 +39,7 @@
 - Set up databases (Initialize)
 
 - CRUD for Thought
-
+- CRUD for Merch
 
 
 
