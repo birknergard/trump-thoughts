@@ -13,7 +13,7 @@
 
 
 
-## Completeed tasks
+## Completed tasks
 ### Pre exam
 - Set up Route controller
 - Set up frontend boilerplate
