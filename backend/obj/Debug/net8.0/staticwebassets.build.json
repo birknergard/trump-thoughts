@@ -1,19 +1,11 @@
 {
   "Version": 1,
-  "Hash": "1t8krqdIEA16DWLC93LQHSMOBa0i995f2p6hMdqxB+w=",
+  "Hash": "7/yvsnDRTixX0vVer35KSjS1HzfM4rGxA/gc1emwSdw=",
   "Source": "backend",
   "BasePath": "_content/backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "backend\\wwwroot",
-      "Source": "backend",
-      "ContentRoot": "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\wwwroot\\",
-      "BasePath": "_content/backend",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": []
 }

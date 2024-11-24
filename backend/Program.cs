@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -14,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TrumpContext>(
     options => options.UseSqlite("Data Source = Trump.db")
 );
+
 
 var app = builder.Build();
 

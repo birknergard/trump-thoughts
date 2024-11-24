@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\backend.csproj": {}
+    "/Users/birknergard/HK/3-semester/webutvikling/exam/web-exam/backend/backend.csproj": {}
   },
   "projects": {
-    "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\backend.csproj": {
+    "/Users/birknergard/HK/3-semester/webutvikling/exam/web-exam/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\backend.csproj",
+        "projectUniqueName": "/Users/birknergard/HK/3-semester/webutvikling/exam/web-exam/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\Birk\\.nuget\\packages\\",
-        "outputPath": "D:\\HK\\3-semester\\web-utvikling\\exam\\web-exam\\backend\\obj\\",
+        "projectPath": "/Users/birknergard/HK/3-semester/webutvikling/exam/web-exam/backend/backend.csproj",
+        "packagesPath": "/Users/birknergard/.nuget/packages/",
+        "outputPath": "/Users/birknergard/HK/3-semester/webutvikling/exam/web-exam/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Birk\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/birknergard/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
