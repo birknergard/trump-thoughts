@@ -26,3 +26,4 @@
 web-exam.sln
 
 /backend/obj/Debug
+/backend/bin
