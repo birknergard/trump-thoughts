@@ -45,11 +45,9 @@ public class ThoughtController : ControllerBase{
     public async Task<ActionResult<Thought>> GetById(int id){
         Thought? thought = await context.Thoughts.FindAsync(id);
 
-        if(thought != null){
-            return Ok(thought);
-        } else {
-            return NotFound();
-        }
+        if(thought == null) return NotFound();
+
+        return Ok(thought);
     }
 
     

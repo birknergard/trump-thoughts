@@ -5,10 +5,8 @@
 
 ## Tasks
 ### Backend infrastructure
-
 - Generate 8 database fields per entity from chatgpt
 
-- CRUD for Staff
 
 
 ### Frontend app
@@ -40,6 +38,7 @@
 
 - CRUD for Thought
 - CRUD for Merch
+- CRUD for Staff
 
 
 

@@ -11,7 +11,7 @@ namespace backend.Migrations
 {
     [DbContext(typeof(TrumpContext))]
     [Migration("20241124120856_rename-models")]
-    partial class renamemodels
+    partial class RenameModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

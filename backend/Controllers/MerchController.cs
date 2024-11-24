@@ -46,7 +46,7 @@ public class ProductController : ControllerBase{
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetById(int id){
         Product? merch = await context.Merchandise.FindAsync(id);
-        if(merch != null){
+        if(merch == null){
             return NotFound();
         } else {
             return Ok(merch);
