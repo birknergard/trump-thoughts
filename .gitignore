@@ -26,4 +26,11 @@
 web-exam.sln
 
 backend/obj/Debug
+backend/obj/backend.csproj.nuget.dgspec.json
+backend/obj/backend.csproj.nuget.g.props
+backend/obj/backend.csproj.nuget.g.targets
+backend/obj/project.assets.json
+backend/obj/project.nuget.cache
+
 backend/bin/
+
