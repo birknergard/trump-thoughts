@@ -24,3 +24,5 @@
 
 /.vscode
 web-exam.sln
+
+/backend/obj/Debug
