@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Models;
 
-public class Staff{
+public class StaffMember{
 
     [Key]
     public int Id {get; set;}

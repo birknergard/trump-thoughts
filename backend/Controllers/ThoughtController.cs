@@ -26,8 +26,8 @@ public class ThoughtController : ControllerBase{
             return BadRequest("Error: No thought provided.");
         }
 
-        if(string.IsNullOrEmpty(newThought.Category)){
-            return BadRequest("Error: No category provided.");
+        if(string.IsNullOrEmpty(newThought.Topic)){
+            return BadRequest("Error: No topic provided.");
         }
 
         context.Thoughts.Add(newThought);

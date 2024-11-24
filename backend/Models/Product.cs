@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using backend.Models;
 
-public class Merch{
+public class Product{
 
     [Key]
     public int Id {get; set;} 

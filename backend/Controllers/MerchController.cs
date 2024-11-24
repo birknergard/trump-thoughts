@@ -6,46 +6,46 @@ namespace backend.controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MerchController : ControllerBase{
+public class ProductController : ControllerBase{
 
     private readonly TrumpContext context;
 
-    public MerchController(TrumpContext context){
+    public ProductController(TrumpContext context){
         this.context = context;
     }
     
     [HttpPost] 
-    public async Task<ActionResult<Merch>> Post([FromBody] Merch newMerch){
-        if(newMerch == null){
+    public async Task<ActionResult<Product>> Post([FromBody] Product newProduct){
+        if(newProduct == null){
             return BadRequest("Error: No data provided.");
         }
 
-        if(string.IsNullOrEmpty(newMerch.ItemName)){
+        if(string.IsNullOrEmpty(newProduct.ItemName)){
             return BadRequest("Error: No name provided.");
         }
 
-        if(string.IsNullOrEmpty(newMerch.Category)){
+        if(string.IsNullOrEmpty(newProduct.Category)){
            return BadRequest("Error: No category provided.");
         }
 
-        if(newMerch.Price == 0){
+        if(newProduct.Price == 0){
            return BadRequest("Error: No price provided.");
         }
 
-        context.Merchandise.Add(newMerch);
+    //context.Merchandise.Add(newProduct);
         await context.SaveChangesAsync();
-        return CreatedAtAction("GetById", new {id = newMerch.Id}, newMerch);
+        return CreatedAtAction("GetById", new {id = newProduct.Id}, newProduct);
     }
 
     [HttpGet]
-    public async Task<List<Merch>> Get(){
-        List<Merch> merchandise = await context.Merchandise.ToListAsync();
+    public async Task<List<Product>> Get(){
+        List<Product> merchandise = await context.Merchandise.ToListAsync();
         return merchandise;
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Merch>> GetById(int id){
-        Merch? merch = await context.Merchandise.FindAsync(id);
+    public async Task<ActionResult<Product>> GetById(int id){
+        Product? merch = await context.Merchandise.FindAsync(id);
         if(merch != null){
             return NotFound();
         } else {
@@ -54,23 +54,23 @@ public class MerchController : ControllerBase{
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Merch>> Put(string id, Merch modifiedMerch){
-        Merch? merchToUpdate = await context.Merchandise.FindAsync(id);
+    public async Task<ActionResult<Product>> Put(string id, Product modifiedProduct){
+        Product? merchToUpdate = await context.Merchandise.FindAsync(id);
     
         if(merchToUpdate == null){
             return NotFound();
         }
-        context.Entry(merchToUpdate).CurrentValues.SetValues(modifiedMerch);
+        context.Entry(merchToUpdate).CurrentValues.SetValues(modifiedProduct);
         context.Entry(merchToUpdate).State = EntityState.Modified;
         await context.SaveChangesAsync();
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Merch>> Delete(int id){
-        Merch? merch = await context.Merchandise.FindAsync(id);
-        if(merch != null){
-            context.Merchandise.Remove(merch);
+    public async Task<ActionResult<Product>> Delete(int id){
+        Product? product = await context.Merchandise.FindAsync(id);
+        if(product != null){
+  //          context.Merchandise.Remove(product);
             await context.SaveChangesAsync();
         }
         return NoContent();

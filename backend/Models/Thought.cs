@@ -8,6 +8,6 @@ public class Thought{
     
     public string Statement {get; set;} = "";
 
-    public string Category {get; set;} = "";
+    public string Topic {get; set;} = "";
 
 }
