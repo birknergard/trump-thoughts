@@ -56,7 +56,7 @@ public class ThoughtController : ControllerBase{
         return CreatedAtAction("GetById", new {id = newThought.Id}, newThought);
     }
 
-    [HttpGet]
+    [HttpGet("topics")]
     public List<string> GetTopics(){
         return topics;
     }

@@ -8,24 +8,31 @@
 - Generate 8 database fields per entity from chatgpt
 
 
-
 ### Frontend app
-Needs to include:
-Somewhere to view trump thoughts
-    - Filter by topic (topic has to be enum) 
-    - Create new
-    - Edit another topic
-    - Delete
-Somewhere to buy merch
-    - Show merch from API
-    - Store shopping cart i localstorage
-    - Add item to shopping cart
-    - view shopping cart
-    - Create new (?)
-Staff page
-    - Show all employees
-    - Add new employee
+!!! Figure out image upload !!!
+- Api GET connection on:
+    - main
+    - shop
+    - staff
 
+- POST functionality on:
+    - main
+    - shop
+    - staff(?)
+
+- PUT functionality on:
+    - main
+    - shop
+    - staff
+
+- Rudementary components:
+    - Input(text)
+    - Input(int)
+    - Responsive grid system component
+
+    - Staff item
+    - Thought item
+    - Shop item
 
 
 ## Completed tasks
@@ -55,24 +62,27 @@ Staff page
 - CRUD for Merch
 - CRUD for Staff
 
+### Frontend
+- Rudementary planning
+- Basic routing implemented
+- Page templates set up
 
-
-### Models structure
-TrumpThought:
-- int Id
-- string Thought
-- string? Category
-
-TrumpMerch:
-- int Id,
-- string Name,
-- double Price,
-- string Category
-
-TrumpStaff:
-- int Id,
-- string Name,
-- string? ImageUrl
+## frontend implementation/functionality
+Needs to include:
+Somewhere to view trump thoughts
+    - Filter by topic (topic has to be enum) 
+    - Create new
+    - Edit another topic
+    - Delete
+Somewhere to buy merch
+    - Show merch from API
+    - Store shopping cart i localstorage
+    - Add item to shopping cart
+    - view shopping cart
+    - Create new (?)
+Staff page
+    - Show all employees
+    - Add new employee
 
 
 
