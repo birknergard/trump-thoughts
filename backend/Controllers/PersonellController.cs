@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 
 namespace backend.controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PersonellController : ControllerBase{
+public class PersonnelController : ControllerBase{
 
     private readonly TrumpContext context;
 
-    public PersonellController(TrumpContext context){
+    public PersonnelController(TrumpContext context){
         this.context = context;
     }
 

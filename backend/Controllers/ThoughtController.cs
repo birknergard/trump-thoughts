@@ -11,6 +11,27 @@ namespace backend.controllers;
 public class ThoughtController : ControllerBase{
 
     private readonly TrumpContext context;
+    private readonly List<string> topics = new List<string>{
+        "healthcare",
+        "Education",
+        "immigration",
+        "economy",
+        "climate change",
+        "gun control",
+        "criminal justice",
+        "abortion",
+        "foreign policy",
+        "social security",
+        "millitary spending",
+        "free speech",
+        "lgbtq rights",
+        "drugs",
+        "infrastructure",
+        "corporate regulation",
+        "trade",
+        "technology",
+        "other"
+    };
 
     public ThoughtController(TrumpContext context) {
         this.context = context;
@@ -26,13 +47,18 @@ public class ThoughtController : ControllerBase{
             return BadRequest("Error: No thought provided.");
         }
 
-        if(string.IsNullOrEmpty(newThought.Topic)){
+        if(string.IsNullOrEmpty(newThought.Topic) && !topics.Contains(newThought.Topic)){
             return BadRequest("Error: No topic provided.");
         }
 
         context.Thoughts.Add(newThought);
         await context.SaveChangesAsync();
         return CreatedAtAction("GetById", new {id = newThought.Id}, newThought);
+    }
+
+    [HttpGet]
+    public List<string> GetTopics(){
+        return topics;
     }
 
     [HttpGet]

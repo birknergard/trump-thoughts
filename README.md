@@ -10,6 +10,21 @@
 
 
 ### Frontend app
+Needs to include:
+Somewhere to view trump thoughts
+    - Filter by topic (topic has to be enum) 
+    - Create new
+    - Edit another topic
+    - Delete
+Somewhere to buy merch
+    - Show merch from API
+    - Store shopping cart i localstorage
+    - Add item to shopping cart
+    - view shopping cart
+    - Create new (?)
+Staff page
+    - Show all employees
+    - Add new employee
 
 
 
