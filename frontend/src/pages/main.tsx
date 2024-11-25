@@ -1,26 +1,24 @@
-import React, { useState } from "react"
-import ThoughtApi from "../components/api"
+import React, { useState, useEffect,  } from "react"
+import IThought from "../interfaces/thought"
+import ThoughtApi from "../services/api"
 
 function Main(){
-
-    const [thoughts, setThoughts] = useState(() => {
-
-    });
+    const [thoughts, setThoughts] = useState<IThought[] | null>([])
 
     const updateThoughts = async() => {
         try {
-            setThoughts((await ThoughtApi.getAll()).data)
+            const fetchedThoughts = await ThoughtApi.getAll() 
+            setThoughts(fetchedThoughts)
         } catch(error){
             console.log(error);
         }
     }
-
+    
     return(
         <div> 
             <button>Update</button>
-            <p>Thoughts: {thoughts}</p>
         </div>
     )
-}
+}  
 
 export default Main;
