@@ -10,5 +10,5 @@ public class Product{
     
     public string ItemName {get; set;} = "";
 
-    public string Category {get; set;} = "";
+    public string ImageUrl {get; set;} = "";
 }

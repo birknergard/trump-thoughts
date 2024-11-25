@@ -67,11 +67,16 @@ public class ThoughtController : ControllerBase{
         return thoughts;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Thought>> GetById(int id){
-        Thought? thought = await context.Thoughts.FindAsync(id);
+    [HttpGet("{topic}")]
+    public async Task<ActionResult<Thought>> GetById(string topic){
 
-        if(thought == null) return NotFound();
+        if(!topics.Contains(topic)) return NotFound();
+
+        List<Thought> thought = await context.Thoughts.Where( thought => 
+            thought.Topic == topic
+        ).ToListAsync();
+
+        if(thought.IsNullOrEmpty()) return NotFound();
 
         return Ok(thought);
     }
