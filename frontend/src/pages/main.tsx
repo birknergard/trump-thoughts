@@ -1,6 +1,6 @@
 import React, { useState, useEffect,  } from "react"
 import IThought from "../interfaces/thought"
-import ThoughtApi from "../services/api"
+import ThoughtApi from "../services/thought-service"
 
 function Main(){
     const [thoughts, setThoughts] = useState<IThought[] | null>([])
@@ -13,6 +13,7 @@ function Main(){
             console.log(error);
         }
     }
+
     
     return(
         <div> 

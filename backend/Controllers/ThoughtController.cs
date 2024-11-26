@@ -51,6 +51,8 @@ public class ThoughtController : ControllerBase{
             return BadRequest("Error: No topic provided.");
         }
 
+        if(string.IsNullOrEmpty(newThought.Title)) return BadRequest("Error: No data provided.");
+
         context.Thoughts.Add(newThought);
         await context.SaveChangesAsync();
         return CreatedAtAction("GetById", new {id = newThought.Id}, newThought);

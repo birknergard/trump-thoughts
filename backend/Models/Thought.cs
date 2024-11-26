@@ -9,5 +9,7 @@ public class Thought{
     public string Statement {get; set;} = "";
 
     public string Topic {get; set;} = "";
+    
+    public string Title {get; set;} = "";
 
 }
