@@ -12,7 +12,7 @@ const ThoughtApi = (() => {
             console.log(response.data)   
             return response.data;
         } catch(error){
-            console.error("Error with GET method.")
+            console.error("Error with GET method.", error)
             return null
         }
     }
@@ -23,7 +23,7 @@ const ThoughtApi = (() => {
             console.log(response.data)
             return response.data
         } catch(error){
-            console.error("Error with GET method.")
+            console.error("Error with GET method.", error)
             return null
         }
     }
@@ -32,8 +32,8 @@ const ThoughtApi = (() => {
         try {
             const response = await axios.get<string[]>(`${url}/topics`)
             return response.data
-        } catch(error){
-            console.error("Error with GET method.")
+        } catch(error) {
+            console.error("Error with GET method.", error)
             return null
         }
     }
@@ -47,8 +47,8 @@ const ThoughtApi = (() => {
                 topic: newThought.topic,
                 title: newThought.title
             })
-        } catch (error){
-            console.error("Error with POST method.")
+        } catch (error) {
+            console.error("Error with POST method.", error)
         }
     }  
 
@@ -56,16 +56,16 @@ const ThoughtApi = (() => {
     const remove = async(id : number) : Promise<void> => {
         try {
             await axios.delete(`${url}/${id}`)
-        } catch{
-            console.error("Error with DELETE method.")
+        } catch(error) {
+            console.error("Error with DELETE method.", error)
         }
     }
 
     const update = async(id : number, modifiedThought : IThought) : Promise<void> => {
         try{
             await axios.put(`${url}/${id}`, modifiedThought)
-        } catch(error){
-            console.error("Error with PUT method.")
+        } catch(error) {
+            console.error("Error with PUT method.", error)
         }
     }
 
