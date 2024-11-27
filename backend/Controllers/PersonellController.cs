@@ -29,6 +29,14 @@ public class PersonnelController : ControllerBase{
             return BadRequest("No image provided.");
         }
 
+        if(staffMember.Age == 0){
+            return BadRequest("No age provided.");
+        }
+
+        if(string.IsNullOrEmpty(staffMember.Description)){
+            return BadRequest("No description provided");
+        }
+
         await context.SaveChangesAsync();
         return CreatedAtAction("GetById", new {id = staffMember.Id}, staffMember);
     }
