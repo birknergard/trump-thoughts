@@ -20,8 +20,8 @@ function ThoughtList(){
 
     const ThoughtItem : React.FC<IThought> = ({id, title, statement, topic}) => {
         return (
-        <div>
-            <h1>{id} - {title}</h1>
+        <div className="flex justify-center items-start">
+            <h1 className="text-sky-400">{title}</h1>
             <p>{statement}</p>
             <p>{topic}</p>
         </div>
@@ -47,8 +47,8 @@ function ThoughtList(){
 
     return(
         <>
-        <h1>Trump Thoughts</h1>
-        <div className="cols-span-1">
+        <h1 className="text-sky-400">Trump Thoughts</h1>
+        <div className="bg-red-600">
             {getThoughtList()}
         </div>
         </>

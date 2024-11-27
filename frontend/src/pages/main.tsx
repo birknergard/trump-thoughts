@@ -1,10 +1,12 @@
-import React, { useState, useEffect,  } from "react"
+import React, { useState, useEffect } from "react"
 import ThoughtList from "../components/thoughtList";
 
 function Main(){
     
     return(
-        <ThoughtList />
+        <div>
+            <ThoughtList />
+        </div>
     )
 }  
 
