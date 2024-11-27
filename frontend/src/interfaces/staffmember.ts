@@ -3,7 +3,8 @@ interface IStaffMember{
     name: string,
     age: number,
     imageUrl: string,
-    title: string
+    title: string,
+    description : string
 }
 
 export default IStaffMember

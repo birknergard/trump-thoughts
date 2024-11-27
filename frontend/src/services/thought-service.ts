@@ -4,7 +4,7 @@ import IThought from '../interfaces/thought';
 
 const ThoughtApi = (() => {
 
-    const url : string = "localhost:5026/api/thought"
+    const url : string = "http://localhost:5026/api/thought"
       
     const getAll = async(): Promise<IThought[] | null> => {
         try {
