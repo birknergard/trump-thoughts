@@ -31,10 +31,10 @@ function ThoughtCreator(){
 }
 
 interface TopicSelectProps{
-    passDataToParent : any
+    passDataToParent : (selectedTopic : string) => void
 }
 
-function TopicSelect(){
+const TopicSelect : React.FC<TopicSelectProps> = ({ passDataToParent }) => {
 
     interface TopicItemProps{
         topic : string
