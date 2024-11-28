@@ -11,14 +11,11 @@
 ### Frontend app
 !!! Figure out image upload !!!
 - Api GET connection on:
-    - main
     - shop
     - staff
 
 - POST functionality on:
     - main
-    - shop
-    - staff(?)
 
 - PUT functionality on:
     - main
@@ -85,7 +82,7 @@ Staff page
     - Add new employee
 
 
-
+Topic list
 
 
 **

@@ -31,6 +31,7 @@ const ThoughtApi = (() => {
     const getAllTopics = async() : Promise<string[] | null> => {
         try {
             const response = await axios.get<string[]>(`${url}/topics`)
+            console.log(response.data)
             return response.data
         } catch(error) {
             console.error("Error with GET method.", error)

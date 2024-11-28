@@ -11,27 +11,6 @@ namespace backend.controllers;
 public class ThoughtController : ControllerBase{
 
     private readonly TrumpContext context;
-    private readonly List<string> topics = new List<string>{
-        "healthcare",
-        "Education",
-        "immigration",
-        "economy",
-        "climate change",
-        "gun control",
-        "criminal justice",
-        "abortion",
-        "foreign policy",
-        "social security",
-        "millitary spending",
-        "free speech",
-        "lgbtq rights",
-        "drugs",
-        "infrastructure",
-        "corporate regulation",
-        "trade",
-        "technology",
-        "other"
-    };
 
     public ThoughtController(TrumpContext context) {
         this.context = context;
@@ -47,7 +26,7 @@ public class ThoughtController : ControllerBase{
             return BadRequest("Error: No thought provided.");
         }
 
-        if(string.IsNullOrEmpty(newThought.Topic) && !topics.Contains(newThought.Topic)){
+        if(string.IsNullOrEmpty(newThought.Topic)){
             return BadRequest("Error: No topic provided.");
         }
 
@@ -58,10 +37,6 @@ public class ThoughtController : ControllerBase{
         return CreatedAtAction("GetById", new {id = newThought.Id}, newThought);
     }
 
-    [HttpGet("topics")]
-    public List<string> GetTopics(){
-        return topics;
-    }
 
     [HttpGet]
     public async Task<List<Thought>> GetAll(){
@@ -71,8 +46,6 @@ public class ThoughtController : ControllerBase{
 
     [HttpGet("{topic}")]
     public async Task<ActionResult<Thought>> GetById(string topic){
-
-        if(!topics.Contains(topic)) return NotFound();
 
         List<Thought> thought = await context.Thoughts.Where( thought => 
             thought.Topic == topic
