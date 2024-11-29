@@ -1,24 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import IThought from "../interfaces/thought";
-import ThoughtApi from "../services/thought-service";
+import ThoughtApi from "../services/thoughtService";
+import { useThoughtContext } from "../context/context";
 
 function ThoughtList(){
 
-    const [thoughts, setThoughts] = useState<IThought[]>([])
+    const { thoughts } = useThoughtContext()
 
-    const updateThoughts = async() => {
-        try {
-            const fetchedThoughts = await ThoughtApi.getAll()
-            if(fetchedThoughts != null){
-                setThoughts(fetchedThoughts)
-            }
-        } catch(error){
-            console.log(error);
-        }
-    }
-
-    const ThoughtItem : React.FC<IThought> = ({id, title, statement, topic}) => {
+    const ThoughtItem = ({title, statement, topic}) => {
         return (
         <div className="flex justify-center items-start">
             <h1 className="text-sky-400">{title}</h1>
@@ -42,7 +32,7 @@ function ThoughtList(){
     }
 
     useEffect(() => {
-        updateThoughts()
+        
     }, [])
 
     return(

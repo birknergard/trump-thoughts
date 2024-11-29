@@ -6,14 +6,14 @@ const ThoughtApi = (() => {
 
     const url : string = "http://localhost:5026/api/thought"
       
-    const getAll = async(): Promise<IThought[] | null> => {
+    const getAll = async(): Promise<IThought[]> => {
         try {
             const response = await axios.get<IThought[]>(url)
             console.log(response.data)   
             return response.data;
         } catch(error){
             console.error("Error with GET method.", error)
-            return null
+            return []
         }
     }
 
@@ -24,18 +24,18 @@ const ThoughtApi = (() => {
             return response.data
         } catch(error){
             console.error("Error with GET method.", error)
-            return null
+            return []
         }
     }
 
-    const getAllTopics = async() : Promise<string[] | null> => {
+    const getAllTopics = async() : Promise<string[]> => {
         try {
             const response = await axios.get<string[]>(`${url}/topics`)
             console.log(response.data)
             return response.data
         } catch(error) {
             console.error("Error with GET method.", error)
-            return null
+            return []
         }
     }
 

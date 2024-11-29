@@ -6,14 +6,14 @@ const StaffApi = (() => {
 
     const url : string = "localhost:5026/api/thought"
       
-    const getAll = async(): Promise<IStaffMember[] | null> => {
+    const getAll = async(): Promise<IStaffMember[]> => {
         try {
             const response = await axios.get<IStaffMember[]>(url)
             console.log(response.data)   
             return response.data;
         } catch(error){
             console.error("Error with GET method.", error)
-            return null
+            return []
         }
     }
 

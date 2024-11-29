@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ThoughtApi from "../services/thought-service";
+import ThoughtApi from "../services/thoughtService";
 import IThought from "../interfaces/thought";
 
 function ThoughtCreator(){
@@ -8,12 +8,12 @@ function ThoughtCreator(){
     const [topicInput, setTopic] = useState("")
     const [statementInput, setStatement] = useState("")
 
-    const submitThought = () => {
-        
+    const getTopicData = (data) => {
+
     }
 
-    const getTopicData = (data : string) => {
-
+    const submitThought = () => {
+        
     }
 
     return(
@@ -30,17 +30,10 @@ function ThoughtCreator(){
     )
 }
 
-interface TopicSelectProps{
-    passDataToParent : (selectedTopic : string) => void
-}
+const TopicSelect = () => {
 
-const TopicSelect : React.FC<TopicSelectProps> = ({ passDataToParent }) => {
 
-    interface TopicItemProps{
-        topic : string
-    }
-
-    const topicList : string[] = [
+    const topicList = [
         "healthcare",
         "Education",
         "immigration",
@@ -62,7 +55,7 @@ const TopicSelect : React.FC<TopicSelectProps> = ({ passDataToParent }) => {
         "other"
     ]
 
-    const TopicItem : React.FC<TopicItemProps> = ({topic}) => {
+    const TopicItem = ({topic}) => {
         return(
             <>
             <label htmlFor={topic}>{topic}</label>
