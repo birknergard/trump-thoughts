@@ -1,6 +1,5 @@
 import { createContext, Provider, ReactNode, useContext, useEffect, useState } from "react";
 import ThoughtApi from "../services/thoughtService";
-import IThought from "../interfaces/thought";
 
 const ThoughtContext = createContext()
 
@@ -40,7 +39,7 @@ export const ThoughtProvider = ({ children }) => {
 }
 
 export const useThoughtContext = () => {
-    return useContext(TrumpContext)
+    return useContext(ThoughtContext)
 }
 
 

@@ -6,6 +6,7 @@ import Staff from '../pages/staff';
 
 function NavController(){
     return (
+        <>
         <div>
             <BrowserRouter>
                 <Routes>
@@ -16,6 +17,12 @@ function NavController(){
                 </Routes>
             </BrowserRouter>
         </div>
+        <header className=''>
+            
+        </header>
+        </>
+
+        
     )
 }
 
