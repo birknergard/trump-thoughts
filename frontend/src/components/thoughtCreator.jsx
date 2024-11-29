@@ -4,13 +4,7 @@ import IThought from "../interfaces/thought";
 
 function ThoughtCreator(){
 
-    const [titleInput, setTitle] = useState("")
-    const [topicInput, setTopic] = useState("")
-    const [statementInput, setStatement] = useState("")
-
-    const getTopicData = (data) => {
-
-    }
+    const [titleInput, s const getTopicData = (data) => { }
 
     const submitThought = () => {
         
@@ -31,7 +25,6 @@ function ThoughtCreator(){
 }
 
 const TopicSelect = () => {
-
 
     const topicList = [
         "healthcare",
