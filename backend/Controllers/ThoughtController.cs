@@ -30,6 +30,14 @@ public class ThoughtController : ControllerBase{
             return BadRequest("Error: No topic provided.");
         }
 
+        if(string.IsNullOrEmpty(newThought.ImageUrl)){
+            return BadRequest("Error: No image provided.");
+        }
+
+        if(string.IsNullOrEmpty(newThought.Tone)){
+            return BadRequest("Error: No tone provided.");
+        }
+
         if(string.IsNullOrEmpty(newThought.Title)) return BadRequest("Error: No data provided.");
 
         context.Thoughts.Add(newThought);

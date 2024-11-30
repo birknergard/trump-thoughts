@@ -9,28 +9,16 @@
 
 
 ### Frontend app
-!!! Figure out image upload !!!
-- Api GET connection on:
-    - shop
-    - staff
+New app with regards to FAQ:
 
-- POST functionality on:
-    - main
-
-- PUT functionality on:
-    - main
-    - shop
-    - staff
-
-- Rudementary components:
-    - Input(text)
-    - Input(int)
-    - Responsive grid system component
-
-    - Staff item
-    - Thought item
-    - Shop item
-
+Trump Thoughts app:
+Baseline Features:
+- View trump thoughts (statements)
+    - Each trump thought has a random image assigned from a pool
+you can upload images into the pool
+you can create new thoughts, and pick an image from the pool to accompany it
+you can edit thoughts
+you can filter trump thoughts by topic
 
 ## Completed tasks
 ### Pre exam

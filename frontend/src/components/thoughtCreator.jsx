@@ -1,34 +1,107 @@
-import React, { useEffect, useState } from "react";
-import ThoughtApi from "../services/thoughtService";
-import IThought from "../interfaces/thought";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useThoughtContext } from "../context/context";
 
 function ThoughtCreator(){
 
-    const [titleInput, s const getTopicData = (data) => { }
+    const [title, setTitle] = useState("")
+    const [topic, setTopic] = useState("")
+    const [statement, setStatement] = useState("")
+    const [tone, setTone] = useState("")
+
+    const { postThought } = useThoughtContext()  
 
     const submitThought = () => {
-        
+        // TODO
+        postThought(title, topic, statement) 
     }
 
     return(
-        <form method="post" onSubmit={submitThought}>
-            <input name="title" type="text"></input>
-            <label htmlFor="title"></label>
+        <form 
+            className="flex flex-col " 
+            method="post"
+            onSubmit={submitThought}
+        >   
 
-            <TopicSelect />
+            <Field fieldName={"Title"} field={title} fieldSetter={setTitle} />
 
-            <input name="statement" type="text"></input>
-            <label htmlFor="statement"></label>
+            <TopicSelect topicSetter={setTopic} topicState={topic}/>
+            
+            <Field fieldName={"Statement"} field={statement} fieldSetter={setStatement} />
+            <Field fieldName={"Tone"} field={tone} fieldSetter={setTone} />
 
+            <input type="button" value="Submit" />
+            <input type="button" value="Reset" />
         </form>
     )
 }
 
-const TopicSelect = () => {
+function Field({fieldName, field, fieldSetter}){
+    return(
+        <>
+            <h2 className="text-xl">{fieldName}</h2>
+            <label htmlFor="title">Enter your {fieldName}</label>
+            <input
+                className="border border-red-700"
+                name="title" type="text"
+            ></input>
+        </>
+    )
+}
+
+
+function SelectionList({options, fieldName, fieldSetter}){
+    const Item = ({option, fieldSetter, field}) => {
+        
+        const handleCheck = () => {
+            fieldSetter(option)
+        }
+
+        return(
+            <div className="flex flex-row ">
+                <input 
+                    className=""
+                    type="radio" 
+                    name={option} 
+                    id={option}
+                    checked={field === option}
+                    onChange={handleCheck}
+                />
+            
+                <p className="">
+                    {capitalizeFirst(option)}
+                </p>
+            </div>
+        )
+    }
+    
+    const getTopicList = () => {  
+        const itemComponents = options.map((_field, i) => (
+            <TopicItem 
+                key={`Topic_${i}`}
+                topicState={topicState}
+                topicSetter={topicSetter}
+                topicString={_topic}
+            />       ))    
+        return itemComponents 
+    }
+
+    
+    return(
+        <>
+        <h1 className="text-xl">Select a topic</h1>
+        <div className="flex flex-col">
+            {getTopicList()}
+        </div>
+        <h2 className="text-xl">Topic selected: {topicState}</h2>
+        </>
+    )
+}
+
+function TopicSelect({topicState, topicSetter}){
 
     const topicList = [
         "healthcare",
-        "Education",
+        "education",
         "immigration",
         "economy",
         "climate change",
@@ -48,12 +121,41 @@ const TopicSelect = () => {
         "other"
     ]
 
-    const TopicItem = ({topic}) => {
+
+    const capitalizeFirst = (string) => {
+
+        var result = string[0].toUpperCase()
+        for(var i = 1; i < string.length; i++){
+            if(result[result.length - 1] == " ") {
+                result += string[i].toUpperCase()
+            } else {
+                result += string[i]
+            }
+        }
+        return result;
+    }
+
+    const TopicItem = ({topicString, topicSetter, topicState}) => {
+        
+        const handleCheck = () => {
+            topicSetter(topicString)
+        }
+
         return(
-            <>
-            <label htmlFor={topic}>{topic}</label>
-            <input type="checkbox" name={`${topic}-checkbox`} id={topic} />
-            </>
+            <div className="flex flex-row ">
+                <input 
+                    className=""
+                    type="radio" 
+                    name={topicString} 
+                    id={topicString}
+                    checked={topicState === topicString}
+                    onChange={handleCheck}
+                />
+            
+                <p className="">
+                    {capitalizeFirst(topicString)}
+                </p>
+            </div>
         )
     }
     
@@ -61,7 +163,9 @@ const TopicSelect = () => {
         const topicComponents = topicList.map((_topic, i) => (
             <TopicItem 
                 key={`Topic_${i}`}
-                topic={_topic}
+                topicState={topicState}
+                topicSetter={topicSetter}
+                topicString={_topic}
             />
         ))    
         return topicComponents
@@ -70,10 +174,11 @@ const TopicSelect = () => {
     
     return(
         <>
-        <h1>Select a topic</h1>
-        <div>
+        <h1 className="text-xl">Select a topic</h1>
+        <div className="flex flex-col">
             {getTopicList()}
         </div>
+        <h2 className="text-xl">Topic selected: {topicState}</h2>
         </>
     )
 }

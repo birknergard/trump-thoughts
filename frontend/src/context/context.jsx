@@ -4,9 +4,6 @@ import ThoughtApi from "../services/thoughtService";
 const ThoughtContext = createContext()
 
 export const ThoughtProvider = ({ children }) => {
-    const [titleInput, setTitle] = useState("")
-    const [topicInput, setTopic] = useState("")
-    const [statementInput, setStatement] = useState("")
 
 
     const [thoughts, setThoughts] = useState([]) 
@@ -22,16 +19,17 @@ export const ThoughtProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        updateThoughts()
-    }, [])  
+    const postThought = async(title, topic, statement) => {
+        try{
+            
+        } catch(e){
+            console.error("Error", e)
+        }
+    }
 
     return(
         <ThoughtContext.Provider value={{
             thoughts, setThoughts,
-            titleInput, setTitle,
-            topicInput, setTopic,
-            statementInput, setStatement
         }}>
             {children}
         </ThoughtContext.Provider>
