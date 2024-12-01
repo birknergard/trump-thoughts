@@ -10,95 +10,6 @@ function ThoughtCreator(){
 
     const { postThought } = useThoughtContext()  
 
-    const submitThought = () => {
-        // TODO
-        postThought(title, topic, statement) 
-    }
-
-    return(
-        <form 
-            className="flex flex-col " 
-            method="post"
-            onSubmit={submitThought}
-        >   
-
-            <Field fieldName={"Title"} field={title} fieldSetter={setTitle} />
-
-            <TopicSelect topicSetter={setTopic} topicState={topic}/>
-            
-            <Field fieldName={"Statement"} field={statement} fieldSetter={setStatement} />
-            <Field fieldName={"Tone"} field={tone} fieldSetter={setTone} />
-
-            <input type="button" value="Submit" />
-            <input type="button" value="Reset" />
-        </form>
-    )
-}
-
-function Field({fieldName, field, fieldSetter}){
-    return(
-        <>
-            <h2 className="text-xl">{fieldName}</h2>
-            <label htmlFor="title">Enter your {fieldName}</label>
-            <input
-                className="border border-red-700"
-                name="title" type="text"
-            ></input>
-        </>
-    )
-}
-
-
-function SelectionList({options, fieldName, fieldSetter}){
-    const Item = ({option, fieldSetter, field}) => {
-        
-        const handleCheck = () => {
-            fieldSetter(option)
-        }
-
-        return(
-            <div className="flex flex-row ">
-                <input 
-                    className=""
-                    type="radio" 
-                    name={option} 
-                    id={option}
-                    checked={field === option}
-                    onChange={handleCheck}
-                />
-            
-                <p className="">
-                    {capitalizeFirst(option)}
-                </p>
-            </div>
-        )
-    }
-    
-    const getTopicList = () => {  
-        const itemComponents = options.map((_field, i) => (
-            <TopicItem 
-                key={`Topic_${i}`}
-                topicState={topicState}
-                topicSetter={topicSetter}
-                topicString={_topic}
-            />       ))    
-        return itemComponents 
-    }
-
-    
-    return(
-        <>
-        <h1 className="text-xl">Select a topic</h1>
-        <div className="flex flex-col">
-            {getTopicList()}
-        </div>
-        <h2 className="text-xl">Topic selected: {topicState}</h2>
-        </>
-    )
-}
-
-function TopicSelect({topicState, topicSetter}){
-
     const topicList = [
         "healthcare",
         "education",
@@ -121,24 +32,80 @@ function TopicSelect({topicState, topicSetter}){
         "other"
     ]
 
+    const toneList = [
+        "Angry",
+        "Reverant",
+        "Sad"
+    ]
 
-    const capitalizeFirst = (string) => {
-
-        var result = string[0].toUpperCase()
-        for(var i = 1; i < string.length; i++){
-            if(result[result.length - 1] == " ") {
-                result += string[i].toUpperCase()
-            } else {
-                result += string[i]
-            }
-        }
-        return result;
+    const submitThought = () => {
+        // TODO
+        postThought(title, topic, statement) 
     }
 
-    const TopicItem = ({topicString, topicSetter, topicState}) => {
+    return(
+        <form 
+            className="flex flex-col " 
+            method="post"
+            onSubmit={submitThought}
+        >   
+
+            <Field fieldName={"Title"} field={title} fieldSetter={setTitle} />
+
+            <SelectionList 
+                fieldSetter={setTopic}
+                fieldState={topic}
+                options={topicList}
+                fieldName={"Topics"}
+            />
+            
+            <Field fieldName={"Statement"} field={statement} fieldSetter={setStatement} />
+            <Field fieldName={"Tone"} field={tone} fieldSetter={setTone} />
+
+            <SelectionList
+                fieldSetter={setTone}
+                fieldState={tone}
+                options={toneList}
+                fieldName={"Tone"}
+            />
+            
+            <input type="button" value="Submit" />
+            <input type="button" value="Reset" />
+        </form>
+    )
+}
+
+function Field({fieldName, field, fieldSetter}){
+    return(
+        <>
+            <h2 className="text-xl">{fieldName}</h2>
+            <label htmlFor="title">Enter your {fieldName}</label>
+            <input
+                className="border border-red-700"
+                name="title" type="text"
+            ></input>
+        </>
+    )
+}
+
+
+function SelectionList({options, fieldName, fieldState, fieldSetter}){
+
+    function Item({option, fieldSetter, fieldState}){
+        const capitalizeFirst = (string) => {
+            var result = string[0].toUpperCase()
+            for(var i = 1; i < string.length; i++){
+                if(result[result.length - 1] == " ") {
+                    result += string[i].toUpperCase()
+                } else {
+                    result += string[i]
+                }
+            }
+            return result;
+        }
         
         const handleCheck = () => {
-            topicSetter(topicString)
+            fieldSetter(option)
         }
 
         return(
@@ -146,29 +113,29 @@ function TopicSelect({topicState, topicSetter}){
                 <input 
                     className=""
                     type="radio" 
-                    name={topicString} 
-                    id={topicString}
-                    checked={topicState === topicString}
+                    name={option} 
+                    id={option}
+                    checked={fieldState === option}
                     onChange={handleCheck}
                 />
             
                 <p className="">
-                    {capitalizeFirst(topicString)}
+                    {capitalizeFirst(option)}
                 </p>
             </div>
         )
     }
     
-    const getTopicList = () => {  
-        const topicComponents = topicList.map((_topic, i) => (
-            <TopicItem 
-                key={`Topic_${i}`}
-                topicState={topicState}
-                topicSetter={topicSetter}
-                topicString={_topic}
-            />
+    const getSelectionList = () => {  
+        const itemComponents = options.map((_field, i) => (
+            <Item 
+                key={`item_${i}`}
+                option={_field}
+                fieldState={fieldState}
+                fieldSetter={fieldSetter}
+            />       
         ))    
-        return topicComponents
+        return itemComponents 
     }
 
     
@@ -176,9 +143,9 @@ function TopicSelect({topicState, topicSetter}){
         <>
         <h1 className="text-xl">Select a topic</h1>
         <div className="flex flex-col">
-            {getTopicList()}
+            {getSelectionList()}
         </div>
-        <h2 className="text-xl">Topic selected: {topicState}</h2>
+        <h2 className="text-xl">selected: {fieldState}</h2>
         </>
     )
 }
