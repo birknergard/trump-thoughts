@@ -15,7 +15,7 @@ public class UploadImageController : ControllerBase{
         } 
         
         string wwwrootPath = hosting.WebRootPath;
-        string absolutePath = Path.Combine(wwwrootPath, "image", file.FileName);
+        string absolutePath = Path.Combine(wwwrootPath, "images", file.FileName);
 
         var directory = Path.GetDirectoryName(absolutePath);
 
