@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import IThought from "../interfaces/thought";
-import ThoughtApi from "../services/thoughtService";
-import { useThoughtContext } from "../context/context";
+import { useThoughtContext } from "../context/thoughtContext";
 
 function ThoughtList(){
 
@@ -30,10 +28,6 @@ function ThoughtList(){
         ))
         return thoughtList;
     }
-
-    useEffect(() => {
-        
-    }, [])
 
     return(
         <>

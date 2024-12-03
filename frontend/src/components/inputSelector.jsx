@@ -51,13 +51,14 @@ function SelectionList({options, fieldName, fieldState, fieldSetter}){
 
     
     return(
-        <>
-        <h1 className="text-xl">Select a topic</h1>
-        <div className="flex flex-col">
-            {getSelectionList()}
+        <div>
+
+            <h1 className="text-xl">Select a {fieldName}</h1>
+            <div className="flex flex-col">
+                {getSelectionList()}
+            </div>
+            <h2 className="text-xl">selected: {fieldState}</h2>
         </div>
-        <h2 className="text-xl">selected: {fieldState}</h2>
-        </>
     )
 }
 export default SelectionList

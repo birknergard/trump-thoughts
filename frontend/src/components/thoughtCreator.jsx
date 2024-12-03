@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useThoughtContext } from "../context/context";
+import { useThoughtContext } from "../context/thoughtContext";
 import SelectionList from "./inputSelector";
 import Field from "./inputField";
+import ImageUploadService from "../services/imageUploadService";
+import ImageUploader from "./imageUploader";
 
 function ThoughtCreator(){
 
@@ -9,6 +11,9 @@ function ThoughtCreator(){
     const [topic, setTopic] = useState("")
     const [statement, setStatement] = useState("")
     const [tone, setTone] = useState("")
+
+    const [image, setImage] = useState(null)
+    const [imageUrl, setUrl] = useState("")
 
     const { postThought } = useThoughtContext()  
 
@@ -27,19 +32,29 @@ function ThoughtCreator(){
         "blunt", "hyperbolic", "defensive", "optimistic"
     ]
 
+    const uploadImage = async() => {
+        try{
+            if(image != null){
+                const response = await ImageUploadService.upload(image)
+                setUrl(response.data.fileName)
+            } 
+        } catch(e) {
+            console.error("Error with image upload.", e)
+        }
+    }
     const submitThought = () => {
-        // TODO
-        postThought(title, topic, statement) 
+        try {
+            uploadImage()
+            postThought(title, topic, statement, tone, imageUrl) 
+        } catch(e){
+            console.error("error in POST", e)
+        }
     }
 
     return(
-        <form 
-            className="flex flex-col " 
-            method="post"
-            onSubmit={submitThought}
-        >   
+        <div className="flex flex-col justify-start items-center">   
 
-            <Field fieldName={"Title"} field={title} fieldSetter={setTitle} />
+            <Field fieldName={"Title"} fieldSetter={setTitle} />
 
             <SelectionList 
                 fieldSetter={setTopic}
@@ -48,8 +63,7 @@ function ThoughtCreator(){
                 fieldName={"Topics"}
             />
             
-            <Field fieldName={"Statement"} field={statement} fieldSetter={setStatement} />
-            <Field fieldName={"Tone"} field={tone} fieldSetter={setTone} />
+            <Field fieldName={"Statement"} fieldSetter={setStatement} />
 
             <SelectionList
                 fieldSetter={setTone}
@@ -57,10 +71,27 @@ function ThoughtCreator(){
                 options={toneList}
                 fieldName={"Tone"}
             />
+
+            <ImageUploader
+                imageState={image} 
+                imageSetter={setImage}
+                imageUrlSetter={setUrl}
+            /> 
+
+            <input className="border-2 rounded"
+                type="button" value="Reset"
+                onClick={{}}
+            />
+
+            <input className="border-2 rounded"
+                type="button" value="Submit"
+                onClick={submitThought}
+            />
+
+
             
-            <input type="button" value="Submit" />
-            <input type="button" value="Reset" />
-        </form>
+
+        </div>
     )
 }
 

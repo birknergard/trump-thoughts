@@ -19,9 +19,9 @@ export const ThoughtProvider = ({ children }) => {
         }
     }
 
-    const postThought = async(title, topic, statement) => {
+    const postThought = async(title, topic, statement, imageUrl, tone) => {
         try{
-            
+            ThoughtApi.create(title, topic, statement, imageUrl, tone)
         } catch(e){
             console.error("Error", e)
         }
@@ -29,7 +29,7 @@ export const ThoughtProvider = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts,
+            thoughts, setThoughts, postThought, updateThoughts
         }}>
             {children}
         </ThoughtContext.Provider>

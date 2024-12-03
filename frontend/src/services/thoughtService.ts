@@ -46,7 +46,9 @@ const ThoughtApi = (() => {
                 id: newThought.id,
                 statement: newThought.statement,
                 topic: newThought.topic,
-                title: newThought.title
+                title: newThought.title,
+                tone: newThought.tone,
+                imageUrl: newThought.imageUrl
             })
         } catch (error) {
             console.error("Error with POST method.", error)
