@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 namespace backend.controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class UploadImageController : ControllerBase{
     private readonly IWebHostEnvironment hosting;
 
@@ -17,11 +19,11 @@ public class UploadImageController : ControllerBase{
         string wwwrootPath = hosting.WebRootPath;
         string absolutePath = Path.Combine(wwwrootPath, "images", file.FileName);
 
-        var directory = Path.GetDirectoryName(absolutePath);
+        //  var directory = Path.GetDirectoryName(absolutePath);
 
-        if(!Directory.Exists(directory)){
-            Directory.CreateDirectory(directory);
-        }
+        //if(!Directory.Exists(directory)){
+         //   Directory.CreateDirectory(directory);
+        //}
 
         using(var fileStream = new FileStream(absolutePath, FileMode.Create)){
             file.CopyTo(fileStream);

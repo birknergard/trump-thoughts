@@ -1,6 +1,5 @@
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
 
