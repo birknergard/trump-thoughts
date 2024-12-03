@@ -4,6 +4,7 @@ import SelectionList from "./inputSelector";
 import Field from "./inputField";
 import ImageUploadService from "../services/imageUploadService";
 import ImageUploader from "./imageUploader";
+import DropdownMenu from "./dropDownMenu";
 
 function ThoughtCreator(){
 
@@ -21,7 +22,7 @@ function ThoughtCreator(){
         "healthcare", "education", "immigration", "economy",
         "climate change", "gun control", "criminal justice",
         "abortion", "foreign policy", "social security",
-        "millitary spending", "free speech", "lgbtq rights",
+        "millitary spending", "free speech", "lgbtq+ rights",
         "drugs", "infrastructure", "corporate regulation",
         "trade", "technology", "other"
     ]
@@ -29,7 +30,7 @@ function ThoughtCreator(){
     const toneList = [
         "confident",  "combative", "controversial",
         "authoritative", "provocative", "charismatic",
-        "blunt", "hyperbolic", "defensive", "optimistic"
+        "blunt", "hyperbolic", "optimistic"
     ]
 
     const uploadImage = async() => {
@@ -52,18 +53,24 @@ function ThoughtCreator(){
     }
 
     return(
-        <div className="flex flex-col justify-start items-center">   
+        <div className="cursor-auto flex flex-col justify-center items-start">   
 
-            <Field fieldName={"Title"} fieldSetter={setTitle} />
+            <div>
+                <h2 className="text-2xl">Statement</h2>
+                <textarea
+                    className="border border-red-700 text-xl"
+                    rows={5}
+                    cols={30}
+                    name="title" type="text"
+                    onChange={(e) => setStatement(e.target.value)}
+                ></textarea>
+            </div>
 
-            <SelectionList 
-                fieldSetter={setTopic}
-                fieldState={topic}
-                options={topicList}
-                fieldName={"Topics"}
+            <DropdownMenu 
+                title="Topic" 
+                optionList={topicList} 
+                setter={setTopic} 
             />
-            
-            <Field fieldName={"Statement"} fieldSetter={setStatement} />
 
             <SelectionList
                 fieldSetter={setTone}
@@ -71,7 +78,6 @@ function ThoughtCreator(){
                 options={toneList}
                 fieldName={"Tone"}
             />
-
             <ImageUploader
                 imageState={image} 
                 imageSetter={setImage}
@@ -87,10 +93,6 @@ function ThoughtCreator(){
                 type="button" value="Submit"
                 onClick={submitThought}
             />
-
-
-            
-
         </div>
     )
 }

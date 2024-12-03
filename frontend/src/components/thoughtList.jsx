@@ -4,7 +4,7 @@ import { useThoughtContext } from "../context/thoughtContext";
 
 function ThoughtList(){
 
-    const { thoughts } = useThoughtContext()
+    const { thoughts, updateThoughts } = useThoughtContext()
 
     const ThoughtItem = ({title, statement, topic}) => {
         return (
@@ -28,10 +28,13 @@ function ThoughtList(){
         ))
         return thoughtList;
     }
+    useEffect(() => {
+        updateThoughts()
+    }, [])
 
     return(
         <>
-        <h1 className="text-sky-400">Trump Thoughts</h1>
+        <h1 className="m-4 text-sky-400 text-3xl flex justify-center">Trump man thinkin hmm</h1>
         <div className="bg-red-600">
             {getThoughtList()}
         </div>

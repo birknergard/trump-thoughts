@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react"
 import ThoughtList from "../components/thoughtList";
 import ThoughtCreator from "../components/thoughtCreator";
-import { ThoughtProvider } from "../context/thoughtContext";
 
-function Main(){
-
+function MainPage(){
     return(
-        <ThoughtProvider>
-            <ThoughtList />
-            <ThoughtCreator />
-        </ThoughtProvider>
+        <ThoughtList />
     )
 }  
 
-export default Main;
+export default MainPage;

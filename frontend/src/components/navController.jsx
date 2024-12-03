@@ -1,17 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Main from '../pages/main';
+import MainPage from '../pages/main';
+import CreatePage from '../pages/create';
 
 function NavController(){
     return (
         <>
         <div>
-            <BrowserRouter>
-                <Routes>
-                   <Route path="/" element={<Main />}></Route>
-                   <Route path='*' element={<p>Page not found</p>}></Route>
-                </Routes>
-            </BrowserRouter>
         </div>
         <header className=''>
             
