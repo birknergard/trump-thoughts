@@ -7,11 +7,11 @@ interface IField{
 
 function Field(props : IField){
     return(
-        <div>
-            <h2 className="text-xl">{props.fieldName}</h2>
-            <label htmlFor="title">Enter your {props.fieldName}</label>
+        <div className="flex flex-col items-center justify-center my-2">
+            <h2 className="text-2xl">{props.fieldName}</h2>
             <input
                 className="border border-red-700"
+                value={"Enter a title"}
                 name="title" type="text"
                 onChange={(e) => props.fieldSetter(e.target.value)}
             ></input>

@@ -29,7 +29,7 @@ function SelectionList(props : ISelectionList){
     
     
     return(
-        <div className="flex flex-col items-center w-screen">
+        <div className="flex flex-col items-center w-screen my-2">
             <h1 className="text-xl">Select a {props.fieldName}</h1>
             <div className="grid grid-cols-3 gap-3">
                 {props.options.map((_field, i) => (

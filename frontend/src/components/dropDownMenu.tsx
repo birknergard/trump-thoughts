@@ -24,7 +24,7 @@ function DropdownMenu (props : IDropdownMenu){
     }
 
     return(
-        <div>
+        <div className="flex flex-col items-center my-2">
             <h2 className="text-2xl">{props.title}</h2>
             <select 
                 className="text-xl"

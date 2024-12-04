@@ -8,7 +8,6 @@ interface IUploader{
 
 function ImageUploader(props : IUploader){
 
-    const url = "http://localhost:5026/images"
 
     const handle = (e : ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target
@@ -18,9 +17,11 @@ function ImageUploader(props : IUploader){
     }
     
     return(
-        <div>
+        <div className=" flex flex-col items-center justify-center my-3">
+            <h2 className="text-2xl">Reaction Image</h2>
             <input 
                 type="file"
+                accept="image/"
                 onChange={handle}
             />
         </div>

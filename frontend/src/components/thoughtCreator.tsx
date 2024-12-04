@@ -16,7 +16,7 @@ function ThoughtCreator(){
     const [image, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
-    const { postThought } = useThoughtContext()  
+    const { postThought } = useThoughtContext() 
 
     const topicList = [
         "healthcare", "education", "immigration", "economy",
@@ -53,18 +53,18 @@ function ThoughtCreator(){
     }
 
     return(
-        <div className="cursor-auto flex flex-col justify-center items-start">   
+        <div className="cursor-auto flex flex-col justify-center items-center">   
 
             <Field fieldName="Title" fieldSetter={setTitle}/>
 
-            <div>
+            <div className="flex flex-col items-center justify-center my-2">
                 <h2 className="text-2xl">Statement</h2>
-                <input
-                    className="border border-red-700 text-xl"
-                    type="text"
+                <textarea className="border border-red-700 text-m"
+                    cols={35}
+                    rows={6}
                     name="title" 
                     onChange={(e) => setStatement(e.target.value)}
-                ></input>
+                ></textarea>
             </div>
 
             <DropdownMenu 
@@ -81,16 +81,18 @@ function ThoughtCreator(){
             <ImageUploader
                 imageSetter={setImage}
             /> 
+            
+            <div className="flex flex-row items-center justify-center my-2">
+                <input className="border-2 rounded"
+                    type="button" value="Reset"
+                    // TODO // onClick={{}}
+                />
 
-            <input className="border-2 rounded"
-                type="button" value="Reset"
-                // TODO // onClick={{}}
-            />
-
-            <input className="border-2 rounded"
-                type="button" value="Submit"
-                onClick={submitThought}
-            />
+                <input className="border-2 rounded"
+                    type="button" value="Submit"
+                    onClick={submitThought}
+                />
+            </div>
         </div>
     )
 }

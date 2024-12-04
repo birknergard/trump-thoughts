@@ -1,7 +1,6 @@
 import axios from 'axios';
 import IThought from '../interfaces/thought';
 
-
 const ThoughtApi = (() => {
 
     const url : string = "http://localhost:5026/api/thought"
