@@ -3,8 +3,9 @@ import { useThoughtContext } from "../context/thoughtContext";
 import SelectionList from "./inputSelector";
 import Field from "./inputField";
 import ImageUploadService from "../services/imageUploadService";
-import ImageUploader from "./imageUploader";
+import ImageHandler from "./imageHandler";
 import DropdownMenu from "./dropDownMenu";
+import ThoughtItem from "./thoughtItem";
 
 function ThoughtCreator(){
 
@@ -16,7 +17,41 @@ function ThoughtCreator(){
     const [image, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
-    const { postThought } = useThoughtContext() 
+    const { postThought, status } = useThoughtContext() 
+    
+    const fieldsAreFilled = () : Boolean =>{
+        if (title === "") {
+            console.log("Title is empty.");
+            return false;
+        }
+
+        if (topic === "a topic*") {
+            console.log("Topic is set to the default placeholder.");
+            return false;
+        }
+
+        if (statement === "") {
+            console.log("Statement is empty.");
+            return false;
+        }
+
+        if (tone === "") {
+            console.log("Tone is empty.");
+            return false;
+        }
+
+        if (image === null) {
+            console.log("Image is not provided.");
+            return false;
+        }
+
+        if (imageUrl === "") {
+            console.log("Image URL is empty.");
+            return false;
+        }
+
+        return true
+    } 
 
     const topicList = [
         "healthcare", "education", "immigration", "economy",
@@ -24,7 +59,7 @@ function ThoughtCreator(){
         "abortion", "foreign policy", "social security",
         "millitary spending", "free speech", "lgbtq+ rights",
         "drugs", "infrastructure", "corporate regulation",
-        "trade", "technology", "other"
+        "trade", "technology", "something else"
     ]
 
     const toneList = [
@@ -34,21 +69,30 @@ function ThoughtCreator(){
     ]
 
     const uploadImage = async() => {
-        try{
-            if(image != null){
-                const response = await ImageUploadService.upload(image)
-                setUrl(response.data.fileName)
-            } 
-        } catch(e) {
-            console.error("Error with image upload.", e)
-        }
+            try{
+                if(image != null){
+                    const response = await ImageUploadService.upload(image)
+                    setUrl(response.data.fileName)
+                }  
+            } catch(e) {
+                console.error()
+            }
     }
-    const submitThought = () => {
-        try {
-            uploadImage()
-            postThought(title, topic, statement, tone, imageUrl) 
-        } catch(e){
-            console.error("error in POST", e)
+
+    const submitThought = async() => {
+            try {
+                uploadImage()
+                postThought(title, topic, statement, imageUrl, tone)
+            } catch(e){
+                console.error("error in POST", e)
+            }
+    }
+
+    const handleSubmit = () => {
+        if(fieldsAreFilled()){
+            submitThought()
+        } else {
+            console.log("Fields are not filled.")
         }
     }
 
@@ -57,8 +101,16 @@ function ThoughtCreator(){
 
             <Field fieldName="Title" fieldSetter={setTitle}/>
 
-            <div className="flex flex-col items-center justify-center my-2">
-                <h2 className="text-2xl">Statement</h2>
+
+            <div className="flex flex-col items-center justify-center my-2 w-full">
+                <div className="flex flex-row justify-around content-center">
+                    <h2 className="text-m me-1">Statement on</h2>
+                    <DropdownMenu 
+                        title="Topic" 
+                        optionList={topicList} 
+                        setter={setTopic} 
+                    />
+                </div>
                 <textarea className="border border-red-700 text-m"
                     cols={35}
                     rows={6}
@@ -67,32 +119,41 @@ function ThoughtCreator(){
                 ></textarea>
             </div>
 
-            <DropdownMenu 
-                title="Topic" 
-                optionList={topicList} 
-                setter={setTopic} 
-            />
 
             <SelectionList
                 fieldSetter={setTone}
                 options={toneList}
                 fieldName={"Tone"}
             />
-            <ImageUploader
+
+            <ImageHandler
                 imageSetter={setImage}
+                imageUrlSetter={setUrl}
             /> 
             
-            <div className="flex flex-row items-center justify-center my-2">
-                <input className="border-2 rounded"
+            <div className="flex flex-row items-center justify-center my-2 w-full">
+                <input className="border-2 rounded w-1/4 h-10 m-2"
                     type="button" value="Reset"
                     // TODO // onClick={{}}
                 />
-
-                <input className="border-2 rounded"
+            {status !== "Uploading" &&
+                <input className="border-2 rounded w-1/4 h-10 m-2"
                     type="button" value="Submit"
-                    onClick={submitThought}
+                    onClick={handleSubmit}
                 />
+            }
             </div>
+            {status == "Idle" && 
+                <ThoughtItem 
+                    id={null}
+                    title={title}
+                    statement={statement}
+                    topic={topic}
+                    imageUrl={imageUrl}
+                    tone={tone}
+                />
+            }
+            <div className="flex flex-col items-center text-2xl">{status}</div>
         </div>
     )
 }

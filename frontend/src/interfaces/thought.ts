@@ -1,5 +1,5 @@
 interface IThought{
-    id: number | null,
+    id? : number | null,
     statement: string,
     topic: string,
     title: string,

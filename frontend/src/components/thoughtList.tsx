@@ -14,11 +14,12 @@ function ThoughtList(){
         const thoughtList = thoughts.map((_thought : IThought, i : number) => (
             <ThoughtItem
                 key={`Thought_${i}`} 
-                id={`ID:${_thought.id}`}
+                id={_thought.id}
                 title={_thought.title}
                 statement={_thought.statement}
                 topic={_thought.topic}
                 imageUrl={`http://localhost/5026/images/${_thought.imageUrl}`}
+                tone={_thought.tone}
             />
         ))
         return thoughtList;

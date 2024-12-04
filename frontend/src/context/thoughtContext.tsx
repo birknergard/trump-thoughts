@@ -2,6 +2,13 @@ import { createContext, Dispatch, FC, Provider, ReactNode, SetStateAction, useCo
 import ThoughtApi from "../services/thoughtService";
 import IThought from "../interfaces/thought";
 
+enum PostStatus{
+    Idle = "Idle",
+    Uploading = "Uploading",
+    Error = "Error",
+    Completed = "Completed"
+}
+
 interface IThoughtContext{
     thoughts : IThought[],
     setThoughts: Dispatch<SetStateAction<IThought[]>>,
@@ -12,18 +19,26 @@ interface IThoughtContext{
         statement : string,
         imageUrl : string,
         tone : string
-    ) => Promise<void>
+    ) => Promise<void>,
+    status: PostStatus
 }
 
-const ThoughtContext = createContext<IThoughtContext | null>(null)
+const ThoughtContext = createContext<IThoughtContext>({
+    thoughts : [],
+    setThoughts: () => {},
+    updateThoughts : async() => {},
+    postThought: async() => {},
+    status : PostStatus.Idle
+})
 
 interface IThoughtProvider{
     children : ReactNode
 }
+
 export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
-
     const [thoughts, setThoughts] = useState<IThought[]>([]) 
+    const [status, setStatus] = useState<PostStatus>(PostStatus.Idle)
 
     const updateThoughts = async() => {
         try {
@@ -44,23 +59,30 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         tone : string
     ) => {
         try{
+            setStatus(PostStatus.Uploading)
             const newThought : IThought = {
-                id : null,
                 title : title,
                 topic : topic,
                 statement: statement,
                 imageUrl: imageUrl,
                 tone: tone 
             }
-            ThoughtApi.create(newThought)
+            console.log(newThought)
+            await ThoughtApi.create(newThought)
+            setStatus(PostStatus.Idle)
         } catch(e){
+            setStatus(PostStatus.Error)
             console.error("Error", e)
         }
     }
 
+    useEffect(() => {
+        setStatus(PostStatus.Idle)
+    }, [])
+
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, updateThoughts
+            thoughts, setThoughts, postThought, updateThoughts, status
         }}>
             {children}
         </ThoughtContext.Provider>

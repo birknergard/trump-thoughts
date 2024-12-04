@@ -41,14 +41,8 @@ const ThoughtApi = (() => {
 
     const create = async(newThought : IThought) : Promise<void> => {
         try {
-            await axios.post(url, {
-                id: newThought.id,
-                statement: newThought.statement,
-                topic: newThought.topic,
-                title: newThought.title,
-                tone: newThought.tone,
-                imageUrl: newThought.imageUrl
-            })
+            const response = await axios.post(url, newThought)
+            return response.data;
         } catch (error) {
             console.error("Error with POST method.", error)
         }

@@ -11,7 +11,6 @@ function Field(props : IField){
             <h2 className="text-2xl">{props.fieldName}</h2>
             <input
                 className="border border-red-700"
-                value={"Enter a title"}
                 name="title" type="text"
                 onChange={(e) => props.fieldSetter(e.target.value)}
             ></input>

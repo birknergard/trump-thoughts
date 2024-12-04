@@ -22,15 +22,16 @@ function SelectionList(props : ISelectionList){
         return result;
     }
 
-    const handleClick = (index : number) => {
+    const handleClick = (index : number, value : string) => {
+        props.fieldSetter(value)
+        console.log(value)
         setToggledIndex(index)
-        props.fieldSetter(props.options[index])
     }
     
     
     return(
-        <div className="flex flex-col items-center w-screen my-2">
-            <h1 className="text-xl">Select a {props.fieldName}</h1>
+        <div className="flex flex-col items-center w-screen my-2 ">
+            <h1 className="text-2xl">{props.fieldName}</h1>
             <div className="grid grid-cols-3 gap-3">
                 {props.options.map((_field, i) => (
                     <input
@@ -39,7 +40,7 @@ function SelectionList(props : ISelectionList){
                             toggledIndex === i ? "bg-red-400 text-white" : "bg-white"  
                         }`}
                         type="button"
-                        onClick={() => handleClick(i)}
+                        onClick={() => handleClick(i, _field)}
                         value={capitalizeFirst(_field)}
                     />
                 ))}

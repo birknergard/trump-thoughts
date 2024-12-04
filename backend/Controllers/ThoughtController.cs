@@ -52,8 +52,18 @@ public class ThoughtController : ControllerBase{
         return thoughts;
     }
 
-    [HttpGet("{topic}")]
-    public async Task<ActionResult<Thought>> GetById(string topic){
+    [HttpGet("id={id}")]
+    public async Task<ActionResult<Thought>> GetById(int id){
+        Thought? thought = await context.Thoughts.FindAsync(id);
+
+        if(thought == null) return NotFound("Thought was not found in database.");
+
+        return Ok(thought);
+    }
+
+
+    [HttpGet("topic={topic}")]
+    public async Task<ActionResult<List<Thought>>> GetByTopic(string topic){
 
         List<Thought> thought = await context.Thoughts.Where( thought => 
             thought.Topic == topic

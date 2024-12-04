@@ -1,19 +1,14 @@
 import React from "react"
+import IThought from "../interfaces/thought"
 
-interface IThoughtItem{
-    id : string,
-    title : string,
-    statement: string,
-    topic: string
-    imageUrl: string
-}
-
-const ThoughtItem = (props : IThoughtItem) => {
+const ThoughtItem = (props : IThought) => {
     return (
-        <div id={props.id} className="flex justify-center items-start">
+        <div id={props.id == null ? "" : props.id.toString()} className="flex flex-col justify-center items-start">
             <h1 className="text-sky-400">{props.title}</h1>
-            <p>{props.statement}</p>
-            <p>{props.topic}</p>
+            <p>{props.statement === "" ? "No statement" : props.statement}</p>
+            <p>{props.topic === "on topic*" ? "No topic" : props.topic}</p>
+            <p>{props.imageUrl=== "" ? "No imageUrl" : props.imageUrl}</p>
+            <p>{props.tone === "" ? "No tone" : props.tone}</p>
         </div>
     )
 }

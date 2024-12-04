@@ -1,38 +1,38 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface IDropdownMenu{
     title : string,
     optionList : string[]
-    setter : React.Dispatch<React.SetStateAction<string>>
-
+    setter : Dispatch<SetStateAction<string>>
 }
-
 
 function DropdownMenu (props : IDropdownMenu){
 
     const getOptions = () => {
-        const options = props.optionList.map((option, i)  => (
+        const options = (
+            props.optionList.map((option, i)  => (
             <option
                 key={`key-${i}`} 
                 value={option}
             >
                 {option}
             </option>
-        ))
+            )))
 
         return options;
     }
 
     return(
-        <div className="flex flex-col items-center my-2">
-            <h2 className="text-2xl">{props.title}</h2>
-            <select 
-                className="text-xl"
-                onChange={(e) => props.setter(e.target.value)}
-            >
-                {getOptions()}
-            </select>
-        </div>
+        <select 
+            className="text-m w-min ps-2 flex"
+            onChange={(e) => props.setter(e.target.value)}
+            defaultValue={"a topic *"}
+        >
+            <option value={"a topic *"}>
+                a topic*
+            </option>
+            {getOptions()}
+        </select>
     )
 }
 export default DropdownMenu
