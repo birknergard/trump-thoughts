@@ -13,7 +13,7 @@ function ThoughtCreator(){
     const [statement, setStatement] = useState("")
     const [tone, setTone] = useState("")
 
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
     const { postThought } = useThoughtContext()  
@@ -55,15 +55,16 @@ function ThoughtCreator(){
     return(
         <div className="cursor-auto flex flex-col justify-center items-start">   
 
+            <Field fieldName="Title" fieldSetter={setTitle}/>
+
             <div>
                 <h2 className="text-2xl">Statement</h2>
-                <textarea
+                <input
                     className="border border-red-700 text-xl"
-                    rows={5}
-                    cols={30}
-                    name="title" type="text"
+                    type="text"
+                    name="title" 
                     onChange={(e) => setStatement(e.target.value)}
-                ></textarea>
+                ></input>
             </div>
 
             <DropdownMenu 
@@ -74,19 +75,16 @@ function ThoughtCreator(){
 
             <SelectionList
                 fieldSetter={setTone}
-                fieldState={tone}
                 options={toneList}
                 fieldName={"Tone"}
             />
             <ImageUploader
-                imageState={image} 
                 imageSetter={setImage}
-                imageUrlSetter={setUrl}
             /> 
 
             <input className="border-2 rounded"
                 type="button" value="Reset"
-                onClick={{}}
+                // TODO // onClick={{}}
             />
 
             <input className="border-2 rounded"

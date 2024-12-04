@@ -4,7 +4,10 @@ import ThoughtCreator from "../components/thoughtCreator";
 
 function MainPage(){
     return(
-        <ThoughtList />
+        <main>
+            <h1 className="m-4 text-sky-400 text-3xl flex justify-center">Trump man thinkin hmm</h1>
+            <ThoughtList />
+        </main>
     )
 }  
 

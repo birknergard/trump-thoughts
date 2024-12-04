@@ -1,9 +1,17 @@
 import React from "react";
 
-function DropdownMenu({title, optionList, setter}){
+interface IDropdownMenu{
+    title : string,
+    optionList : string[]
+    setter : React.Dispatch<React.SetStateAction<string>>
+
+}
+
+
+function DropdownMenu (props : IDropdownMenu){
 
     const getOptions = () => {
-        const options = optionList.map((option, i)  => (
+        const options = props.optionList.map((option, i)  => (
             <option
                 key={`key-${i}`} 
                 value={option}
@@ -17,10 +25,10 @@ function DropdownMenu({title, optionList, setter}){
 
     return(
         <div>
-            <h2 className="text-2xl">{title}</h2>
+            <h2 className="text-2xl">{props.title}</h2>
             <select 
                 className="text-xl"
-                onChange={(e) => setter(e.target.value)}
+                onChange={(e) => props.setter(e.target.value)}
             >
                 {getOptions()}
             </select>

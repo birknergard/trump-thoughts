@@ -1,15 +1,19 @@
-import React, { useState , FC, ChangeEvent} from "react";
+import React, { useState , FC, ChangeEvent, InputHTMLAttributes, SetStateAction, Dispatch} from "react";
 import IThought from "../interfaces/thought";
 import ImageUploadService from "../services/imageUploadService";
 
-function ImageUploader({imageSetter}) {
+interface IUploader{
+    imageSetter : Dispatch<SetStateAction<File | null>>
+}
+
+function ImageUploader(props : IUploader){
 
     const url = "http://localhost:5026/images"
 
-    const handle = (e) => {
+    const handle = (e : ChangeEvent<HTMLInputElement>) => {
         const {files} = e.target
         if(files != null){
-            imageSetter(files[0])
+            props.imageSetter(files[0])
         }
     }
     
