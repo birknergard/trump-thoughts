@@ -13,13 +13,8 @@ function ThoughtList(){
     const getThoughtList = () => {
         const thoughtList = thoughts.map((_thought : IThought, i : number) => (
             <ThoughtItem
-                key={`Thought_${i}`} 
-                id={_thought.id}
-                title={_thought.title}
-                statement={_thought.statement}
-                topic={_thought.topic}
-                imageUrl={`http://localhost/5026/images/${_thought.imageUrl}`}
-                tone={_thought.tone}
+                isPreview={false}
+                thought={_thought}
             />
         ))
         return thoughtList;
@@ -31,7 +26,7 @@ function ThoughtList(){
 
     return(
         <>
-        <div className="bg-red-600">
+        <div className="">
             {getThoughtList()}
         </div>
         </>

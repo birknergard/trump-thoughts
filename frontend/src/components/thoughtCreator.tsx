@@ -6,6 +6,7 @@ import ImageUploadService from "../services/imageUploadService";
 import ImageHandler from "./imageHandler";
 import DropdownMenu from "./dropDownMenu";
 import ThoughtItem from "./thoughtItem";
+import IThought from "../interfaces/thought";
 
 function ThoughtCreator(){
 
@@ -18,6 +19,24 @@ function ThoughtCreator(){
     const [imageUrl, setUrl] = useState("")
 
     const { postThought, status } = useThoughtContext() 
+
+    const [previewThought, setPreviewThought] = useState<IThought>({
+        title : "", 
+        topic : "",
+        statement : "",
+        tone : "",
+        imageUrl : "",
+    })
+
+    const updatePreview = () => {
+        setPreviewThought({
+            title: title,
+            topic : topic,
+            statement : statement,
+            tone : tone,
+            imageUrl : imageUrl
+        })
+    }
     
     const fieldsAreFilled = () : Boolean =>{
         if (title === "") {
@@ -131,6 +150,8 @@ function ThoughtCreator(){
                 imageUrlSetter={setUrl}
             /> 
             
+            <div className="flex flex-col items-center text-2xl">Status: {status}</div>
+
             <div className="flex flex-row items-center justify-center my-2 w-full">
                 <input className="border-2 rounded w-1/4 h-10 m-2"
                     type="button" value="Reset"
@@ -142,18 +163,20 @@ function ThoughtCreator(){
                     onClick={handleSubmit}
                 />
             }
+                <input className="border-2 rounded w-1/4 h-10 m-2"
+                    type="button" value="Update"
+                    onClick={updatePreview}
+                />
             </div>
+            <h2 className="text-2xl m-5">
+                Preview
+            </h2>
             {status == "Idle" && 
                 <ThoughtItem 
-                    id={null}
-                    title={title}
-                    statement={statement}
-                    topic={topic}
-                    imageUrl={imageUrl}
-                    tone={tone}
+                    isPreview={true}
+                    thought={previewThought}
                 />
             }
-            <div className="flex flex-col items-center text-2xl">{status}</div>
         </div>
     )
 }
