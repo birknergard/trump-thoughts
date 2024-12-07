@@ -63,6 +63,14 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
         }
     }
 
+    const deleteSelf = async() => {
+        if(thought.id !== undefined){
+            // TODO: Add confirm dialog box?
+            await ThoughtApi.remove(thought.id)
+            disableEditMode()
+        }
+    } 
+
     return (
         <div  className="flex flex-col items-center  col-auto border"
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
@@ -100,6 +108,11 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                         type="text"
                         defaultValue={thought.title}
                         onChange={(e) => setNewTitle(e.target.value)}
+                    />
+                    <input 
+                        type="button" 
+                        value="Delete"
+                        onClick={deleteSelf}
                     />
                 </div>
                 <textarea className="text-m border"

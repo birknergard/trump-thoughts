@@ -9,7 +9,8 @@ function ThoughtList(){
 
     const { thoughts, updateThoughts, topicList, toneList } = useThoughtContext()
 
-
+    
+    
     const getThoughtList = () => {
         const thoughtList = thoughts.map((_thought : IThought, i : number) => (
             <ThoughtItem
