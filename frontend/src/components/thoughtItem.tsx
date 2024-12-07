@@ -8,26 +8,29 @@ interface ThoughtItemProps{
     isPreview : boolean,
 
     topicList? : string[],
-    toneList? : string[]
+    toneList? : string[],
+
+    deleteMethod?: (thought : IThought) => Promise<void>,
+    modifyMethod?: (newThought : IThought) => Promise<void>
 }
 
 // you can edit anything but the image url (perhaps later) or id (never)
-interface IModifiedThought{
+export interface IModifiedThought{
     title : string,
     statement : string,
     topic : string,
     tone : string,
 }
 
-const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, toneList}) => {
+const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, toneList, deleteMethod, modifyMethod}) => {
 
     const [editMode, setEditMode] = useState<boolean>(false)
 
     //if(!isPreview && editMode){
-        const [newTitle, setNewTitle] = useState<string>("")
-        const [newStatement, setNewStatement] = useState<string>("")
-        const [newTopic, setNewTopic] = useState<string>("")
-        const [newTone, setNewTone] = useState<string>("")
+        const [currentTitle, setNewTitle] = useState<string>(thought.title)
+        const [currentStatement, setNewStatement] = useState<string>(thought.statement)
+        const [currentTopic, setNewTopic] = useState<string>(thought.topic)
+        const [currentTone, setNewTone] = useState<string>(thought.tone)
     //}
 
     
@@ -48,28 +51,35 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
     const getNewThought = () : IThought => {
         return {
             id : thought.id,
-            title : newTitle,
-            statement : newStatement, 
-            topic : newTopic,
-            tone : newTone,            
+            title : currentTitle,
+            statement : currentStatement, 
+            topic : currentTopic,
+            tone : currentTone,            
             imageUrl : thought.imageUrl
         }     
     }
 
-    const updateThought = async() => {
-        if(thought.id !== undefined){
-            await ThoughtApi.update(thought.id, getNewThought())
-            disableEditMode() 
+    const handleDelete = async() => {
+        if(!isPreview){
+            if(thought.id !== undefined){
+                await deleteMethod!!(thought)
+                disableEditMode()
+            }
         }
     }
 
-    const deleteSelf = async() => {
-        if(thought.id !== undefined){
-            // TODO: Add confirm dialog box?
-            await ThoughtApi.remove(thought.id)
-            disableEditMode()
+    const handleModify = async() => {
+        if(!isPreview){
+            if(thought.id !== undefined){
+                modifyMethod!!(getNewThought())
+                disableEditMode()
+            } else {
+                console.error("Id is undefined!")
+                disableEditMode()
+            }
         }
-    } 
+    }
+
 
     return (
         <div  className="flex flex-col items-center  col-auto border"
@@ -112,7 +122,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                     <input 
                         type="button" 
                         value="Delete"
-                        onClick={deleteSelf}
+                        onClick={handleDelete}
                     />
                 </div>
                 <textarea className="text-m border"
@@ -143,7 +153,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                     <input 
                         type="button" 
                         value="Save" 
-                        onClick={updateThought}
+                        onClick={handleModify}
                     />
                 </div>
             </>

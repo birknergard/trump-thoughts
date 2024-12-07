@@ -2,14 +2,28 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
-import ThoughtItem from "./thoughtItem";
+import ThoughtItem, { IModifiedThought } from "./thoughtItem";
+import ThoughtApi from "../services/thoughtService";
 
 
 function ThoughtList(){
 
     const { thoughts, updateThoughts, topicList, toneList } = useThoughtContext()
 
-    
+    const modifyThought = async(newThought : IThought) => {
+        if(newThought.id !== undefined){
+            await ThoughtApi.update(newThought.id, newThought)
+            updateThoughts()
+        }
+    }
+
+    const removeThought = async(thought : IThought) => {
+        if(thought.id !== undefined){
+            // TODO: Add confirm dialog box?
+            await ThoughtApi.remove(thought.id)
+            updateThoughts()
+        }
+    } 
     
     const getThoughtList = () => {
         const thoughtList = thoughts.map((_thought : IThought, i : number) => (
@@ -18,6 +32,8 @@ function ThoughtList(){
                 thought={_thought}
                 toneList={toneList}
                 topicList={topicList}
+                modifyMethod={modifyThought}
+                deleteMethod={removeThought} 
             />
         ))
         return thoughtList;
