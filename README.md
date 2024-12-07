@@ -7,18 +7,22 @@
 ### Backend infrastructure
 - Generate 8 database fields per entity from chatgpt
 
-
 ### Frontend app
-New app with regards to FAQ:
+- Create 8-12 entries for testing purposes
 
-Trump Thoughts app:
-Baseline Features:
-- View trump thoughts (statements)
-    - Each trump thought has a random image assigned from a pool
-you can upload images into the pool
-you can create new thoughts, and pick an image from the pool to accompany it
-you can edit thoughts
-you can filter trump thoughts by topic
+- preview uploaded image in thoughtcreator
+- reset entries on create page
+
+- filter trump thoughts by topic
+- filter trump thought by tone
+- search trump thought by title
+
+- Pop up dialog box when deleting items
+
+- Navigating between the two pages
+
+- Styling 
+- Responsive design
 
 ## Completed tasks
 ### Pre exam
@@ -52,6 +56,9 @@ you can filter trump thoughts by topic
 - Basic routing implemented
 - Page templates set up
 
+- View trump thoughts (statements)
+- you can create new thoughts, and upload image to accompany it
+- you can edit thoughts
 ## frontend implementation/functionality
 Needs to include:
 Somewhere to view trump thoughts
