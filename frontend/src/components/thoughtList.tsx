@@ -7,7 +7,7 @@ import ThoughtItem from "./thoughtItem";
 
 function ThoughtList(){
 
-    const { thoughts, updateThoughts } = useThoughtContext()
+    const { thoughts, updateThoughts, topicList, toneList } = useThoughtContext()
 
 
     const getThoughtList = () => {
@@ -15,6 +15,8 @@ function ThoughtList(){
             <ThoughtItem
                 isPreview={false}
                 thought={_thought}
+                toneList={toneList}
+                topicList={topicList}
             />
         ))
         return thoughtList;
@@ -25,11 +27,9 @@ function ThoughtList(){
     }, [])
 
     return(
-        <>
-        <div className="">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-5/6 gap-20">
             {getThoughtList()}
         </div>
-        </>
     )
 }
 

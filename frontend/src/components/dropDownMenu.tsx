@@ -1,16 +1,16 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, FC } from "react";
 
 interface IDropdownMenu{
-    title : string,
-    optionList : string[]
-    setter : Dispatch<SetStateAction<string>>
+    optionList : string[],
+    setter : Dispatch<SetStateAction<string>>,
+    topicSelected? : string
 }
 
-function DropdownMenu (props : IDropdownMenu){
+const DropdownMenu : FC<IDropdownMenu> = ({optionList, setter, topicSelected}) => {
 
     const getOptions = () => {
         const options = (
-            props.optionList.map((option, i)  => (
+            optionList.map((option, i)  => (
             <option
                 key={`key-${i}`} 
                 value={option}
@@ -25,8 +25,8 @@ function DropdownMenu (props : IDropdownMenu){
     return(
         <select 
             className="text-m w-min ps-2 flex"
-            onChange={(e) => props.setter(e.target.value)}
-            defaultValue={"a topic *"}
+            onChange={(e) => setter(e.target.value)}
+            defaultValue={topicSelected} 
         >
             <option value={"a topic *"}>
                 a topic*

@@ -18,7 +18,7 @@ function ThoughtCreator(){
     const [image, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
-    const { postThought, status } = useThoughtContext() 
+    const { postThought, status, topicList, toneList } = useThoughtContext() 
 
     const [previewThought, setPreviewThought] = useState<IThought>({
         title : "", 
@@ -72,20 +72,6 @@ function ThoughtCreator(){
         return true
     } 
 
-    const topicList = [
-        "healthcare", "education", "immigration", "economy",
-        "climate change", "gun control", "criminal justice",
-        "abortion", "foreign policy", "social security",
-        "millitary spending", "free speech", "lgbtq+ rights",
-        "drugs", "infrastructure", "corporate regulation",
-        "trade", "technology", "something else"
-    ]
-
-    const toneList = [
-        "confident",  "combative", "controversial",
-        "authoritative", "provocative", "charismatic",
-        "blunt", "hyperbolic", "optimistic"
-    ]
 
     const uploadImage = async() => {
             try{
@@ -125,7 +111,6 @@ function ThoughtCreator(){
                 <div className="flex flex-row justify-around content-center">
                     <h2 className="text-m me-1">Statement on</h2>
                     <DropdownMenu 
-                        title="Topic" 
                         optionList={topicList} 
                         setter={setTopic} 
                     />
@@ -172,10 +157,13 @@ function ThoughtCreator(){
                 Preview
             </h2>
             {status == "Idle" && 
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full ">
+
                 <ThoughtItem 
                     isPreview={true}
                     thought={previewThought}
                 />
+                </div>
             }
         </div>
     )

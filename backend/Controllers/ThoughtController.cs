@@ -76,7 +76,7 @@ public class ThoughtController : ControllerBase{
 
     
     [HttpPut("{id}")]
-    public async Task<ActionResult<Thought>> Put(string id, Thought modifiedThought){
+    public async Task<ActionResult<Thought>> Put(int id, Thought modifiedThought){
         Thought? thoughtToUpdate = await context.Thoughts.FindAsync(id);
         if(thoughtToUpdate == null){
             return NotFound();

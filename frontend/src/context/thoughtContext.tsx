@@ -20,7 +20,10 @@ interface IThoughtContext{
         imageUrl : string,
         tone : string
     ) => Promise<void>,
-    status: PostStatus
+    status: PostStatus,
+    topicList : string[],
+    toneList : string[]
+
 }
 
 const ThoughtContext = createContext<IThoughtContext>({
@@ -28,7 +31,9 @@ const ThoughtContext = createContext<IThoughtContext>({
     setThoughts: () => {},
     updateThoughts : async() => {},
     postThought: async() => {},
-    status : PostStatus.Idle
+    status : PostStatus.Idle,
+    topicList : [],
+    toneList : []
 })
 
 interface IThoughtProvider{
@@ -39,6 +44,21 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     const [thoughts, setThoughts] = useState<IThought[]>([]) 
     const [status, setStatus] = useState<PostStatus>(PostStatus.Idle)
+
+    const topicList = [
+        "healthcare", "education", "immigration", "economy",
+        "climate change", "gun control", "criminal justice",
+        "abortion", "foreign policy", "social security",
+        "millitary spending", "free speech", "lgbtq+ rights",
+        "drugs", "infrastructure", "corporate regulation",
+        "trade", "technology", "something else"
+    ]
+
+    const toneList = [
+        "confident",  "combative", "controversial",
+        "authoritative", "provocative", "charismatic",
+        "blunt", "hyperbolic", "optimistic"
+    ]
 
     const updateThoughts = async() => {
         try {
@@ -82,7 +102,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, updateThoughts, status
+            thoughts, setThoughts, postThought, updateThoughts, status, topicList, toneList
         }}>
             {children}
         </ThoughtContext.Provider>
