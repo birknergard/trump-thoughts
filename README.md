@@ -21,6 +21,8 @@
 
 - Navigating between the two pages
 
+- visual indicators for when fields arent filled in thoughtcreator
+
 - Styling 
 - Responsive design
 

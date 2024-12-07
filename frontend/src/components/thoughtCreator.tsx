@@ -26,7 +26,17 @@ function ThoughtCreator(){
         statement : "",
         tone : "",
         imageUrl : "",
+        // TODO: Image preview
     })
+
+    const reset = () => {
+        setTitle("")
+        setTopic("a topic")
+        setStatement("")
+        // TODO: deselect selectionList
+        setImage(null)
+        setUrl("")
+    }
 
     const updatePreview = () => {
         setPreviewThought({
@@ -115,6 +125,7 @@ function ThoughtCreator(){
                         setter={setTopic} 
                     />
                 </div>
+
                 <textarea className="border border-red-700 text-m"
                     cols={35}
                     rows={6}
@@ -122,7 +133,6 @@ function ThoughtCreator(){
                     onChange={(e) => setStatement(e.target.value)}
                 ></textarea>
             </div>
-
 
             <SelectionList
                 fieldSetter={setTone}

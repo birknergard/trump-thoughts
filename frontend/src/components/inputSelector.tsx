@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useState } from "react"
 interface ISelectionList{
     options : string[],
     fieldName : string,
-    fieldSetter : Dispatch<SetStateAction<string>>
+    fieldSetter : Dispatch<SetStateAction<string>>,
 }
 
 function SelectionList(props : ISelectionList){
@@ -48,4 +48,5 @@ function SelectionList(props : ISelectionList){
         </div>
     )
 }
+
 export default SelectionList
