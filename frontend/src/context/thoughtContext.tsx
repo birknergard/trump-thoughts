@@ -12,7 +12,7 @@ enum PostStatus{
 interface IThoughtContext{
     thoughts : IThought[],
     setThoughts: Dispatch<SetStateAction<IThought[]>>,
-    updateThoughts: () => Promise<void>,
+    fetchThoughts: () => Promise<void>,
     postThought: (
         title : string,
         topic : string,
@@ -29,7 +29,7 @@ interface IThoughtContext{
 const ThoughtContext = createContext<IThoughtContext>({
     thoughts : [],
     setThoughts: () => {},
-    updateThoughts : async() => {},
+    fetchThoughts : async() => {},
     postThought: async() => {},
     status : PostStatus.Idle,
     topicList : [],
@@ -60,7 +60,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         "blunt", "hyperbolic", "optimistic"
     ]
 
-    const updateThoughts = async() => {
+    const fetchThoughts = async() => {
         try {
             const fetchedThoughts = await ThoughtApi.getAll()
             if(fetchedThoughts.length != 0){
@@ -102,7 +102,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, updateThoughts, status, topicList, toneList
+            thoughts, setThoughts, postThought, fetchThoughts, status, topicList, toneList
         }}>
             {children}
         </ThoughtContext.Provider>

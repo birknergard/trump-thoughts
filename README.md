@@ -19,7 +19,6 @@
 
 - Pop up dialog box when deleting items
 
-- Navigating between the two pages
 
 - visual indicators for when fields arent filled in thoughtcreator
 
@@ -61,6 +60,8 @@
 - View trump thoughts (statements)
 - you can create new thoughts, and upload image to accompany it
 - you can edit thoughts
+- Navigating between the two pages
+
 ## frontend implementation/functionality
 Needs to include:
 Somewhere to view trump thoughts
