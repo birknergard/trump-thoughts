@@ -8,26 +8,46 @@ import DropdownMenu from "./dropDownMenu";
 import ThoughtItem from "./thoughtItem";
 import IThought from "../interfaces/thought";
 
+interface IPreviewThought{
+    title: string,
+    topic: string,
+    statement : string,
+    tone : string | null,
+    image : File | null,
+    imageUrl : string
+}
+
 function ThoughtCreator(){
 
     const [title, setTitle] = useState("")
     const [topic, setTopic] = useState("")
     const [statement, setStatement] = useState("")
-    const [tone, setTone] = useState("")
+    const [tone, setTone] = useState<string | null>(null)
 
     const [image, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
     const { postThought, status, topicList, toneList } = useThoughtContext() 
 
-    const [previewThought, setPreviewThought] = useState<IThought>({
+    const [previewThought, setPreviewThought] = useState<IPreviewThought>({
         title : "", 
         topic : "",
         statement : "",
-        tone : "",
+        tone : null,
         imageUrl : "",
         // TODO: Image preview
+        image : null,
     })
+
+    const convertPreviewThought = () : IThought => {
+        return {
+            title : previewThought.title,
+            topic : previewThought.topic,
+            statement : previewThought.statement,
+            tone : previewThought.tone === null ? "No tone" : previewThought.tone,
+            imageUrl : previewThought.imageUrl
+        }
+    }
 
     const reset = () => {
         setTitle("")
@@ -43,7 +63,8 @@ function ThoughtCreator(){
             title: title,
             topic : topic,
             statement : statement,
-            tone : tone,
+            tone : tone!!,
+            image : image,
             imageUrl : imageUrl
         })
     }
@@ -64,7 +85,7 @@ function ThoughtCreator(){
             return false;
         }
 
-        if (tone === "") {
+        if (tone === "" || tone === null) {
             console.log("Tone is empty.");
             return false;
         }
@@ -97,7 +118,7 @@ function ThoughtCreator(){
     const submitThought = async() => {
             try {
                 uploadImage()
-                postThought(title, topic, statement, imageUrl, tone)
+                postThought(title, topic, statement, imageUrl, tone!!)
             } catch(e){
                 console.error("error in POST", e)
             }
@@ -111,11 +132,12 @@ function ThoughtCreator(){
         }
     }
 
-    return(
-        <div className="cursor-auto flex flex-col justify-center items-center">   
-
+    const generateFields = () => {
+        
+        const fields = (
+            <>
+        
             <Field fieldName="Title" fieldSetter={setTitle}/>
-
 
             <div className="flex flex-col items-center justify-center my-2 w-full">
                 <div className="flex flex-row justify-around content-center">
@@ -124,7 +146,7 @@ function ThoughtCreator(){
                         optionList={topicList} 
                         setter={setTopic} 
                     />
-                </div>
+            </div>
 
                 <textarea className="border border-red-700 text-m"
                     cols={35}
@@ -144,7 +166,7 @@ function ThoughtCreator(){
                 imageSetter={setImage}
                 imageUrlSetter={setUrl}
             /> 
-            
+        
             <div className="flex flex-col items-center text-2xl">Status: {status}</div>
 
             <div className="flex flex-row items-center justify-center my-2 w-full">
@@ -169,12 +191,20 @@ function ThoughtCreator(){
             {status == "Idle" && 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full ">
 
-                <ThoughtItem 
-                    isPreview={true}
-                    thought={previewThought}
-                />
+                    <ThoughtItem 
+                        isPreview={true}
+                        thought={convertPreviewThought()}
+                    />
                 </div>
             }
+            </>
+        ) 
+        return fields
+    }
+
+    return(
+        <div className="cursor-auto flex flex-col justify-center items-center mt-24">   
+            {generateFields()}
         </div>
     )
 }

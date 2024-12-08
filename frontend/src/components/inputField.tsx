@@ -7,8 +7,8 @@ interface IField{
 
 function Field(props : IField){
     return(
-        <div className="flex flex-col items-center justify-center my-2">
-            <h2 className="text-2xl">{props.fieldName}</h2>
+        <div className="flex flex-row items-center justify-center my-2">
+            <h2 className="text-xl mr-2">{"Trump on"}</h2>
             <input
                 className="border border-red-700"
                 name="title" type="text"

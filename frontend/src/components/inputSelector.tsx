@@ -1,12 +1,12 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { FC, Dispatch, SetStateAction, useState } from "react"
 
 interface ISelectionList{
     options : string[],
     fieldName : string,
-    fieldSetter : Dispatch<SetStateAction<string>>,
+    fieldSetter : Dispatch<SetStateAction<string | null>>,
 }
 
-function SelectionList(props : ISelectionList){
+const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter}) => {
 
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
@@ -23,7 +23,7 @@ function SelectionList(props : ISelectionList){
     }
 
     const handleClick = (index : number, value : string) => {
-        props.fieldSetter(value)
+        fieldSetter(value)
         console.log(value)
         setToggledIndex(index)
     }
@@ -31,9 +31,9 @@ function SelectionList(props : ISelectionList){
     
     return(
         <div className="flex flex-col items-center w-screen my-2 ">
-            <h1 className="text-2xl">{props.fieldName}</h1>
+            <h1 className="text-xl">{fieldName}</h1>
             <div className="grid grid-cols-3 gap-3">
-                {props.options.map((_field, i) => (
+                {options.map((_field, i) => (
                     <input
                         key={`item_${i}`}
                         className={`w-full border px-2 py-1 rounded ${
