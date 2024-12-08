@@ -82,36 +82,36 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
 
 
     return (
-        <div  className="flex flex-col items-center  col-auto border"
+        <div  className="flex flex-col items-center col-auto border border-sky-200 rounded-lg"
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
             {editMode === false && 
             <>
-                <h2 className="text-red-400 text-2xl" 
+                <h2 className="text-red-600 text-2xl my-1" 
                     onClick={enableEditMode}
                 >
                     Trump on{thought.title === "" ? " ... " : ` ${thought.title}`}
                 </h2>
-            
-                <p className="text-m justify-self-center">
-                    "{thought.statement === "" ? "No statement" : thought.statement}"
-                </p>
-                <div className="flex justify-around w-full">
-                    <h2 className="text-xl">
-                        {thought.topic === "" ? "No topic" : thought.topic}
-                    </h2>
 
-                    <h2 className="text-xl">
-                        {thought.tone === "" ? "No tone" : thought.tone}
+                <div className="flex justify-center w-full my-1">
+                    <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 py-1 pr-3">
+                        {thought.topic === "" ? "No topic" : thought.topic} 
+                    </h2>
+                    <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 py-1 pl-3">
+                       {thought.tone === "" ? "No tone" : thought.tone}
                     </h2>
                 </div>
+            
+                <p className="text-m justify-self-center mx-4 text-center my-2">
+                    "{thought.statement === "" ? "No statement" : thought.statement}"
+                </p>
             </>
             }
 
             { editMode === true &&
             <>
-                <div className="flex flex-row items-center">
-                    <h2 className="text-2xl">
+                <div className="flex flex-row items-center my-3">
+                    <h2 className="text-red-400 text-2xl mr-2">
                         Trump on  
                     </h2>            
                     <input className="text-2xl border w-36" 
@@ -125,14 +125,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                         onClick={handleDelete}
                     />
                 </div>
-                <textarea className="text-m border"
-                    cols={30}
-                    rows={4}
-                    defaultValue={thought.statement}
-                    onChange={(e) => setNewStatement(e.target.value)}
-                >
-                </textarea>
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center justify-around w-full my-1">
                     <DropdownMenu 
                         setter={setNewTopic}
                         optionList={topicList!!}
@@ -144,13 +137,20 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                         topicSelected={thought.tone}
                     />
                 </div>
-                <div className="flex flex-row justify-between w-full">
-                    <input 
+                <textarea className="text-m border my-3"
+                    cols={30}
+                    rows={6}
+                    defaultValue={thought.statement}
+                    onChange={(e) => setNewStatement(e.target.value)}
+                >
+                </textarea>
+                <div className="flex flex-row justify-evenly w-full my-1">
+                    <input className="border w-28 h-10"
                         type="button" 
-                        value="Discard Changes"
+                        value="Discard"
                         onClick={disableEditMode}
                     />
-                    <input 
+                    <input className="border w-28 h-10"
                         type="button" 
                         value="Save" 
                         onClick={handleModify}

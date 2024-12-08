@@ -36,8 +36,9 @@ function ThoughtList(){
             return thoughts
         }
         const filteredList = thoughts.filter(thought => { 
-            thought.title.match(query)
+            thought.title.startsWith(query)
         })
+        console.log(filteredList)
         return filteredList
     }
 
@@ -65,6 +66,7 @@ function ThoughtList(){
             <div className="flex flex-col items-center">
                 <input className="border"
                     onChange={(e) => setActiveList(filteredList(e.target.value))}
+                    defaultValue={""}
                     type="text"  
                 />
             </div>

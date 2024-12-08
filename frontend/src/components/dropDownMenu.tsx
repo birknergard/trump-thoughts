@@ -24,7 +24,7 @@ const DropdownMenu : FC<IDropdownMenu> = ({optionList, setter, topicSelected}) =
 
     return(
         <select 
-            className="text-m w-min ps-2 flex"
+            className="text-m w-28 ps-2 flex h-10 rounded-lg"
             onChange={(e) => setter(e.target.value)}
             defaultValue={topicSelected} 
         >
