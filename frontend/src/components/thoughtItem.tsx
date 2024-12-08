@@ -94,10 +94,10 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                 </h2>
 
                 <div className="flex justify-center w-full my-1">
-                    <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 py-1 pr-3">
+                    <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 pr-3 py-1">
                         {thought.topic === "" ? "No topic" : thought.topic} 
                     </h2>
-                    <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 py-1 pl-3">
+                    <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 pl-3 py-1">
                        {thought.tone === "" ? "No tone" : thought.tone}
                     </h2>
                 </div>
@@ -159,7 +159,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
             </>
             }
             
-                <img className="w-full h-64 rounded-lg object-cover"
+                <img className="w-full h-64 rounded-b-lg object-cover mt-2"
                 src={thought.imageUrl === "" ? `${imageUrl}/trump_placeholder.jpg` : `${imageUrl}/${thought.imageUrl}`}
                 />
         </div>

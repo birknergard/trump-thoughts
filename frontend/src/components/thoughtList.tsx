@@ -63,12 +63,19 @@ function ThoughtList(){
 
     return(
         <>
-            <div className="flex flex-col items-center">
-                <input className="border"
-                    onChange={(e) => setActiveList(filteredList(e.target.value))}
-                    defaultValue={""}
-                    type="text"  
-                />
+            <div className="flex flex-col items-center mb-5">
+                <div className="flex flew-row">
+                    <input className="border border-red-400"
+                        onChange={(e) => setActiveList(filteredList(e.target.value))}
+                        defaultValue={""}
+                        placeholder=" Search ..."
+                        type="text"
+                    />
+                    <p className="ml-2">
+                        Results: {activeList.length}
+                    </p>
+                </div>
+
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-5/6 gap-20">
                 {getThoughtList()}

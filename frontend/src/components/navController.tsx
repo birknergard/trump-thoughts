@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
-import MainPage from '../pages/main';
-import CreatePage from '../pages/create';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface INavController {
     navState : boolean
