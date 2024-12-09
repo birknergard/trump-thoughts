@@ -129,12 +129,12 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                     <DropdownMenu 
                         setter={setNewTopic}
                         optionList={topicList!!}
-                        topicSelected={thought.topic}
+                        defaultSelection={thought.topic}
                     />
                     <DropdownMenu 
                         setter={setNewTone}
                         optionList={toneList!!}
-                        topicSelected={thought.tone}
+                        defaultSelection={thought.tone}
                     />
                 </div>
                 <textarea className="text-m border my-3"
