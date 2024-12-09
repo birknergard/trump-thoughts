@@ -27,10 +27,6 @@ function ThoughtList(){
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
-    const topicFilterEntered = () : boolean => {return topicFilter !== ""} 
-    const toneFilterEntered = () : boolean => {return toneFilter !== ""}
-
-
     const resetFilters = () => {
         setQuery("")
         setToneFilter("")
@@ -148,10 +144,9 @@ function ThoughtList(){
         <>
             <div className="flex flex-col items-center mb-5 w-4/5">
                 <div className="flex flew-row mb-2 w-full justify-center">
-                    <input className="border border-red-400"
+                    <input className="border border-red-400 text-base"
                         value={query}
                         onChange={(e) => handleSearch(e.target.value)}
-                        defaultValue={""}
                         placeholder=" Search ..."
                         type="text"
                     />

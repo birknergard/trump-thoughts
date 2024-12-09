@@ -1,4 +1,4 @@
-import React, { FC, useState} from "react"
+import React, { FC, useEffect, useState} from "react"
 import IThought from "../interfaces/thought"
 import ThoughtApi from "../services/thoughtService"
 import DropdownMenu from "./dropDownMenu"
@@ -9,6 +9,7 @@ interface ThoughtItemProps{
 
     topicList? : string[],
     toneList? : string[],
+    previewImageSrc? : string | null
 
     deleteMethod?: (thought : IThought) => Promise<void>,
     modifyMethod?: (newThought : IThought) => Promise<void>
@@ -22,7 +23,15 @@ export interface IModifiedThought{
     tone : string,
 }
 
-const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, toneList, deleteMethod, modifyMethod}) => {
+const ThoughtItem : FC<ThoughtItemProps> = ({
+    thought,
+    isPreview,
+    topicList,
+    toneList,
+    deleteMethod,
+    modifyMethod,
+    previewImageSrc
+}) => {
 
     const [editMode, setEditMode] = useState<boolean>(false)
 
@@ -79,10 +88,16 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
             }
         }
     }
-
+    
+    const getSrc = () : string => {
+        console.debug("ThoughtItem: Generating image SRC ...")
+        if(previewImageSrc !== undefined && previewImageSrc !== null && previewImageSrc !== "") return previewImageSrc
+        if(thought.imageUrl !== null && thought.imageUrl !== "") return `${imageUrl}/${thought.imageUrl}`
+        return `${imageUrl}/trump_placeholder.jpg`
+    }
 
     return (
-        <div  className="flex flex-col items-center col-auto border border-sky-200 rounded-lg"
+        <div className="flex flex-col items-center col-auto border border-sky-200 rounded-lg w-full"
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
             {editMode === false && 
@@ -102,7 +117,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                     </h2>
                 </div>
             
-                <p className="text-m justify-self-center mx-4 text-center my-2">
+                <p className="text-base justify-self-center mx-4 text-center my-2 text-wrap break-words w-full max-w-384">
                     "{thought.statement === "" ? "No statement" : thought.statement}"
                 </p>
             </>
@@ -110,7 +125,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
 
             { editMode === true &&
             <>
-                <div className="flex flex-row items-center my-3">
+                <div className="flex flex-row items-center my-3 ">
                     <h2 className="text-red-400 text-2xl mr-2">
                         Trump on  
                     </h2>            
@@ -163,8 +178,8 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
             </>
             }
             
-                <img className="w-full h-64 rounded-b-lg object-cover mt-2"
-                src={thought.imageUrl === "" ? `${imageUrl}/trump_placeholder.jpg` : `${imageUrl}/${thought.imageUrl}`}
+                <img className="w-full h-64 rounded-b-lg object-cover mt-2 max-w-384"
+                    src={getSrc()}
                 />
         </div>
     )

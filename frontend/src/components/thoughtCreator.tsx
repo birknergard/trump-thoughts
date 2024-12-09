@@ -14,7 +14,7 @@ interface IPreviewThought{
     statement : string,
     tone : string | null,
     image : File | null,
-    imageUrl : string
+    imageUrl : string,
 }
 
 function ThoughtCreator(){
@@ -26,8 +26,17 @@ function ThoughtCreator(){
     const [tone, setTone] = useState<string | null>(null)
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
+    const [fileList, setFileList] = useState<FileList | null>(null)
     const [imageFile, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
+
+    useEffect(() => {
+        if(fileList != null){
+            console.log(URL.createObjectURL(fileList[0]))
+            setImage(fileList[0])
+            setUrl(fileList[0].name)
+        }
+    }, [fileList])
 
     const { postThought, status, topicList, toneList } = useThoughtContext() 
 
@@ -40,6 +49,7 @@ function ThoughtCreator(){
         // TODO: Image preview
         image : null,
     })
+
 
     const convertPreviewThought = () : IThought => {
         return {
@@ -59,8 +69,6 @@ function ThoughtCreator(){
         setTone("")
         setImage(null)
         setUrl("")
-        setImage(null)
-        setUrl("")
     }
 
     const updatePreview = () => {
@@ -68,41 +76,45 @@ function ThoughtCreator(){
             title: title,
             topic : topic,
             statement : statement,
-            tone : tone!!,
+            tone : tone !== null ? tone : "",
             image : imageFile,
-            imageUrl : imageUrl
+            imageUrl : imageUrl,
         })
     }
     
-    const fieldsAreFilled = () : Boolean =>{
+    useEffect(() =>{
+        updatePreview()
+    }, [title, statement, topic, tone, imageUrl])
+
+    const fieldsAreFilled = () : [field : number, result : boolean] | boolean =>{
         if (title === "") {
             console.log("Title is empty.");
-            return false;
+            return [1, false]
         }
 
         if (topic === "a topic*") {
             console.log("Topic is set to the default placeholder.");
-            return false;
+            return [3, false]
         }
 
         if (statement === "") {
             console.log("Statement is empty.");
-            return false;
+            return [2, false];
         }
 
         if (tone === "" || tone === null) {
             console.log("Tone is empty.");
-            return false;
+            return [4, false];
         }
 
         if (imageFile === null) {
             console.log("Image is not provided.");
-            return false;
+            return [5, false];
         }
 
         if (imageUrl === "") {
             console.log("Image URL is empty.");
-            return false;
+            return [6, false];
         }
 
         return true
@@ -143,19 +155,22 @@ function ThoughtCreator(){
             <>
         
             <Field field={title} 
-            fieldName="Title" fieldSetter={setTitle}/>
+                fieldName="Title" fieldSetter={setTitle}
+
+            />
 
             <div className="flex flex-col items-center justify-center my-2 w-full">
-                <div className="flex flex-row justify-around content-center">
-                    <h2 className="text-m me-1">Statement on</h2>
+                <div className="flex flex-row justify-around items-center h-max">
+                    <h2 className="text-base me-1">Statement on</h2>
                     <DropdownMenu 
+                        className="w-28 p-2"
                         field={topic}
                         optionList={topicList}
                         isFilter={false}
-                        setter={setTopic} 
+                        setter={setTopic}
                     />
             </div>
-
+            
                 <textarea className="border border-red-700 text-m"
                     cols={35}
                     rows={6}
@@ -173,9 +188,9 @@ function ThoughtCreator(){
             />
 
             <ImageHandler
+                image={imageFile}
                 imageUrl={imageUrl}
-                imageSetter={setImage}
-                imageUrlSetter={setUrl}
+                fileListSetter={setFileList}
             /> 
         
             <div className="flex flex-col items-center text-2xl">Status: {status}</div>
@@ -191,31 +206,30 @@ function ThoughtCreator(){
                     onClick={handleSubmit}
                 />
             }
-                <input className="border-2 rounded w-1/4 h-10 m-2"
-                    type="button" value="Update"
-                    onClick={updatePreview}
-                />
+
             </div>
             <h2 className="text-2xl m-5">
                 Preview
             </h2>
-            {status == "Idle" && 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full ">
-
-                    <ThoughtItem 
-                        isPreview={true}
-                        thought={convertPreviewThought()}
-                    />
-                </div>
-            }
             </>
         ) 
         return fields
     }
 
+
     return(
-        <div className="cursor-auto flex flex-col justify-center items-center mt-24">   
+        <div className="flex flex-col justify-center items-center mt-24 w-full">   
             {generateFields()}
+
+            {status == "Idle" && 
+                <div className="flex flex-col items-center w-4/5 md:w-2/5 lg:w-1/5">
+                    <ThoughtItem 
+                        isPreview={true}
+                        thought={convertPreviewThought()}
+                        previewImageSrc={fileList !== null ? URL.createObjectURL(fileList[0]) : ""}
+                    />
+                </div>
+            }
         </div>
     )
 }
