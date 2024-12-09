@@ -4,7 +4,9 @@ import ImageUploadService from "../services/imageUploadService";
 
 interface IHandler{
     imageSetter : Dispatch<SetStateAction<File | null>>
-    imageUrlSetter : Dispatch<SetStateAction<string>>
+    //image : File,
+    imageUrlSetter : Dispatch<SetStateAction<string>>,
+    imageUrl : string
 }
 
 function ImageHandler(props : IHandler){
@@ -23,7 +25,7 @@ function ImageHandler(props : IHandler){
             <input 
                 type="file"
                 accept="image/"
-                onChange={handle}
+                onChange={(e) => handle(e)}
             />
         </div>
     )

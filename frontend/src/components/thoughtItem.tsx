@@ -127,11 +127,15 @@ const ThoughtItem : FC<ThoughtItemProps> = ({thought, isPreview, topicList, tone
                 </div>
                 <div className="flex flex-row items-center justify-around w-full my-1">
                     <DropdownMenu 
+                        isFilter={false}
+                        field={currentTopic}
                         setter={setNewTopic}
                         optionList={topicList!!}
                         defaultSelection={thought.topic}
                     />
                     <DropdownMenu 
+                        isFilter={false}
+                        field={currentTone}
                         setter={setNewTone}
                         optionList={toneList!!}
                         defaultSelection={thought.tone}

@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react"
 
 interface IField{
     fieldName : string,
+    field : string,
     fieldSetter : Dispatch<SetStateAction<string>>
 }
 
@@ -12,6 +13,7 @@ function Field(props : IField){
             <input
                 className="border border-red-700"
                 name="title" type="text"
+                value={props.field}
                 onChange={(e) => props.fieldSetter(e.target.value)}
             ></input>
         </div>

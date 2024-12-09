@@ -4,11 +4,12 @@ interface ISelectionList{
     options : string[],
     fieldName : string,
     fieldSetter : Dispatch<SetStateAction<string | null>>,
+    toggledIndex : number | null,
+    toggledIndexSetter : Dispatch<SetStateAction<number | null>>
 }
 
-const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter}) => {
+const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter, toggledIndex, toggledIndexSetter}) => {
 
-    const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
     const capitalizeFirst = (string : string) => {
         var result = string[0].toUpperCase()
@@ -25,7 +26,7 @@ const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter}) =
     const handleClick = (index : number, value : string) => {
         fieldSetter(value)
         console.log(value)
-        setToggledIndex(index)
+        toggledIndexSetter(index)
     }
     
     

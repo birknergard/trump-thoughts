@@ -22,9 +22,11 @@ function ThoughtCreator(){
     const [title, setTitle] = useState("")
     const [topic, setTopic] = useState("")
     const [statement, setStatement] = useState("")
-    const [tone, setTone] = useState<string | null>(null)
 
-    const [image, setImage] = useState<File | null>(null)
+    const [tone, setTone] = useState<string | null>(null)
+    const [toggledIndex, setToggledIndex] = useState<number | null>(null)
+
+    const [imageFile, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
     const { postThought, status, topicList, toneList } = useThoughtContext() 
@@ -53,7 +55,10 @@ function ThoughtCreator(){
         setTitle("")
         setTopic("a topic")
         setStatement("")
-        // TODO: deselect selectionList
+        setToggledIndex(null)
+        setTone("")
+        setImage(null)
+        setUrl("")
         setImage(null)
         setUrl("")
     }
@@ -64,7 +69,7 @@ function ThoughtCreator(){
             topic : topic,
             statement : statement,
             tone : tone!!,
-            image : image,
+            image : imageFile,
             imageUrl : imageUrl
         })
     }
@@ -90,7 +95,7 @@ function ThoughtCreator(){
             return false;
         }
 
-        if (image === null) {
+        if (imageFile === null) {
             console.log("Image is not provided.");
             return false;
         }
@@ -106,8 +111,8 @@ function ThoughtCreator(){
 
     const uploadImage = async() => {
             try{
-                if(image != null){
-                    const response = await ImageUploadService.upload(image)
+                if(imageFile != null){
+                    const response = await ImageUploadService.upload(imageFile)
                     setUrl(response.data.fileName)
                 }  
             } catch(e) {
@@ -137,13 +142,16 @@ function ThoughtCreator(){
         const fields = (
             <>
         
-            <Field fieldName="Title" fieldSetter={setTitle}/>
+            <Field field={title} 
+            fieldName="Title" fieldSetter={setTitle}/>
 
             <div className="flex flex-col items-center justify-center my-2 w-full">
                 <div className="flex flex-row justify-around content-center">
                     <h2 className="text-m me-1">Statement on</h2>
                     <DropdownMenu 
-                        optionList={topicList} 
+                        field={topic}
+                        optionList={topicList}
+                        isFilter={false}
                         setter={setTopic} 
                     />
             </div>
@@ -151,7 +159,7 @@ function ThoughtCreator(){
                 <textarea className="border border-red-700 text-m"
                     cols={35}
                     rows={6}
-                    name="title" 
+                    value={statement}
                     onChange={(e) => setStatement(e.target.value)}
                 ></textarea>
             </div>
@@ -160,9 +168,12 @@ function ThoughtCreator(){
                 fieldSetter={setTone}
                 options={toneList}
                 fieldName={"Tone"}
+                toggledIndex={toggledIndex}
+                toggledIndexSetter={setToggledIndex}
             />
 
             <ImageHandler
+                imageUrl={imageUrl}
                 imageSetter={setImage}
                 imageUrlSetter={setUrl}
             /> 
@@ -172,7 +183,7 @@ function ThoughtCreator(){
             <div className="flex flex-row items-center justify-center my-2 w-full">
                 <input className="border-2 rounded w-1/4 h-10 m-2"
                     type="button" value="Reset"
-                    // TODO // onClick={{}}
+                    onClick={reset}
                 />
             {status !== "Uploading" &&
                 <input className="border-2 rounded w-1/4 h-10 m-2"

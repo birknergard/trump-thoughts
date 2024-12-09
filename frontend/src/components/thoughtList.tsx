@@ -18,20 +18,30 @@ function ThoughtList(){
     const { thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
+    const [query, setQuery] = useState<string>("")
+    const handleSearch = (changedValue : string) => {
+        setQuery(changedValue)
+        setActiveList(filter.byTitle(query))
+    }
+
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
+    const topicFilterEntered = () : boolean => {return topicFilter !== ""} 
+    const toneFilterEntered = () : boolean => {return toneFilter !== ""}
+
+
     const resetFilters = () => {
+        setQuery("")
         setToneFilter("")
         setTopicFilter("")
     }
 
-
     const update = async() => {
         await fetchThoughts()
     }
-
     
+
     const modifyThought = async(newThought : IThought) => {
         if(newThought.id !== undefined){
             await ThoughtApi.update(newThought.id, newThought)
@@ -48,37 +58,37 @@ function ThoughtList(){
     } 
     
     const filter = { 
-            byTitle : (query : string) => {
-                if(query === ""){
-                    return thoughts
-                }
-                const filteredList = thoughts.filter(thought => { 
-                    return thought.title.toLowerCase().includes(query.toLowerCase())
-                })
-                return filteredList
-            },
-
-            byTopic : (query : string) => {
-                const filteredList = thoughts.filter(thought => { 
-                    return thought.topic.toLowerCase().includes(query.toLowerCase())
-                })
-                return filteredList
-            },
-
-            byTone : (query : string) => {
-                const filteredList = thoughts.filter(thought => { 
-                    return thought.tone.toLowerCase().includes(query.toLowerCase())
-                })
-                return filteredList
-            },
-
-            byToneAndTopic : (tone : string, topic : string) => {
-                const filteredList = thoughts.filter(thought => { 
-                    return thought.tone.toLowerCase().includes(tone.toLowerCase()) 
-                    || thought.topic.toLowerCase().includes(topic.toLowerCase()) 
-                })
-                return filteredList
+        byTitle : (query : string) => {
+            if(query === ""){
+                return thoughts
             }
+            const filteredList = thoughts.filter(thought => { 
+                return thought.title.toLowerCase().includes(query.toLowerCase())
+            })
+            return filteredList
+        },
+
+        byTopic : (query : string) => {
+            const filteredList = thoughts.filter(thought => { 
+                return thought.topic.toLowerCase().includes(query.toLowerCase())
+            })
+            return filteredList
+        },
+
+        byTone : (query : string) => {
+            const filteredList = thoughts.filter(thought => { 
+                return thought.tone.toLowerCase().includes(query.toLowerCase())
+            })
+            return filteredList
+        },
+
+        byToneAndTopic : (tone : string, topic : string) => {
+            const filteredList = thoughts.filter(thought => { 
+                return (thought.tone.toLowerCase().includes(tone.toLowerCase()) 
+                && thought.topic.toLowerCase().includes(topic.toLowerCase())) 
+            })
+            return filteredList
+        }
     }
 
 
@@ -122,7 +132,7 @@ function ThoughtList(){
         if(toneFilter !== "" && topicFilter !== ""){
             setActiveList(filter.byToneAndTopic(toneFilter, topicFilter))
         } else {
-            setActiveList(filter.byTone(topicFilter))
+            setActiveList(filter.byTopic(topicFilter))
         }
     }, [topicFilter])
 
@@ -134,13 +144,13 @@ function ThoughtList(){
         }
     }, [toneFilter])
 
-
     return(
         <>
             <div className="flex flex-col items-center mb-5 w-4/5">
                 <div className="flex flew-row mb-2 w-full justify-center">
                     <input className="border border-red-400"
-                        onChange={(e) => setActiveList(filter.byTitle(e.target.value))}
+                        value={query}
+                        onChange={(e) => handleSearch(e.target.value)}
                         defaultValue={""}
                         placeholder=" Search ..."
                         type="text"
@@ -151,6 +161,7 @@ function ThoughtList(){
                 </div>
                 <div className="flex flex-row w-full justify-center">
                     <DropdownMenu
+                        field={topicFilter}
                         className="w-2/5 p-2 mr-1"
                         setter={setTopicFilter}
                         optionList={topicList}
@@ -159,6 +170,7 @@ function ThoughtList(){
                     />
                     
                     <DropdownMenu
+                        field={toneFilter}
                         className="w-2/5 p-2 ml-1"
                         setter={setToneFilter}
                         optionList={toneList}
