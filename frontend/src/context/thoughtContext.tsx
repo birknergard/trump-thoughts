@@ -12,7 +12,7 @@ enum PostStatus{
 interface IThoughtContext{
     thoughts : IThought[],
     setThoughts: Dispatch<SetStateAction<IThought[]>>,
-    fetchThoughts: () => Promise<IThought[] | null>,
+    fetchThoughts: () => Promise<IThought[] | undefined>,
     postThought: (
         title : string,
         topic : string,
@@ -29,7 +29,7 @@ interface IThoughtContext{
 const ThoughtContext = createContext<IThoughtContext>({
     thoughts : [],
     setThoughts: () => {},
-    fetchThoughts : async() => null, 
+    fetchThoughts : async() => undefined, 
     postThought: async() => {},
     status : PostStatus.Idle,
     topicList : [],

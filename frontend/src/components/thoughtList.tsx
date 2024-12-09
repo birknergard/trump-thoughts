@@ -1,4 +1,4 @@
-import React, { act, useContext } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
@@ -6,20 +6,23 @@ import ThoughtItem, { IModifiedThought } from "./thoughtItem";
 import ThoughtApi from "../services/thoughtService";
 
 enum Status{
-    loading = "Loading",
     idle = "Idle",
-    complete = "Completeaa"
+    loading = "Loading",
+    fetched = "Fetched",
+    complete = "Complete"
 }
 
 function ThoughtList(){
 
-    const { thoughts, setThoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
+    const [listState, setStatus] = useState<Status>(Status.idle) 
+    const { thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
 
     const update = async() => {
         await fetchThoughts()
     }
+
     
     const modifyThought = async(newThought : IThought) => {
         if(newThought.id !== undefined){
@@ -48,7 +51,7 @@ function ThoughtList(){
     }
 
     const getThoughtList = () => {
-        if(activeList !== null){
+        if(activeList !== null && activeList!!.length !== 0){
             const thoughtList = activeList.map((_thought : IThought, i : number) => (
                 <ThoughtItem
                     key={i}
@@ -64,15 +67,24 @@ function ThoughtList(){
         }
         return (
             <h2>
-                Content couldn't be loaded.
+                Thoughts not found.
             </h2>
         )
     }
     
     useEffect(() => {
-        update()
-        setActiveList(thoughts)
+        const loadThoughts = async() => {
+            setStatus(Status.loading)
+            await update() 
+            setActiveList(thoughts)
+            setStatus(Status.complete);
+        }
+        loadThoughts()
     }, [])
+
+    useEffect(() => {
+        setActiveList(thoughts)
+    }, [thoughts]) // tracks thoughts and only runs when it changes
 
     return(
         <>
@@ -85,13 +97,14 @@ function ThoughtList(){
                         type="text"
                     />
                     <p className="ml-2">
-                        Results: {activeList !== null ? activeList.length : 0}
+                        Results: {activeList === null ? 0 : activeList.length}
                     </p>
                 </div>
 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-5/6 gap-20">
-                {activeList !== null ? getThoughtList() : <h2>Content couldn't be loaded</h2>}
+                {listState === Status.loading && <h2>Loading thoughts ...</h2>}
+                {listState === Status.complete && getThoughtList()}
             </div>
         </>
     )
