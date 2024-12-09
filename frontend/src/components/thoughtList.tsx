@@ -5,15 +5,20 @@ import { useThoughtContext } from "../context/thoughtContext";
 import ThoughtItem, { IModifiedThought } from "./thoughtItem";
 import ThoughtApi from "../services/thoughtService";
 
+enum Status{
+    loading = "Loading",
+    idle = "Idle",
+    complete = "Completeaa"
+}
 
 function ThoughtList(){
 
     const { thoughts, setThoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
-    const [activeList, setActiveList] = useState<IThought[]>(thoughts)
+    const [activeList, setActiveList] = useState<IThought[] | null>(null)
+
 
     const update = async() => {
         await fetchThoughts()
-        setActiveList(thoughts)
     }
     
     const modifyThought = async(newThought : IThought) => {
@@ -43,22 +48,30 @@ function ThoughtList(){
     }
 
     const getThoughtList = () => {
-        const thoughtList = activeList.map((_thought : IThought, i : number) => (
-            <ThoughtItem
-                key={i}
-                isPreview={false}
-                thought={_thought}
-                toneList={toneList}
-                topicList={topicList}
-                modifyMethod={modifyThought}
-                deleteMethod={removeThought} 
-            />
-        ))
-        return thoughtList;
+        if(activeList !== null){
+            const thoughtList = activeList.map((_thought : IThought, i : number) => (
+                <ThoughtItem
+                    key={i}
+                    isPreview={false}
+                    thought={_thought}
+                    toneList={toneList}
+                    topicList={topicList}
+                    modifyMethod={modifyThought}
+                    deleteMethod={removeThought} 
+                />
+            ))
+            return thoughtList;
+        }
+        return (
+            <h2>
+                Content couldn't be loaded.
+            </h2>
+        )
     }
     
     useEffect(() => {
         update()
+        setActiveList(thoughts)
     }, [])
 
     return(
@@ -72,13 +85,13 @@ function ThoughtList(){
                         type="text"
                     />
                     <p className="ml-2">
-                        Results: {activeList.length}
+                        Results: {activeList !== null ? activeList.length : 0}
                     </p>
                 </div>
 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-5/6 gap-20">
-                {getThoughtList()}
+                {activeList !== null ? getThoughtList() : <h2>Content couldn't be loaded</h2>}
             </div>
         </>
     )

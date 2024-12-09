@@ -12,7 +12,7 @@ enum PostStatus{
 interface IThoughtContext{
     thoughts : IThought[],
     setThoughts: Dispatch<SetStateAction<IThought[]>>,
-    fetchThoughts: () => Promise<void>,
+    fetchThoughts: () => Promise<IThought[] | null>,
     postThought: (
         title : string,
         topic : string,
@@ -29,7 +29,7 @@ interface IThoughtContext{
 const ThoughtContext = createContext<IThoughtContext>({
     thoughts : [],
     setThoughts: () => {},
-    fetchThoughts : async() => {},
+    fetchThoughts : async() => null, 
     postThought: async() => {},
     status : PostStatus.Idle,
     topicList : [],
@@ -60,12 +60,11 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         "blunt", "hyperbolic", "optimistic"
     ]
 
-    const fetchThoughts = async() => {
+    const fetchThoughts = async() : Promise<IThought[] | undefined> => {
         try {
             const fetchedThoughts = await ThoughtApi.getAll()
-            if(fetchedThoughts.length != 0){
-                setThoughts(fetchedThoughts)
-            }
+            setThoughts(fetchedThoughts)
+            return fetchedThoughts
         } catch(error){
             console.log(error);
         }
