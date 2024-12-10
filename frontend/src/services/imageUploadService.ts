@@ -19,9 +19,16 @@ const ImageUploadService = (() => {
         return result
     }
 
+    const remove = async(imageUrl : string) => {
+        const result = await axios.delete(`${url}/${imageUrl}`)
+        return result;
+    }
+
     return {
+        remove,
         upload
     }
+
 })() 
 
 export default ImageUploadService

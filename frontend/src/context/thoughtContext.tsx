@@ -1,6 +1,7 @@
 import { createContext, Dispatch, FC, Provider, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
 import ThoughtApi from "../services/thoughtService";
 import IThought from "../interfaces/thought";
+import ImageUploadService from "../services/imageUploadService";
 
 enum PostStatus{
     Idle = "Idle",
@@ -20,6 +21,7 @@ interface IThoughtContext{
         imageUrl : string,
         tone : string
     ) => Promise<void>,
+    deleteThought : (thought : IThought) => Promise<void>,
     status: PostStatus,
     topicList : string[],
     toneList : string[]
@@ -31,6 +33,7 @@ const ThoughtContext = createContext<IThoughtContext>({
     setThoughts: () => {},
     fetchThoughts : async() => undefined, 
     postThought: async() => {},
+    deleteThought: async() => {},
     status : PostStatus.Idle,
     topicList : [],
     toneList : []
@@ -66,9 +69,20 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts(fetchedThoughts)
             return fetchedThoughts
         } catch(error){
-            console.log(error);
+            console.error(error);
         }
     }
+
+    const deleteThought = async(thought : IThought) => {
+        try {
+            if(thought.id === undefined) return
+
+            await ThoughtApi.remove(thought.id)
+            await ImageUploadService.remove(thought.imageUrl)
+        } catch(error){
+            console.error(error)
+        }
+    } 
 
     const postThought = async(
         title : string,
@@ -101,7 +115,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, fetchThoughts, status, topicList, toneList
+            thoughts, setThoughts, postThought, fetchThoughts, deleteThought, status, topicList, toneList
         }}>
             {children}
         </ThoughtContext.Provider>

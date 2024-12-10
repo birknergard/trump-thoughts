@@ -15,7 +15,7 @@ enum Status{
 function ThoughtList(){
 
     const [listState, setStatus] = useState<Status>(Status.idle) 
-    const {thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
+    const {thoughts, fetchThoughts, topicList, toneList, deleteThought} = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
 
@@ -43,14 +43,13 @@ function ThoughtList(){
     const modifyThought = async(newThought : IThought) => {
         if(newThought.id !== undefined){
             await ThoughtApi.update(newThought.id, newThought)
-            update()
+            await update()
         }
     }
 
     const removeThought = async(thought : IThought) => {
         if(thought.id !== undefined){
-            // TODO: Add confirm dialog box?
-            await ThoughtApi.remove(thought.id)
+            await deleteThought(thought)
             await update()
         }
     } 

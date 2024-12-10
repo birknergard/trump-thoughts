@@ -15,6 +15,8 @@
 ### Frontend
 
 - Tone filter is not working
+- Error text for when field isnt filled (create)
+
 - Implement icons for navbar
 - Responsive design (using App.css)
 - :hover and other interactive styling (using css modules)
