@@ -3,19 +3,25 @@
 
 ### Frontend
 
-## Tasks
-### Backend infrastructure
-- Generate 8 database fields per entity from chatgpt
-- simplify other api databases (less fields)
+## Tasks (Ordered by most important)
+- Report
+
+### Backend 
 - delete image file on thought deletion
+- simplify other api databases (less fields)
+- API documentation
+- Generate 8 database fields per entity from chatgpt
 
-### Frontend app
+### Frontend
 
+- Implement icons for navbar
+- Responsive design (using App.css)
+- :hover and other interactive styling (using css modules)
+- Create more entries
+- general styling (using tailwind) 
 
-- Pop up dialog box when deleting items
-- create more entries
-- Styling 
-- Responsive design
+IF I HAVE TIME(Unlikely):
+- query filter for statement, where text is highlighted on result
 
 ## Completed tasks
 ### Pre exam
@@ -61,6 +67,7 @@
 - filter trump thought by tone
 - search trump thought by title
 - visual indicators for when fields arent filled in thoughtcreator
+- Pop up dialog box when deleting items
 
 ## Useful commands
 
