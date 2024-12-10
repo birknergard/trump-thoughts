@@ -14,6 +14,7 @@
 
 ### Frontend
 
+- Tone filter is not working
 - Implement icons for navbar
 - Responsive design (using App.css)
 - :hover and other interactive styling (using css modules)

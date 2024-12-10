@@ -30,6 +30,25 @@ public class UploadImageController : ControllerBase{
         }
         return Ok(new {FileName = file.FileName});
     }
+    
+    [HttpDelete("{imageUrl}")]  
+    public IActionResult DeleteImage(string imageUrl){
+        try {
+            string wwwrootPath = hosting.WebRootPath;
+            string imagePath = Path.Combine(wwwrootPath, "images", imageUrl);
+
+            if(!System.IO.File.Exists(imagePath)){
+                return NotFound(new {message = "File not found.", onUrl = imageUrl, fullPath = imagePath});
+            }
+
+            System.IO.File.Delete(imagePath);
+
+            return Ok(new { message = "File deleted.", onUrl = imageUrl, fullPath = imagePath});
+
+        } catch (Exception e) {
+            return StatusCode(500, new {message = "An error occurred while attemtping to delete the file", error = e.Message});
+        }
+    }
 
 
 }
