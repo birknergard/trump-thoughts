@@ -5,6 +5,8 @@ import { useThoughtContext } from "../context/thoughtContext";
 import ThoughtItem, { IModifiedThought } from "./thoughtItem";
 import ThoughtApi from "../services/thoughtService";
 import DropdownMenu from "./dropDownMenu";
+import { RiResetLeftLine } from "react-icons/ri";
+import { title } from "process";
 
 enum Status{
     idle = "Idle",
@@ -15,20 +17,20 @@ enum Status{
 function ThoughtList(){
 
     const [listState, setStatus] = useState<Status>(Status.idle) 
-    const { thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
+    const {thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
-    const [query, setQuery] = useState<string>("")
+    const [titleFilter, setTitleFilter] = useState<string>("")
     const handleSearch = (changedValue : string) => {
-        setQuery(changedValue)
-        setActiveList(filter.byTitle(query))
+        setTitleFilter(changedValue)
+        setActiveList(filter.byTitle(titleFilter))
     }
 
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
     const resetFilters = () => {
-        setQuery("")
+        setTitleFilter("")
         setToneFilter("")
         setTopicFilter("")
     }
@@ -55,9 +57,8 @@ function ThoughtList(){
     
     const filter = { 
         byTitle : (query : string) => {
-            if(query === ""){
-                return thoughts
-            }
+            if(query === "") return thoughts
+
             const filteredList = thoughts.filter(thought => { 
                 return thought.title.toLowerCase().includes(query.toLowerCase())
             })
@@ -65,6 +66,8 @@ function ThoughtList(){
         },
 
         byTopic : (query : string) => {
+            if(query === "") return thoughts
+    
             const filteredList = thoughts.filter(thought => { 
                 return thought.topic.toLowerCase().includes(query.toLowerCase())
             })
@@ -72,18 +75,32 @@ function ThoughtList(){
         },
 
         byTone : (query : string) => {
+            if(query = "") return thoughts
+
             const filteredList = thoughts.filter(thought => { 
                 return thought.tone.toLowerCase().includes(query.toLowerCase())
             })
             return filteredList
         },
 
-        byToneAndTopic : (tone : string, topic : string) => {
-            const filteredList = thoughts.filter(thought => { 
-                return (thought.tone.toLowerCase().includes(tone.toLowerCase()) 
-                && thought.topic.toLowerCase().includes(topic.toLowerCase())) 
-            })
-            return filteredList
+        byMultiple : (titleQuery : string, topicQuery : string, toneQuery : string) => {
+            const topicList = filter.byTopic(topicQuery) 
+            const titleList = filter.byTitle(titleQuery)
+            const toneList = filter.byTone(toneQuery)
+
+            // merging lists
+            return (() => {
+                const firstPass = topicList.filter(thought => {
+                    return titleList.includes(thought)
+                })
+                console.debug(`filter.byMultiple - MergeList: ${firstPass}`)
+                const secondPass = firstPass.filter(thought => {
+                    return toneList.includes(thought)
+                })
+                console.debug(`filter.byMultiple - MergeList: ${secondPass}`)
+                return secondPass
+            })()
+
         }
     }
 
@@ -125,27 +142,17 @@ function ThoughtList(){
     }, [thoughts]) 
 
     useEffect(() => {
-        if(toneFilter !== "" && topicFilter !== ""){
-            setActiveList(filter.byToneAndTopic(toneFilter, topicFilter))
-        } else {
-            setActiveList(filter.byTopic(topicFilter))
-        }
-    }, [topicFilter])
+       
+        setActiveList(filter.byMultiple(titleFilter, topicFilter, toneFilter))
 
-    useEffect(() => {
-        if(toneFilter !== "" && topicFilter !== ""){
-            setActiveList(filter.byToneAndTopic(toneFilter, topicFilter))
-        } else {
-            setActiveList(filter.byTone(toneFilter))
-        }
-    }, [toneFilter])
+    }, [toneFilter, titleFilter, topicFilter])
 
     return(
         <>
             <div className="flex flex-col items-center mb-5 w-4/5">
-                <div className="flex flew-row mb-2 w-full justify-center">
+                <div className="flex flew-row mb-2 w-full justify-start">
                     <input className="border border-red-400 text-base"
-                        value={query}
+                        value={titleFilter}
                         onChange={(e) => handleSearch(e.target.value)}
                         placeholder=" Search ..."
                         type="text"
@@ -154,7 +161,7 @@ function ThoughtList(){
                         Results: {activeList === null ? 0 : activeList.length}
                     </p>
                 </div>
-                <div className="flex flex-row w-full justify-center">
+                <div className="flex flex-row w-full justify-start">
                     <DropdownMenu
                         field={topicFilter}
                         className="w-2/5 p-2 mr-1"
@@ -173,8 +180,10 @@ function ThoughtList(){
                         filterFor="tone"
                     />
 
-                    <input className="border" type="button" value="Reset" 
-                    onClick={resetFilters}/>
+                    <button className="ml-2" type="button" value="Reset" 
+                    onClick={resetFilters}>
+                        <RiResetLeftLine size={25} color="#FF1F1F"/>
+                    </button>
                 </div>
 
             </div>
