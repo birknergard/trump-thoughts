@@ -148,6 +148,7 @@ function ThoughtCreator(){
         console.debug(emptyFields.size, emptyFields)
         if(emptyFields.size === 0){
             submitThought()
+            reset()
         } else {
             console.log("Fields are not filled.")
         }
