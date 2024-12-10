@@ -24,11 +24,6 @@ public class PersonnelController : ControllerBase{
             return BadRequest("No name data provided.");
         }
 
-        // image has to be provided.
-        if(string.IsNullOrEmpty(staffMember.ImageUrl)){
-            return BadRequest("No image provided.");
-        }
-
         if(staffMember.Age == 0){
             return BadRequest("No age provided.");
         }

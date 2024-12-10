@@ -7,15 +7,21 @@
 - Report
 
 ### Backend 
-- delete image file on thought deletion
 - simplify other api databases (less fields)
 - API documentation
 - Generate 8 database fields per entity from chatgpt
 
+IF I HAVE TIME:
+- Multiple GET requests (tone, topic or tone&&topic) with a single method
+
 ### Frontend
 
-- Tone filter is not working
+- grey out logging 
+- make topic filter update api call with the api/topic call instead of default
 - Error text for when field isnt filled (create)
+- consistent preview placholders ("No tone" and "a topic" look inconsistent)
+- Preview doesnt reset after submit
+- link back to main on NotFound page
 
 - Implement icons for navbar
 - Responsive design (using App.css)
@@ -24,6 +30,7 @@
 - general styling (using tailwind) 
 
 IF I HAVE TIME(Unlikely):
+- Somehow use a get method other than all as it may be a requirement for delivery
 - query filter for statement, where text is highlighted on result
 
 ## Completed tasks
@@ -53,6 +60,8 @@ IF I HAVE TIME(Unlikely):
 - CRUD for Merch
 - CRUD for Staff
 
+- Delete method for ImageController
+
 ### Frontend
 - Rudementary planning
 - Basic routing implemented
@@ -71,6 +80,7 @@ IF I HAVE TIME(Unlikely):
 - search trump thought by title
 - visual indicators for when fields arent filled in thoughtcreator
 - Pop up dialog box when deleting items
+- Tone filter is not working
 
 ## Useful commands
 

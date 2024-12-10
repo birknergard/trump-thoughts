@@ -24,10 +24,6 @@ public class ProductController : ControllerBase{
             return BadRequest("Error: No name provided.");
         }
 
-        if(string.IsNullOrEmpty(newProduct.ImageUrl)){
-           return BadRequest("Error: No category provided.");
-        }
-
         if(newProduct.Price == 0){
            return BadRequest("Error: No price provided.");
         }

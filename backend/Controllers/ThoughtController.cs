@@ -74,7 +74,30 @@ public class ThoughtController : ControllerBase{
         return Ok(thought);
     }
 
+    [HttpGet("tone={tone}")]
+    public async Task<ActionResult<List<Thought>>> GetByTone(string tone){
+        List<Thought> thought = await context.Thoughts.Where( thought => 
+            thought.Tone == tone
+        ).ToListAsync();
+
+        if(thought.IsNullOrEmpty()) return NotFound(new { message = "No matching entries were found.", onQuery = tone});
+
+        return Ok(thought);
+    }
+
+    [HttpGet("multi/{tone}+{topic}")]
+    public async Task<ActionResult<List<Thought>>> GetByTone(string tone, string topic){
+        List<Thought> thought = await context.Thoughts.Where( thought =>
+            thought.Tone == tone && thought.Topic == topic 
+        ).ToListAsync();
+
+        if(thought.IsNullOrEmpty()) return NotFound(new {message = "No queries matching both topic and tone were found.", onQuery = new {onTone = tone, onTopic = topic}});
+
+        return Ok(thought);
+    }
     
+    // More sophisticated GET method, which takes multiple or no parameters
+
     [HttpPut("{id}")]
     public async Task<ActionResult<Thought>> Put(int id, Thought modifiedThought){
         Thought? thoughtToUpdate = await context.Thoughts.FindAsync(id);

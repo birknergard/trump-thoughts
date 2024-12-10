@@ -8,36 +8,42 @@ const ThoughtApi = (() => {
     const getAll = async(): Promise<IThought[]> => {
         try {
             const response = await axios.get<IThought[]>(url)
-            console.log(response.data)   
             return response.data;
         } catch(error){
-            console.error("Error with GET method.", error)
+            console.error("Error with GET method: GetAll", error)
             return []
         }
     }
 
     const getByTopic = async(topic : string) => {
         try {
-            const response = await axios.get<string[]>(`${url}/${topic}`)
-            console.log(response.data)
+            const response = await axios.get<IThought[]>(`${url}/topic=${topic}`)
             return response.data
         } catch(error){
-            console.error("Error with GET method.", error)
+            console.error("Error with GET method: GetByTopic", error)
             return []
         }
     }
 
-    const getAllTopics = async() : Promise<string[]> => {
+    const getByTone = async(tone : string) => {
         try {
-            const response = await axios.get<string[]>(`${url}/topics`)
-            console.log(response.data)
+            const response = await axios.get<IThought[]>(`${url}/tone=${tone}`)
             return response.data
-        } catch(error) {
-            console.error("Error with GET method.", error)
+        } catch(error){
+            console.error("Error with GET method: GetByTone", error)
             return []
         }
     }
 
+    const getByToneAndTopic = async(tone : string, topic : string) => {
+        try {
+            const response = await axios.get<IThought[]>(`${url}/multi/${tone}+${topic}`)
+            return response.data
+        } catch(error){
+            console.error("Error with GET method: GetByToneAndTopic", error)
+            return []
+        }
+    }
 
     const create = async(newThought : IThought) : Promise<void> => {
         try {
@@ -68,7 +74,8 @@ const ThoughtApi = (() => {
     return {
         getAll,
         getByTopic,
-        getAllTopics,
+        getByTone,
+        getByToneAndTopic,
         create,
         update,
         remove

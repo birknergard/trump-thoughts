@@ -11,9 +11,12 @@ enum PostStatus{
 }
 
 interface IThoughtContext{
-    thoughts : IThought[],
+    thoughts: IThought[],
     setThoughts: Dispatch<SetStateAction<IThought[]>>,
-    fetchThoughts: () => Promise<IThought[] | undefined>,
+    fetchThoughts: () => Promise<void>,
+    fetchThoughtsByTopic: (topic : string) => Promise<void>,
+    fetchThoughtsByTone: (tone : string) => Promise<void>
+    fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>,
     postThought: (
         title : string,
         topic : string,
@@ -23,15 +26,17 @@ interface IThoughtContext{
     ) => Promise<void>,
     deleteThought : (thought : IThought) => Promise<void>,
     status: PostStatus,
-    topicList : string[],
-    toneList : string[]
-
+    topicList: string[],
+    toneList: string[],
 }
 
 const ThoughtContext = createContext<IThoughtContext>({
     thoughts : [],
     setThoughts: () => {},
-    fetchThoughts : async() => undefined, 
+    fetchThoughts : async() => {}, 
+    fetchThoughtsByTopic: async() => {},
+    fetchThoughtsByTone: async() => {},
+    fetchThoughtsByToneAndTopic: async() => {},
     postThought: async() => {},
     deleteThought: async() => {},
     status : PostStatus.Idle,
@@ -39,7 +44,7 @@ const ThoughtContext = createContext<IThoughtContext>({
     toneList : []
 })
 
-interface IThoughtProvider{
+interface IThoughtProvider {
     children : ReactNode
 }
 
@@ -63,13 +68,39 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         "blunt", "hyperbolic", "optimistic"
     ]
 
-    const fetchThoughts = async() : Promise<IThought[] | undefined> => {
+    const fetchThoughts = async() => {
         try {
-            const fetchedThoughts = await ThoughtApi.getAll()
-            setThoughts(fetchedThoughts)
-            return fetchedThoughts
+            const thoughts = await ThoughtApi.getAll()
+            setThoughts(thoughts)
         } catch(error){
             console.error(error);
+        }
+    }
+
+    const fetchThoughtsByTopic = async(topic : string) => {
+        try {
+            const thoughts = await ThoughtApi.getByTopic(topic)
+            setThoughts(thoughts)
+        } catch(error){
+            console.error(error)
+        }
+    }
+
+    const fetchThoughtsByTone = async(tone : string) => {
+        try{
+            const thoughts = await ThoughtApi.getByTone(tone)
+            setThoughts(thoughts)
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
+    const fetchThoughtsByToneAndTopic = async(tone : string, topic : string) => {
+        try {
+            const thoughts = await ThoughtApi.getByToneAndTopic(tone, topic)
+            setThoughts(thoughts)
+        } catch(error){
+            console.error(error)
         }
     }
 
@@ -115,7 +146,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, fetchThoughts, deleteThought, status, topicList, toneList
+            thoughts, setThoughts, postThought, fetchThoughts,fetchThoughtsByTopic, fetchThoughtsByTone, fetchThoughtsByToneAndTopic, deleteThought, status, topicList, toneList
         }}>
             {children}
         </ThoughtContext.Provider>

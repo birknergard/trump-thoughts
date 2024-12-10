@@ -5,6 +5,8 @@ import ThoughtItem from "./thoughtItem";
 import ThoughtApi from "../services/thoughtService";
 import DropdownMenu from "./dropDownMenu";
 import { RiResetLeftLine } from "react-icons/ri";
+import Filter from "../services/thoughtFilter";
+import { timeEnd } from "console";
 
 enum Status{
     idle = "Idle",
@@ -15,16 +17,11 @@ enum Status{
 function ThoughtList(){
 
     const [listState, setStatus] = useState<Status>(Status.idle) 
-    const {thoughts, fetchThoughts, topicList, toneList, deleteThought} = useThoughtContext()
+    const {thoughts, fetchThoughts, fetchThoughtsByTopic, fetchThoughtsByTone, fetchThoughtsByToneAndTopic, topicList, toneList, deleteThought} = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
 
     const [titleFilter, setTitleFilter] = useState<string>("")
-    const handleSearch = (changedValue : string) => {
-        setTitleFilter(changedValue)
-        setActiveList(filter.byTitle(titleFilter))
-    }
-
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
@@ -39,7 +36,6 @@ function ThoughtList(){
         await fetchThoughts()
     }
     
-
     const modifyThought = async(newThought : IThought) => {
         if(newThought.id !== undefined){
             await ThoughtApi.update(newThought.id, newThought)
@@ -54,56 +50,35 @@ function ThoughtList(){
         }
     } 
     
-    const filter = { 
-        byTitle : (query : string) => {
-            if(query === "") return thoughts
+    useEffect(() => {
+        setActiveList(thoughts)
+    }, [thoughts]) 
 
-            const filteredList = thoughts.filter(thought => { 
-                return thought.title.toLowerCase().includes(query.toLowerCase())
-            })
-            return filteredList
-        },
+    useEffect(() => {
+        setActiveList(Filter(thoughts).byTitle(titleFilter))
+    }, [titleFilter])
+    // for use if GET(topic) has to be included
+    useEffect(() => {
 
-        byTopic : (query : string) => {
-            if(query === "") return thoughts
-    
-            const filteredList = thoughts.filter(thought => { 
-                return thought.topic.toLowerCase().includes(query.toLowerCase())
-            })
-            return filteredList
-        },
-
-        byTone : (query : string) => {
-            if(query = "") return thoughts
-
-            const filteredList = thoughts.filter(thought => { 
-                return thought.tone.toLowerCase().includes(query.toLowerCase())
-        })
-            return filteredList
-        },
-
-        byMultiple : (titleQuery : string, topicQuery : string, toneQuery : string) => {
-            const topicList = filter.byTopic(topicQuery) 
-            const titleList = filter.byTitle(titleQuery)
-            const toneList = filter.byTone(toneQuery)
-
-            // merging lists on common elements
-            return (() => {
-                return topicList.filter(thought => {
-                    return titleList.includes(thought) && toneList.includes(thought)
-                })
-            })()
+        if(topicFilter === "" && toneFilter === "") { 
+            update()
+        } else if(topicFilter !== "" && toneFilter === "") {
+            fetchThoughtsByTopic(topicFilter)
+        } else if(toneFilter !== "" && topicFilter === "" ) {
+            fetchThoughtsByTone(toneFilter)
+        } else if(toneFilter !== "" && topicFilter !== ""){
+            fetchThoughtsByToneAndTopic(toneFilter, topicFilter)
         }
-    }
 
-
+    }, [topicFilter, toneFilter])
+    
     const getThoughtList = () => {
         if(activeList !== null && activeList!!.length !== 0){
-            const thoughtList = activeList.map((_thought : IThought, i : number) => (
+            const thoughtList = activeList.map((thought : IThought, i : number) => (
                 <ThoughtItem
                     key={i}
                     isPreview={false}
-                    thought={_thought}
+                    thought={thought}
                     toneList={toneList}
                     topicList={topicList}
                     modifyMethod={modifyThought}
@@ -129,13 +104,6 @@ function ThoughtList(){
         loadThoughts()
     }, [])
 
-    useEffect(() => {
-        setActiveList(thoughts)
-    }, [thoughts]) 
-
-    useEffect(() => {
-        setActiveList(filter.byMultiple(titleFilter, topicFilter, toneFilter))
-    }, [toneFilter, titleFilter, topicFilter])
 
     return(
         <>
@@ -143,7 +111,7 @@ function ThoughtList(){
                 <div className="flex flew-row mb-2 w-full justify-start">
                     <input className="border border-red-400 text-base"
                         value={titleFilter}
-                        onChange={(e) => handleSearch(e.target.value)}
+                        onChange={(e) => setTitleFilter(e.target.value)}
                         placeholder=" Search ..."
                         type="text"
                     />

@@ -6,6 +6,7 @@ import CreatePage from './pages/create';
 import { ThoughtProvider } from "./context/thoughtContext";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import NavController from './components/navController';
+import NotFound from './pages/notFound';
 
 function App(){
   return (
@@ -16,7 +17,7 @@ function App(){
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="create" element={<CreatePage />}></Route>
-          <Route path='*' element={<p>Page not found</p>}></Route>
+          <Route path='*' element={<NotFound />}></Route>
         </Routes>
 
       </BrowserRouter>
