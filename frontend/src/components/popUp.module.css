@@ -1,0 +1,11 @@
+.cancel:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+.delete:hover{
+    color:white;
+    background-color: rgb(220 38 38);
+    cursor: pointer;
+}

@@ -8,6 +8,7 @@ interface IDropdownMenu{
     defaultSelection? : string,
     filterFor? : string,
     className? : string,
+    isDisabled? : boolean
 }
 
 const DropdownMenu : FC<IDropdownMenu> = ({
@@ -16,7 +17,8 @@ const DropdownMenu : FC<IDropdownMenu> = ({
     field,
     setter,
     isFilter,
-    filterFor
+    filterFor,
+    isDisabled
 }) => {
 
     const getOptions = () => {
@@ -36,7 +38,7 @@ const DropdownMenu : FC<IDropdownMenu> = ({
     return(
     <>
         {isFilter &&
-            <select 
+            <select
                 className={className !== undefined ? className : "text-m w-28 ps-2 flex h-10 rounded-lg"}
                 value={field === "" ? `Filter by ${filterFor}` : field }
                 onChange={(e) => setter(e.target.value)}
@@ -53,6 +55,7 @@ const DropdownMenu : FC<IDropdownMenu> = ({
         {!isFilter &&
             <select 
                 className={className !== undefined ? className : "text-m w-28 ps-2 flex h-10 rounded-lg"}
+                disabled = {isDisabled}
                 value={field === "" ? "a topic" : field}
                 onChange={(e) => setter(e.target.value)}
             >

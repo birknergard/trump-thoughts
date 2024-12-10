@@ -1,12 +1,10 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
-import ThoughtItem, { IModifiedThought } from "./thoughtItem";
+import ThoughtItem from "./thoughtItem";
 import ThoughtApi from "../services/thoughtService";
 import DropdownMenu from "./dropDownMenu";
 import { RiResetLeftLine } from "react-icons/ri";
-import { title } from "process";
 
 enum Status{
     idle = "Idle",
@@ -30,6 +28,7 @@ function ThoughtList(){
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
+
     const resetFilters = () => {
         setTitleFilter("")
         setToneFilter("")
@@ -52,7 +51,7 @@ function ThoughtList(){
         if(thought.id !== undefined){
             // TODO: Add confirm dialog box?
             await ThoughtApi.remove(thought.id)
-            update()
+            await update()
         }
     } 
     
@@ -89,19 +88,12 @@ function ThoughtList(){
             const titleList = filter.byTitle(titleQuery)
             const toneList = filter.byTone(toneQuery)
 
-            // merging lists
+            // merging lists on common elements
             return (() => {
-                const firstPass = topicList.filter(thought => {
-                    return titleList.includes(thought)
+                return topicList.filter(thought => {
+                    return titleList.includes(thought) && toneList.includes(thought)
                 })
-                console.debug(`filter.byMultiple - MergeList: ${firstPass}`)
-                const secondPass = firstPass.filter(thought => {
-                    return toneList.includes(thought)
-                })
-                console.debug(`filter.byMultiple - MergeList: ${secondPass}`)
-                return secondPass
             })()
-
         }
     }
 
@@ -180,7 +172,10 @@ function ThoughtList(){
                     />
 
                     <button className="ml-2" type="button" value="Reset" 
-                    onClick={resetFilters}>
+                        onClick={() => {
+                            resetFilters()
+                            update() // it seemed intuitive to update from the API here, even for lack of a practical effect
+                        }}>
                         <RiResetLeftLine size={25} color="#FF1F1F"/>
                     </button>
                 </div>

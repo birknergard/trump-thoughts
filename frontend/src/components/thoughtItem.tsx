@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState} from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState} from "react"
 import IThought from "../interfaces/thought"
 import ThoughtApi from "../services/thoughtService"
 import DropdownMenu from "./dropDownMenu"
+import Confirm from "./popUp"
 
 interface ThoughtItemProps{
     thought : IThought,
@@ -30,7 +31,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     toneList,
     deleteMethod,
     modifyMethod,
-    previewImageSrc
+    previewImageSrc,
 }) => {
 
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -40,8 +41,9 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         const [currentStatement, setNewStatement] = useState<string>(thought.statement)
         const [currentTopic, setNewTopic] = useState<string>(thought.topic)
         const [currentTone, setNewTone] = useState<string>(thought.tone)
+    
+        const [attemptingDelete, setDeleteVerificationState] = useState<boolean>(false)
     //}
-
     
     const imageUrl = "http://localhost:5026/images"
 
@@ -68,13 +70,16 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         }     
     }
 
+    const initiateDelete = () => {
+        setDeleteVerificationState(true)
+        if(thought.id === undefined) return 
+
+    }
+    
     const handleDelete = async() => {
-        if(!isPreview){
-            if(thought.id !== undefined){
-                await deleteMethod!!(thought)
-                disableEditMode()
-            }
-        }
+        await deleteMethod!!(thought)
+        setDeleteVerificationState(false)
+        disableEditMode()
     }
 
     const handleModify = async() => {
@@ -97,7 +102,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     }
 
     return (
-        <div className="flex flex-col items-center col-auto border border-sky-200 rounded-lg w-full"
+        <div className={`flex flex-col items-center col-auto border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
             {editMode === false && 
@@ -123,25 +128,35 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
             </>
             }
 
-            { editMode === true &&
+            { editMode === true && 
             <>
+                {attemptingDelete && 
+                    <Confirm 
+                        message="You are attempting to delete a thought. This action cannot be undone."
+                        exitState={setDeleteVerificationState}
+                        method={handleDelete}
+                    />
+                }
                 <div className="flex flex-row items-center my-3 ">
                     <h2 className="text-red-400 text-2xl mr-2">
                         Trump on  
                     </h2>            
-                    <input className="text-2xl border w-36" 
+                    <input className="text-2xl border w-36"  
                         type="text"
+                        disabled={attemptingDelete}
                         defaultValue={thought.title}
                         onChange={(e) => setNewTitle(e.target.value)}
                     />
                     <input 
+                        disabled={attemptingDelete}
                         type="button" 
                         value="Delete"
-                        onClick={handleDelete}
+                        onClick={initiateDelete}
                     />
                 </div>
                 <div className="flex flex-row items-center justify-around w-full my-1">
                     <DropdownMenu 
+                        isDisabled={attemptingDelete}
                         isFilter={false}
                         field={currentTopic}
                         setter={setNewTopic}
@@ -149,6 +164,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         defaultSelection={thought.topic}
                     />
                     <DropdownMenu 
+                        isDisabled={attemptingDelete}
                         isFilter={false}
                         field={currentTone}
                         setter={setNewTone}
@@ -160,6 +176,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     cols={30}
                     rows={6}
                     defaultValue={thought.statement}
+                    disabled={attemptingDelete}
                     onChange={(e) => setNewStatement(e.target.value)}
                 >
                 </textarea>
@@ -167,11 +184,13 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     <input className="border w-28 h-10"
                         type="button" 
                         value="Discard"
+                        disabled={attemptingDelete}
                         onClick={disableEditMode}
                     />
                     <input className="border w-28 h-10"
                         type="button" 
                         value="Save" 
+                        disabled={attemptingDelete}
                         onClick={handleModify}
                     />
                 </div>
