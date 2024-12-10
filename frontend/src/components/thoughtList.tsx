@@ -20,6 +20,7 @@ function ThoughtList(){
     const {thoughts, fetchThoughts, topicList, toneList } = useThoughtContext()
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
+
     const [titleFilter, setTitleFilter] = useState<string>("")
     const handleSearch = (changedValue : string) => {
         setTitleFilter(changedValue)
@@ -79,7 +80,7 @@ function ThoughtList(){
 
             const filteredList = thoughts.filter(thought => { 
                 return thought.tone.toLowerCase().includes(query.toLowerCase())
-            })
+        })
             return filteredList
         },
 
@@ -142,9 +143,7 @@ function ThoughtList(){
     }, [thoughts]) 
 
     useEffect(() => {
-       
         setActiveList(filter.byMultiple(titleFilter, topicFilter, toneFilter))
-
     }, [toneFilter, titleFilter, topicFilter])
 
     return(

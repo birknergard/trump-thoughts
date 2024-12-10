@@ -1,20 +1,19 @@
-import React, { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, FC, ReactNode, SetStateAction } from "react"
 
 interface IField{
-    fieldName : string,
     field : string,
-    fieldSetter : Dispatch<SetStateAction<string>>
+    fieldSetter : Dispatch<SetStateAction<string>>,
+    style? : string
 }
 
-function Field(props : IField){
+const Field : FC<IField>= ({field, fieldSetter, style}) => {
     return(
         <div className="flex flex-row items-center justify-center my-2">
-            <h2 className="text-xl mr-2">{"Trump on"}</h2>
             <input
-                className="border border-red-700"
+                className={`${style} border`}
                 name="title" type="text"
-                value={props.field}
-                onChange={(e) => props.fieldSetter(e.target.value)}
+                value={field}
+                onChange={(e) => fieldSetter(e.target.value)}
             ></input>
         </div>
     )

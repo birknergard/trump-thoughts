@@ -3,6 +3,7 @@ import IThought from "../interfaces/thought";
 import ImageUploadService from "../services/imageUploadService";
 
 interface IHandler{
+    style? : string,
     image : File | null,
     imageUrl : string,
     fileListSetter : Dispatch<SetStateAction<FileList | null>>
@@ -10,14 +11,14 @@ interface IHandler{
 }
 
 const ImageHandler : FC<IHandler> = ({
+    style,
     image,
     imageUrl,
     fileListSetter
 }) => {
 
     const imageInputRef = useRef<HTMLInputElement>(null)
-
-
+    
     const handleOnClick = () => {
         if(imageInputRef.current){
             imageInputRef.current.click();
@@ -43,7 +44,7 @@ const ImageHandler : FC<IHandler> = ({
                 onChange={(e) => handle(e)}
             />
             <div className="flex flex-col items-center">
-                <input className="border w-36 h-10" 
+                <input className={`border w-36 h-10 ${style}`} 
                     onClick={handleOnClick}
                     type="button" 
                     value={image === null ? "Select" : "Change"} 

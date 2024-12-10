@@ -7,7 +7,7 @@ interface IDropdownMenu{
     field : string,
     defaultSelection? : string,
     filterFor? : string,
-    className? : string
+    className? : string,
 }
 
 const DropdownMenu : FC<IDropdownMenu> = ({

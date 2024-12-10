@@ -30,6 +30,7 @@ function ThoughtCreator(){
     const [imageFile, setImage] = useState<File | null>(null)
     const [imageUrl, setUrl] = useState("")
 
+    
     useEffect(() => {
         if(fileList != null){
             console.log(URL.createObjectURL(fileList[0]))
@@ -69,6 +70,8 @@ function ThoughtCreator(){
         setTone("")
         setImage(null)
         setUrl("")
+
+        setEmptyFields(new Set([1,2,3,4,5]))
     }
 
     const updatePreview = () => {
@@ -82,42 +85,37 @@ function ThoughtCreator(){
         })
     }
     
-    useEffect(() =>{
-        updatePreview()
-    }, [title, statement, topic, tone, imageUrl])
 
-    const fieldsAreFilled = () : [field : number, result : boolean] | boolean =>{
+    const findEmptyFields = () => {
+        console.debug(emptyFields.size)
+        const newSet = new Set<number>()
+
         if (title === "") {
-            console.log("Title is empty.");
-            return [1, false]
+            //console.log("Title is empty.");
+            newSet.add(1)            
         }
 
-        if (topic === "a topic*") {
-            console.log("Topic is set to the default placeholder.");
-            return [3, false]
+        if (topic === "a topic*" || topic === "") {
+            //console.log("Topic is set to the default placeholder.");
+            newSet.add(2)            
         }
 
         if (statement === "") {
-            console.log("Statement is empty.");
-            return [2, false];
+            //console.log("Statement is empty.");
+            newSet.add(3)            
         }
 
         if (tone === "" || tone === null) {
-            console.log("Tone is empty.");
-            return [4, false];
+            //console.log("Tone is empty.");
+            newSet.add(4)            
         }
 
         if (imageFile === null) {
-            console.log("Image is not provided.");
-            return [5, false];
+            //console.log("Image is not provided.");
+            newSet.add(5)        
         }
 
-        if (imageUrl === "") {
-            console.log("Image URL is empty.");
-            return [6, false];
-        }
-
-        return true
+        setEmptyFields(newSet) 
     } 
 
 
@@ -141,37 +139,47 @@ function ThoughtCreator(){
             }
     }
 
+    const [emptyFields, setEmptyFields] = useState<Set<number>>(new Set([1,2,3,4,5]))
+    const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false)
+    
     const handleSubmit = () => {
-        if(fieldsAreFilled()){
+        //findEmptyFields()
+        setAttemptedSubmit(true)
+        console.debug(emptyFields.size, emptyFields)
+        if(emptyFields.size === 0){
             submitThought()
         } else {
             console.log("Fields are not filled.")
         }
     }
 
+    useEffect(() =>{
+        findEmptyFields()
+        updatePreview()
+    }, [title, statement, topic, tone, imageUrl])
+
     const generateFields = () => {
-        
         const fields = (
             <>
-        
-            <Field field={title} 
-                fieldName="Title" fieldSetter={setTitle}
-
+            <h2 className="text-xl mr-2">{"Trump on"}</h2>
+            <Field style={attemptedSubmit && emptyFields.has(1) ? "border-red-600" : "border-sky-400"} 
+                field={title} 
+                fieldSetter={setTitle}
             />
 
             <div className="flex flex-col items-center justify-center my-2 w-full">
                 <div className="flex flex-row justify-around items-center h-max">
                     <h2 className="text-base me-1">Statement on</h2>
                     <DropdownMenu 
-                        className="w-28 p-2"
+                        className={`w-28 p-2 ${attemptedSubmit && emptyFields.has(2) && "border border-red-600"}`}
                         field={topic}
                         optionList={topicList}
                         isFilter={false}
                         setter={setTopic}
                     />
-            </div>
+                </div>
             
-                <textarea className="border border-red-700 text-m"
+                <textarea className={`border $text-m ${attemptedSubmit && emptyFields.has(3) ? "border-red-600" : ""} `}
                     cols={35}
                     rows={6}
                     value={statement}
@@ -180,6 +188,7 @@ function ThoughtCreator(){
             </div>
 
             <SelectionList
+                buttonStyle={attemptedSubmit && emptyFields.has(4) ? "border-red-600" : ""}
                 fieldSetter={setTone}
                 options={toneList}
                 fieldName={"Tone"}
@@ -188,6 +197,7 @@ function ThoughtCreator(){
             />
 
             <ImageHandler
+                style={attemptedSubmit && emptyFields.has(5) ? "border-red-600" : ""}
                 image={imageFile}
                 imageUrl={imageUrl}
                 fileListSetter={setFileList}
@@ -221,7 +231,7 @@ function ThoughtCreator(){
         <div className="flex flex-col justify-center items-center mt-24 w-full">   
             {generateFields()}
 
-            {status == "Idle" && 
+            {emptyFields.size <= 4 && 
                 <div className="flex flex-col items-center w-4/5 md:w-2/5 lg:w-1/5">
                     <ThoughtItem 
                         isPreview={true}
@@ -229,7 +239,11 @@ function ThoughtCreator(){
                         previewImageSrc={fileList !== null ? URL.createObjectURL(fileList[0]) : ""}
                     />
                 </div>
+            }  
+            {emptyFields.size === 5 &&
+                <p>Enter a field to show preview.</p> 
             }
+
         </div>
     )
 }

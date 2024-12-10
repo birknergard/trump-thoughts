@@ -5,11 +5,11 @@ interface ISelectionList{
     fieldName : string,
     fieldSetter : Dispatch<SetStateAction<string | null>>,
     toggledIndex : number | null,
-    toggledIndexSetter : Dispatch<SetStateAction<number | null>>
+    toggledIndexSetter : Dispatch<SetStateAction<number | null>>,
+    buttonStyle? : string
 }
 
-const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter, toggledIndex, toggledIndexSetter}) => {
-
+const SelectionList : FC<ISelectionList> = ({buttonStyle, options, fieldName, fieldSetter, toggledIndex, toggledIndexSetter}) => {
 
     const capitalizeFirst = (string : string) => {
         var result = string[0].toUpperCase()
@@ -37,7 +37,7 @@ const SelectionList : FC<ISelectionList> = ({options, fieldName, fieldSetter, to
                 {options.map((_field, i) => (
                     <input
                         key={`item_${i}`}
-                        className={`w-full border px-2 py-1 rounded ${
+                        className={`w-full border px-2 py-1 rounded ${buttonStyle} ${
                             toggledIndex === i ? "bg-red-400 text-white" : "bg-white"  
                         }`}
                         type="button"
