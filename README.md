@@ -6,22 +6,14 @@
 ## Tasks
 ### Backend infrastructure
 - Generate 8 database fields per entity from chatgpt
+- simplify other api databases (less fields)
+- delete image file on thought deletion
 
 ### Frontend app
-- Create 8-12 entries for testing purposes
 
-- preview uploaded image in thoughtcreator
-- reset entries on create page
-
-- filter trump thoughts by topic
-- filter trump thought by tone
-- search trump thought by title
 
 - Pop up dialog box when deleting items
-
-
-- visual indicators for when fields arent filled in thoughtcreator
-
+- create more entries
 - Styling 
 - Responsive design
 
@@ -62,28 +54,13 @@
 - you can edit thoughts
 - Navigating between the two pages
 
-## frontend implementation/functionality
-Needs to include:
-Somewhere to view trump thoughts
-    - Filter by topic (topic has to be enum) 
-    - Create new
-    - Edit another topic
-    - Delete
-Somewhere to buy merch
-    - Show merch from API
-    - Store shopping cart i localstorage
-    - Add item to shopping cart
-    - view shopping cart
-    - Create new (?)
-Staff page
-    - Show all employees
-    - Add new employee
-
-
-Topic list
-
-
-**
+- Create 8-12 entries for testing purposes
+- preview uploaded image in thoughtcreator
+- reset entries on create page
+- filter trump thoughts by topic
+- filter trump thought by tone
+- search trump thought by title
+- visual indicators for when fields arent filled in thoughtcreator
 
 ## Useful commands
 
