@@ -103,19 +103,19 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     }
 
     return (
-        <div className={`list__item flex flex-col items-center justify-between border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
+        <div className={`${!isPreview && "list__item"} flex flex-col items-center justify-between border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
 
             {editMode === false && 
-            <div className="flex flex-col items-center px-5">
+            <div className="flex flex-col items-center px-5 w-full">
                 <h2 className="text-red-600 text-2xl my-1" 
                     onClick={enableEditMode}
                 >
                     Trump on{thought.title === "" ? " ... " : ` ${thought.title}`}
                 </h2>
 
-                <div className="flex flex-row justify-center w-full my-1 bg-slate-150">
+                <div className="flex flex-row justify-center w-full my-1 bg-slate-150 w-full">
                     <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 pr-3 py-1 min-w-20 text-center">
                        {thought.topic === "" ? " ... " : thought.topic} 
                     </h2>

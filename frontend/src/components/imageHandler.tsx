@@ -3,15 +3,17 @@ import IThought from "../interfaces/thought";
 import ImageUploadService from "../services/imageUploadService";
 
 interface IHandler{
-    style? : string,
-    image : File | null,
-    imageUrl : string,
+    elementStyle? : string
+    buttonStyle? : string
+    image : File | null
+    imageUrl : string
     fileListSetter : Dispatch<SetStateAction<FileList | null>>
 
 }
 
 const ImageHandler : FC<IHandler> = ({
-    style,
+    elementStyle,
+    buttonStyle,
     image,
     imageUrl,
     fileListSetter
@@ -34,7 +36,7 @@ const ImageHandler : FC<IHandler> = ({
     }
     
     return(
-        <div className="flex flex-col items-center justify-center my-3 w-min">
+        <div className={`${elementStyle} flex flex-col items-center justify-center my-3 w-min`}>
             <h2 className="text-lg">Reaction Image</h2>
             <input className="hidden" 
                 ref={imageInputRef}
@@ -44,7 +46,7 @@ const ImageHandler : FC<IHandler> = ({
                 onChange={(e) => handle(e)}
             />
             <div className="flex flex-col items-center">
-                <input className={`border rounded-lg w-36 h-10 ${style}`} 
+                <input className={`border rounded-lg w-36 h-10 ${buttonStyle}`} 
                     onClick={handleOnClick}
                     type="button" 
                     value={image === null ? "Upload" : "Change"} 

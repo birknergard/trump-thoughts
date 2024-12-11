@@ -7,12 +7,14 @@ interface ISelectionList{
     fieldSetter : Dispatch<SetStateAction<string | null>>,
     toggledIndex : number | null,
     toggledIndexSetter : Dispatch<SetStateAction<number | null>>,
+    elementStyle? : string
     buttonStyle? : string
     submitFailed? : boolean
 }
 
 const SelectionList : FC<ISelectionList> = ({
     fieldState,
+    elementStyle,
     buttonStyle,
     options,
     fieldName,
@@ -46,7 +48,7 @@ const SelectionList : FC<ISelectionList> = ({
     
     
     return(
-        <div className="flex flex-col items-center w-full my-2 ">
+        <div className={`${elementStyle} flex flex-col items-center w-full my-2 `}>
             <h1 className={`text-xl ${submitFailed && "text-red-800 font-semibold"}`}>{fieldName}{submitFailed && "*"}</h1>
             <div className="grid grid-cols-3 gap-3">
                 {options.map((_field, i) => (

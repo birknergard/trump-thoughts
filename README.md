@@ -12,7 +12,6 @@ IF I HAVE TIME:
 
 ### Frontend
 - link back to main on NotFound page
-- Extract neccesary thoughtcreator logic onto create-page
 
 - Implement icons for navbar
 - Responsive design (using App.css)
@@ -66,6 +65,8 @@ IF I HAVE TIME(Unlikely):
 - you can create new thoughts, and upload image to accompany it
 - you can edit thoughts
 - Navigating between the two pages
+- Extract neccesary thoughtcreator logic onto create-page
+- Refactored entire thoughtcreator page
 
 - Create 8-12 entries for testing purposes
 - preview uploaded image in thoughtcreator

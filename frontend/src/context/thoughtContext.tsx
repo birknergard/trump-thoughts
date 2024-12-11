@@ -2,6 +2,7 @@ import { createContext, Dispatch, FC, Provider, ReactNode, SetStateAction, useCo
 import ThoughtApi from "../services/thoughtService";
 import IThought from "../interfaces/thought";
 import ImageUploadService from "../services/imageUploadService";
+import IPreviewThought from "../interfaces/previewThought";
 
 enum PostStatus{
     Idle = "Idle",
@@ -17,20 +18,20 @@ interface IThoughtContext{
     fetchThoughtsByTopic: (topic : string) => Promise<void>
     fetchThoughtsByTone: (tone : string) => Promise<void>
     fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>
-    postThought: (
-        title : string,
-        topic : string,
-        statement : string,
-        imageUrl : string,
-        tone : string
-    ) => Promise<void>
+    postThought: (thought : IThought, imageFile : File) => Promise<void>
+    uploadImage : (image : File | null) => Promise<string> 
     removeThought : (thought : IThought) => Promise<void>
     removeAndReload: (thought : IThought) => Promise<void>
     modifyThought : (thought : IThought) => Promise<void>
     modifyAndReload : (thought : IThought) => Promise<void>
+    rawImageFile : FileList | null,
+    setRawImageFile : Dispatch<SetStateAction<FileList | null>>
     status: PostStatus,
     topicList: string[]
     toneList: string[]
+
+    previewThought : IPreviewThought,
+    updatePreviewThought : Dispatch<SetStateAction<IPreviewThought>>
 }
 
 const ThoughtContext = createContext<IThoughtContext>({
@@ -41,13 +42,26 @@ const ThoughtContext = createContext<IThoughtContext>({
     fetchThoughtsByTone: async() => {},
     fetchThoughtsByToneAndTopic: async() => {},
     postThought: async() => {},
+    uploadImage: async() => "",
     removeThought: async() => {},
     removeAndReload: async() => {},
     modifyThought: async() => {},
     modifyAndReload: async() => {},
+    rawImageFile : null,
+    setRawImageFile : () => null,
     status : PostStatus.Idle,
     topicList : [],
-    toneList : []
+    toneList : [],
+
+    previewThought : {
+        title : "",
+        topic : "",
+        tone : "",
+        statement : "",
+        image : null,
+        imageUrl : "",
+    },
+    updatePreviewThought: () => null 
 })
 
 interface IThoughtProvider {
@@ -73,6 +87,17 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         "authoritative", "provocative", "charismatic",
         "blunt", "hyperbolic", "optimistic"
     ]
+
+    const [rawImageFile, setRawImageFile] = useState<FileList | null>(null)
+    
+    const [previewThought, updatePreviewThought] = useState<IPreviewThought>({
+        title : "",
+        topic : "",
+        tone : "",
+        statement : "",
+        image : null,
+        imageUrl : "",
+    })
 
 
     
@@ -148,26 +173,31 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
     } 
 
 
+    const uploadImage = async(image : File | null) => {
+        try{
+            if(image != null){
+                const response = await ImageUploadService.upload(image)
+                return response.data.fileName
+            }  
+        } catch(e) {
+            console.error()
+        }
+    }
+
 
     const postThought = async(
-        title : string,
-        topic : string,
-        statement : string,
-        imageUrl : string,
-        tone : string
+        newThought : IThought,
+        imageFile : File
     ) => {
         try{
             setStatus(PostStatus.Uploading)
-            const newThought : IThought = {
-                title : title,
-                topic : topic,
-                statement: statement,
-                imageUrl: imageUrl,
-                tone: tone 
-            }
+
             console.log("ThoughtContext: Posted new thought:" + newThought)
             await ThoughtApi.create(newThought)
-            setStatus(PostStatus.Idle)
+            await uploadImage(imageFile)
+
+            setStatus(PostStatus.Completed)
+
         } catch(e){
             setStatus(PostStatus.Error)
             console.error("Error with post method.", e)
@@ -180,9 +210,12 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
+            previewThought,
+            updatePreviewThought,
             thoughts, 
             setThoughts, 
             postThought, 
+            uploadImage,
             fetchThoughts,
             fetchThoughtsByTopic, 
             fetchThoughtsByTone, 
@@ -193,7 +226,9 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             modifyAndReload,
             status, 
             topicList, 
-            toneList
+            toneList,
+            rawImageFile,
+            setRawImageFile,
         }}>
             {children}
         </ThoughtContext.Provider>
