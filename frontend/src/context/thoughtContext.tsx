@@ -165,12 +165,12 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
                 imageUrl: imageUrl,
                 tone: tone 
             }
-            console.log(newThought)
+            console.log("ThoughtContext: Posted new thought:" + newThought)
             await ThoughtApi.create(newThought)
             setStatus(PostStatus.Idle)
         } catch(e){
             setStatus(PostStatus.Error)
-            console.error("Error", e)
+            console.error("Error with post method.", e)
         }
     }
 

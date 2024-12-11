@@ -3,6 +3,7 @@ import IThought from "../interfaces/thought"
 import ThoughtApi from "../services/thoughtService"
 import DropdownMenu from "./dropDownMenu"
 import Confirm from "./popUp"
+import "../App.css"
 
 interface ThoughtItemProps{
     thought : IThought,
@@ -102,11 +103,12 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     }
 
     return (
-        <div className={`flex flex-col items-center col-auto border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
+        <div className={`list__item flex flex-col items-center justify-between border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
+
             {editMode === false && 
-            <>
+            <div className="flex flex-col items-center px-5">
                 <h2 className="text-red-600 text-2xl my-1" 
                     onClick={enableEditMode}
                 >
@@ -122,14 +124,14 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     </h2>
                 </div>
             
-                <p className="text-base justify-self-center mx-4 text-center my-2 text-wrap break-words w-full max-w-384">
+                <p className="min-h-20 text-base justify-self-center mx-4 text-center my-2 w-full max-w-384">
                     {thought.statement === "" ? `Empty statement ... ` : `\"${thought.statement}\"`}
                 </p>
-            </>
+            </div>
             }
 
             { editMode === true && 
-            <>
+            <div className="flex flex-col items-center px-5">
                 {attemptingDelete && 
                     <Confirm 
                         message="You are attempting to delete a thought. This action cannot be undone."
@@ -172,9 +174,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         defaultSelection={thought.tone}
                     />
                 </div>
-                <textarea className="text-m border my-3"
-                    cols={30}
-                    rows={6}
+                <textarea className="text-m border my-3 w-full h-36 p-1"
                     defaultValue={thought.statement}
                     disabled={attemptingDelete}
                     onChange={(e) => setNewStatement(e.target.value)}
@@ -194,12 +194,12 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         onClick={handleModify}
                     />
                 </div>
-            </>
+            </div>
             }
             
-                <img className="w-full h-64 rounded-b-lg object-cover mt-2 max-w-384"
-                    src={getSrc()}
-                />
+            <img className="w-full h-64 rounded-b-lg object-cover mt-2 max-w-384"
+                src={getSrc()}
+            />
         </div>
     )
 }

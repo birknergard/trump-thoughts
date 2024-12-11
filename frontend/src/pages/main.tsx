@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useThoughtContext } from "../context/thoughtContext";
 import ThoughtList from "../components/thoughtList";
-import ThoughtCreator from "../components/thoughtCreator";
 import NavController from "../components/navController";
 import ThoughtFilter from "../components/thoughtFilter";
-import ThoughtApi from "../services/thoughtService";
-import IThought from "../interfaces/thought";
+import styles from "./main.module.css"
 
 function MainPage(){
     const {thoughts,
@@ -35,27 +33,29 @@ function MainPage(){
     }, [topicFilter, toneFilter])
 
     return(
-        <main className="w-full flex flex-col items-center mt-24">
+        <body className="w-screen flex flex-col items-center mt-24">
             <NavController navState={false} />
-            <ThoughtFilter
-                titleFilter={titleFilter}
-                titleFilterSetter={setTitleFilter}
-                
-                topicFilter={topicFilter}
-                topicFilterSetter={setTopicFilter}
+            <main className="list__grid">
+                <ThoughtFilter
+                    titleFilter={titleFilter}
+                    titleFilterSetter={setTitleFilter}
+                    
+                    topicFilter={topicFilter}
+                    topicFilterSetter={setTopicFilter}
 
-                toneFilter={toneFilter}
-                toneFilterSetter={setToneFilter}
+                    toneFilter={toneFilter}
+                    toneFilterSetter={setToneFilter}
 
-                listLength={thoughts.length} 
-            />
-            <ThoughtList 
-                thoughtList={thoughts}
-                titleFilter={titleFilter}
-                toneFilter={toneFilter}
-                topicFilter={topicFilter}
-            />
-        </main>
+                    listLength={thoughts.length} 
+                />
+                <ThoughtList 
+                    thoughtList={thoughts}
+                    titleFilter={titleFilter}
+                    toneFilter={toneFilter}
+                    topicFilter={topicFilter}
+                />
+            </main>
+        </body>
     )
 }  
 

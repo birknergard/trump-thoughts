@@ -1,8 +1,5 @@
 # Exam for web-development course
 
-
-### Frontend
-
 ## Tasks (Ordered by most important)
 - Report
 
@@ -18,14 +15,15 @@ IF I HAVE TIME:
 
 - Implement icons for navbar
 - Responsive design (using App.css)
-- :hover and other interactive styling (using css modules)
+- Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
+
 - Create more entries
 - general styling (using tailwind) 
 
-- Modify thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
-
 IF I HAVE TIME(Unlikely):
+- :hover and other interactive styling (using css modules)
 - query filter for statement, where text is highlighted on result
+- store incomplete created thought in localstorage when navigating out
 
 ## Completed tasks
 ### Pre exam

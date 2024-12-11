@@ -3,6 +3,7 @@ import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
 import ThoughtItem from "./thoughtItem";
 import Filter from "../services/thoughtFilter";
+import "../App.css"
 
 enum Status{
     idle = "Idle",
@@ -79,10 +80,10 @@ const ThoughtList : FC<IThoughtList> = ({
 
 
     return(
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-5/6 gap-20">
+        <>
             {listState === Status.loading && <h2>Loading thoughts ...</h2>}
             {listState === Status.complete && getThoughtList()}
-        </div>
+        </>
     )
 }
 

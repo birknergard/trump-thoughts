@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction, useContext } from "react"
 import DropdownMenu from "./dropDownMenu"
 import { RiResetLeftLine } from "react-icons/ri"
 import { useThoughtContext } from "../context/thoughtContext"
+import "../App.css"
 
 interface IThoughtFilter{
     
@@ -38,22 +39,22 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
     }
 
     return(
-        <div className="flex flex-col items-center mb-5 w-4/5">
-            <div className="flex flew-row mb-2 w-full justify-start">
-                <input className="border border-red-400 text-base"
+        <div className="flex flex-col items-center list__filter">
+            <div className="flex flew-row mb-2 w-full justify-start items-center">
+                <input className="border border-red-400 text-base min-w-36 max-w-4/5 p-1"
                     value={titleFilter}
                     onChange={(e) => titleFilterSetter(e.target.value)}
                     placeholder=" Search ..."
                     type="text"
                 />
-                <p className="ml-2">
+                <p className="ml-2 text-md">
                     Results: {listLength === null ? 0 : listLength}
                 </p>
             </div>
             <div className="flex flex-row w-full justify-start">
                 <DropdownMenu
                     field={topicFilter}
-                    className="w-2/5 p-2 mr-1"
+                    className="min-w-26 max-w-52 p-2 mr-1 rounded bg-sky-100 border-sky-500"
                     setter={topicFilterSetter}
                     optionList={topicList}
                     isFilter={true}
@@ -62,7 +63,7 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
                 
                 <DropdownMenu
                     field={toneFilter}
-                    className="w-2/5 p-2 ml-1"
+                    className="min-w-26 max-w-52 p-2 ml-1 rounded bg-sky-100 border-sky-500"
                     setter={toneFilterSetter}
                     optionList={toneList}
                     isFilter={true}

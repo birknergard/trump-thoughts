@@ -40,12 +40,11 @@ const DropdownMenu : FC<IDropdownMenu> = ({
         {isFilter &&
             <select
                 className={className !== undefined ? className : "text-m w-28 ps-2 flex h-10 rounded-lg"}
-                value={field === "" ? `Filter by ${filterFor}` : field }
                 onChange={(e) => setter(e.target.value)}
             >
-                <option value={`Select a ${filterFor}`} selected hidden>
+                {field === "" && <option value={`Select a ${filterFor}`} selected hidden>
                     Filter by {filterFor}
-                </option>
+                </option>}
 
                 {getOptions()}
             </select>

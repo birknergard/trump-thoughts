@@ -33,7 +33,6 @@ function ThoughtCreator(){
     
     useEffect(() => {
         if(fileList != null){
-            console.log(URL.createObjectURL(fileList[0]))
             setImage(fileList[0])
             setUrl(fileList[0].name)
         }
