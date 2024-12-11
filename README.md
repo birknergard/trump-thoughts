@@ -6,14 +6,12 @@
 
 ### Backend 
 - API documentation
-- Generate 8 database fields per entity from chatgpt
 
 #### maybe?
 - Multiple GET requests (tone, topic or tone&&topic) with a single method
 
 ### Frontend
 - Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
-- Create more entries
 - general styling (using tailwind) 
 
 #### maybe?
@@ -52,6 +50,7 @@
 
 - Delete method for ImageController
 - simplify other api databases (less fields)
+- Generate 8 database fields per entity from chatgpt
 
 ### Frontend
 - Rudementary planning
@@ -84,6 +83,7 @@
 - Responsive design (using App.css)
 
 - link back to main on NotFound page
+- Create more entries
 ## Useful commands
 
 Launch for backend
