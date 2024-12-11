@@ -11,23 +11,26 @@ enum PostStatus{
 }
 
 interface IThoughtContext{
-    thoughts: IThought[],
-    setThoughts: Dispatch<SetStateAction<IThought[]>>,
-    fetchThoughts: () => Promise<void>,
-    fetchThoughtsByTopic: (topic : string) => Promise<void>,
+    thoughts: IThought[]
+    setThoughts: Dispatch<SetStateAction<IThought[]>>
+    fetchThoughts: () => Promise<void>
+    fetchThoughtsByTopic: (topic : string) => Promise<void>
     fetchThoughtsByTone: (tone : string) => Promise<void>
-    fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>,
+    fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>
     postThought: (
         title : string,
         topic : string,
         statement : string,
         imageUrl : string,
         tone : string
-    ) => Promise<void>,
-    deleteThought : (thought : IThought) => Promise<void>,
+    ) => Promise<void>
+    removeThought : (thought : IThought) => Promise<void>
+    removeAndReload: (thought : IThought) => Promise<void>
+    modifyThought : (thought : IThought) => Promise<void>
+    modifyAndReload : (thought : IThought) => Promise<void>
     status: PostStatus,
-    topicList: string[],
-    toneList: string[],
+    topicList: string[]
+    toneList: string[]
 }
 
 const ThoughtContext = createContext<IThoughtContext>({
@@ -38,7 +41,10 @@ const ThoughtContext = createContext<IThoughtContext>({
     fetchThoughtsByTone: async() => {},
     fetchThoughtsByToneAndTopic: async() => {},
     postThought: async() => {},
-    deleteThought: async() => {},
+    removeThought: async() => {},
+    removeAndReload: async() => {},
+    modifyThought: async() => {},
+    modifyAndReload: async() => {},
     status : PostStatus.Idle,
     topicList : [],
     toneList : []
@@ -68,6 +74,8 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         "blunt", "hyperbolic", "optimistic"
     ]
 
+
+    
     const fetchThoughts = async() => {
         try {
             const thoughts = await ThoughtApi.getAll()
@@ -104,7 +112,9 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         }
     }
 
-    const deleteThought = async(thought : IThought) => {
+
+
+    const removeThought = async(thought : IThought) => {
         try {
             if(thought.id === undefined) return
 
@@ -114,6 +124,30 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             console.error(error)
         }
     } 
+
+    const removeAndReload = async(thoughts : IThought) => {
+        await removeThought(thoughts)
+        await fetchThoughts()
+    }
+ 
+
+
+    const modifyThought = async(thought : IThought) => {
+        try{
+            if(thought.id === undefined) return
+
+            await ThoughtApi.modify(thought.id, thought)
+        } catch (error){
+            console.error(error)
+        }
+    }
+
+    const modifyAndReload = async(thought : IThought) => {
+        await modifyThought(thought)
+        await fetchThoughts()
+    } 
+
+
 
     const postThought = async(
         title : string,
@@ -146,7 +180,20 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     return(
         <ThoughtContext.Provider value={{
-            thoughts, setThoughts, postThought, fetchThoughts,fetchThoughtsByTopic, fetchThoughtsByTone, fetchThoughtsByToneAndTopic, deleteThought, status, topicList, toneList
+            thoughts, 
+            setThoughts, 
+            postThought, 
+            fetchThoughts,
+            fetchThoughtsByTopic, 
+            fetchThoughtsByTone, 
+            fetchThoughtsByToneAndTopic, 
+            removeThought,
+            removeAndReload,
+            modifyThought,
+            modifyAndReload,
+            status, 
+            topicList, 
+            toneList
         }}>
             {children}
         </ThoughtContext.Provider>

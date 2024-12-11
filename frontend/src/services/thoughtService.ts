@@ -63,7 +63,7 @@ const ThoughtApi = (() => {
         }
     }
 
-    const update = async(id : number, modifiedThought : IThought) : Promise<void> => {
+    const modify = async(id : number, modifiedThought : IThought) : Promise<void> => {
         try{
             await axios.put(`${url}/${id}`, modifiedThought)
         } catch(error) {
@@ -77,7 +77,7 @@ const ThoughtApi = (() => {
         getByTone,
         getByToneAndTopic,
         create,
-        update,
+        modify,
         remove
     }
         
