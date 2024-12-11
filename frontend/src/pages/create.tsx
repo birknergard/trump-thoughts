@@ -7,9 +7,12 @@ function CreatePage(){
 
     return(
         <main>
-
             <NavController navState={true}/>
-            <ThoughtCreator />
+
+            <section className="create__grid">
+
+                <ThoughtCreator />
+            </section>
         </main>
     )
 }

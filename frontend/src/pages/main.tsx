@@ -33,9 +33,9 @@ function MainPage(){
     }, [topicFilter, toneFilter])
 
     return(
-        <body className="w-screen flex flex-col items-center mt-24">
+        <main className="w-screen flex flex-col items-center mt-24">
             <NavController navState={false} />
-            <main className="list__grid">
+            <section className="list__grid">
                 <ThoughtFilter
                     titleFilter={titleFilter}
                     titleFilterSetter={setTitleFilter}
@@ -54,8 +54,8 @@ function MainPage(){
                     toneFilter={toneFilter}
                     topicFilter={topicFilter}
                 />
-            </main>
-        </body>
+            </section>
+        </main>
     )
 }  
 
