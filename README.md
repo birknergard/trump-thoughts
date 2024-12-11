@@ -2,25 +2,21 @@
 
 ## Tasks (Ordered by most important)
 - Report
+- Sort frontend folder structure (components)
 
 ### Backend 
 - API documentation
 - Generate 8 database fields per entity from chatgpt
 
-IF I HAVE TIME:
+#### maybe?
 - Multiple GET requests (tone, topic or tone&&topic) with a single method
 
 ### Frontend
-- link back to main on NotFound page
-
-- Implement icons for navbar
 - Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
-
 - Create more entries
 - general styling (using tailwind) 
 
-
-IF I HAVE TIME(Unlikely):
+#### maybe?
 - :hover and other interactive styling (using css modules)
 - if search does not find any matches for title, check statement instead
 - query filter for statement, where text is highlighted on result
@@ -87,6 +83,7 @@ IF I HAVE TIME(Unlikely):
 - consistent preview placholders ("No tone" and "a topic" look inconsistent)
 - Responsive design (using App.css)
 
+- link back to main on NotFound page
 ## Useful commands
 
 Launch for backend

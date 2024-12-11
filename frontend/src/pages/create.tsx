@@ -16,9 +16,6 @@ function CreatePage(){
         previewThought,
     } = useThoughtContext() 
 
-    
-    // Preview State :::::::::::::::::::::::::::::::::::::::::::::::::::
-
     const convertPreviewThought = () : IThought => {
         return {
             title : previewThought.title,
@@ -29,8 +26,7 @@ function CreatePage(){
         }
     }
 
-    // :::::::::::::::::::::::::::::::::::::::::::::::::::
-
+    // using Set because its a lot more reliable than a number[], and elements have to be unique
     const [emptyFields, setEmptyFields] = useState<Set<number>>(new Set([1,2,3,4,5]))
     const [initiateReset, setInitiateResetState] = useState<boolean>(false)    
 
@@ -39,30 +35,15 @@ function CreatePage(){
 
         if(previewThought === null) return
 
-        if (previewThought.title === "") {
-            //console.log("Title is empty.");
-            newSet.add(1)            
-        }
+        if(previewThought.title === "") newSet.add(1)           
 
-        if (previewThought.topic === "a topic*" || previewThought.topic === "") {
-            //console.log("Topic is set to the default placeholder.");
-            newSet.add(2)            
-        }
+        if(previewThought.topic === "a topic*" || previewThought.topic === "") newSet.add(2)            
 
-        if (previewThought.statement === "") {
-            //console.log("Statement is empty.");
-            newSet.add(3)            
-        }
+        if(previewThought.statement === "") newSet.add(3)            
 
-        if (previewThought.tone === "" || previewThought.tone === null) {
-            //console.log("Tone is empty.");
-            newSet.add(4)            
-        }
+        if(previewThought.tone === "" || previewThought.tone === null) newSet.add(4)
 
-        if (previewThought.image === null) {
-            //console.log("Image is not provided.");
-            newSet.add(5)        
-        }
+        if(previewThought.image === null) newSet.add(5)
 
         setEmptyFields(newSet) 
     } 
@@ -71,7 +52,6 @@ function CreatePage(){
 
     const submitThought = async(thought : IThought, imageFile: File) => {
         try {
-            //setImageUrl(imageUploadResponse) Why is this here?
             await postThought(thought, imageFile)
         } catch(e){
             console.error("error in POST", e)

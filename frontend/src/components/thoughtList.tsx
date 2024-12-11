@@ -2,7 +2,7 @@ import { useState, useEffect, FC } from "react";
 import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
 import ThoughtItem from "./thoughtItem";
-import Filter from "../services/thoughtFilter";
+import Filter from "../services/Filter";
 import "../App.css"
 
 enum Status{
