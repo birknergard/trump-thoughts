@@ -159,7 +159,7 @@ function ThoughtCreator(){
 
     const generateFields = () => {
         const fields = (
-            <div className="flex flex-col items-center justify-evenly">
+            <>
                 <div className="flex flew-row justify-center items-center">
                     <Field style={attemptedSubmit && emptyFields.has(1) ? "border-red-600" : "border-sky-400"} 
                         field={title} 
@@ -219,7 +219,7 @@ function ThoughtCreator(){
                     />
                 }
                 </div>
-            </div>
+            </>
         ) 
         return fields
     }

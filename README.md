@@ -12,6 +12,7 @@ IF I HAVE TIME:
 
 ### Frontend
 - link back to main on NotFound page
+- Extract neccesary thoughtcreator logic onto create-page
 
 - Implement icons for navbar
 - Responsive design (using App.css)
@@ -19,6 +20,7 @@ IF I HAVE TIME:
 
 - Create more entries
 - general styling (using tailwind) 
+
 
 IF I HAVE TIME(Unlikely):
 - :hover and other interactive styling (using css modules)
