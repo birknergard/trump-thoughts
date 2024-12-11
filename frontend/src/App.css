@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 30px;
-    width: 80%;
+    max-width: fit-content;
 }
 
 .list__filter{
@@ -14,19 +14,15 @@
 }
 
 .create__grid{
+    display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 15px;
+    max-width: fit-content;
+    justify-items: center;
 }
 
 .create__item{
     grid-column: auto / span 12;
-}
-
-@media (min-width: 640px){
-    .list__grid{
-        width: 70%;
-    }
-
 }
 
 @media (min-width: 768px) { 
@@ -45,21 +41,7 @@
 }
 
 @media (min-width: 1280px) { 
-    .list__grid{
-        width: 90%;
-    }
-
     .list__item{
         grid-column: auto / span 4;
-    }
-
-    .create__item{
-        grid-column: auto / span 4;
-    }
-}
-
-@media (min-width: 1536px){
-    .list__grid{
-        width: 75%;
     }
 }

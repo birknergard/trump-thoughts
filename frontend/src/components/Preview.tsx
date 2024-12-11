@@ -5,18 +5,17 @@ import IThought from "../interfaces/thought";
 import { useThoughtContext } from "../context/thoughtContext";
 
 interface IThoughtPreview {
-    style?: string
     emptyFieldCount : number
     thoughtPreview : IThought
 }
 
-const Preview : FC<IThoughtPreview> = ({style, emptyFieldCount, thoughtPreview}) => {
+const Preview : FC<IThoughtPreview> = ({emptyFieldCount, thoughtPreview}) => {
 
     const {rawImageFile} = useThoughtContext()
 
     return (
-        <div className={`${style} flex flex-col items-center`}>
-            <h2 className="text-2xl m-5">
+        <div className="flex flex-col items-center justify-center w-full">
+            <h2 className="text-2xl mb-2">
                 Preview
             </h2>
 

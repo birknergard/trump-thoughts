@@ -103,13 +103,13 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     }
 
     return (
-        <div className={`${!isPreview && "list__item"} flex flex-col items-center justify-between border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
+        <div className={`${!isPreview && "list__item"} h-fit flex flex-col items-center max-w-96 min-w-72 justify-between border border-sky-200 rounded-lg w-full ${attemptingDelete && "relative"}`}
             id={thought.id === undefined || thought.id === null ? "0" : thought.id.toString()}
         >
 
             {editMode === false && 
             <div className="flex flex-col items-center px-5 w-full">
-                <h2 className="text-red-600 text-2xl my-1" 
+                <h2 className="text-red-600 text-2xl my-1 text-center text-pretty break-words max-w-72" 
                     onClick={enableEditMode}
                 >
                     Trump on{thought.title === "" ? " ... " : ` ${thought.title}`}
@@ -124,7 +124,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     </h2>
                 </div>
             
-                <p className="min-h-20 text-base justify-self-center mx-4 text-center my-2 w-full max-w-384">
+                <p className="min-h-20 text-base justify-self-center mx-4 text-center my-2 w-full max-w-384 text-balance break-words">
                     {thought.statement === "" ? `Empty statement ... ` : `\"${thought.statement}\"`}
                 </p>
             </div>

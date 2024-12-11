@@ -98,11 +98,11 @@ function CreatePage(){
     }, [previewThought])
 
     return(
-        <main>
+        <main className="flex flex-col items-center">
             <NavController navState={true}/>
 
-            <section className="create__grid flex flex-col justify-evenly items-center mt-24 w-full">   
-                <Creator elementStyle="create__item"
+            <section className="create__grid mt-24">   
+                <Creator elementStyle="create__item flex flex-col items-center"
                     attemptedSubmit={attemptedSubmit}
                     setAttemptedSubmit={setAttemptedSubmit}
                     emptyFields={emptyFields}
@@ -111,25 +111,26 @@ function CreatePage(){
                     setResetState={setInitiateResetState}
                 />
 
-                <div className="">
+                <section className="create__item flex flex-col items-center">
+                    <Preview 
+                        emptyFieldCount={emptyFields.size}
+                        thoughtPreview={convertPreviewThought()}
+                    />             
+
                     <div className="flex flex-row items-center justify-center my-2 w-full">
-                        <input className="border-2 rounded w-1/4 h-10 m-2"
+                        <input className="border-2 rounded w-2/4 h-12 m-2"
                             type="button" value="Reset"
                             onClick={() => setInitiateResetState(true)}
                         />
                     {status !== "Uploading" &&
-                        <input className="border-2 rounded w-1/4 h-10 m-2"
+                        <input className="border-2 rounded w-2/4 h-12 m-2"
                             type="button" value="Submit"
                             onClick={handleSubmit}
                         />
                     }
                     </div>
-                </div>
 
-                <Preview 
-                    emptyFieldCount={emptyFields.size}
-                    thoughtPreview={convertPreviewThought()}
-                />             
+                </section>
             </section>
         </main>
     )

@@ -14,7 +14,6 @@ IF I HAVE TIME:
 - link back to main on NotFound page
 
 - Implement icons for navbar
-- Responsive design (using App.css)
 - Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
 
 - Create more entries
@@ -23,8 +22,10 @@ IF I HAVE TIME:
 
 IF I HAVE TIME(Unlikely):
 - :hover and other interactive styling (using css modules)
+- if search does not find any matches for title, check statement instead
 - query filter for statement, where text is highlighted on result
 - store incomplete created thought in localstorage when navigating out
+- restrictions on input (word limit etc.)
 
 ## Completed tasks
 ### Pre exam
@@ -84,6 +85,7 @@ IF I HAVE TIME(Unlikely):
 - Preview doesnt reset after submit
 - Move filter feature to its own component
 - consistent preview placholders ("No tone" and "a topic" look inconsistent)
+- Responsive design (using App.css)
 
 ## Useful commands
 
