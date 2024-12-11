@@ -4,7 +4,7 @@ interface IThought{
     topic: string,
     title: string,
     imageUrl: string,
-    tone : string
+    tone: string
 }
 
 export default IThought

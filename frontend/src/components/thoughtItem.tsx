@@ -94,8 +94,8 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         }
     }
     
+    // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
-        //console.debug("ThoughtItem: Generating image SRC ...")
         if(previewImageSrc !== undefined && previewImageSrc !== null && previewImageSrc !== "") return previewImageSrc
         if(thought.imageUrl !== null && thought.imageUrl !== "") return `${imageUrl}/${thought.imageUrl}`
         return `${imageUrl}/trump_placeholder.jpg`
@@ -113,17 +113,17 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     Trump on{thought.title === "" ? " ... " : ` ${thought.title}`}
                 </h2>
 
-                <div className="flex justify-center w-full my-1">
-                    <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 pr-3 py-1">
-                        {thought.topic === "" ? "No topic" : thought.topic} 
+                <div className="flex flex-row justify-center w-full my-1 bg-slate-150">
+                    <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 pr-3 py-1 min-w-20 text-center">
+                       {thought.topic === "" ? " ... " : thought.topic} 
                     </h2>
-                    <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 pl-3 py-1">
-                       {thought.tone === "" ? "No tone" : thought.tone}
+                    <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 pl-3 py-1 min-w-20 text-center">
+                       {thought.tone === "" ? " ... " : thought.tone}
                     </h2>
                 </div>
             
                 <p className="text-base justify-self-center mx-4 text-center my-2 text-wrap break-words w-full max-w-384">
-                    "{thought.statement === "" ? "No statement" : thought.statement}"
+                    {thought.statement === "" ? `Empty statement ... ` : `\"${thought.statement}\"`}
                 </p>
             </>
             }

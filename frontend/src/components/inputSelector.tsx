@@ -1,15 +1,26 @@
 import React, { FC, Dispatch, SetStateAction, useState } from "react"
 
 interface ISelectionList{
+    fieldState : string | null,
     options : string[],
     fieldName : string,
     fieldSetter : Dispatch<SetStateAction<string | null>>,
     toggledIndex : number | null,
     toggledIndexSetter : Dispatch<SetStateAction<number | null>>,
     buttonStyle? : string
+    submitFailed? : boolean
 }
 
-const SelectionList : FC<ISelectionList> = ({buttonStyle, options, fieldName, fieldSetter, toggledIndex, toggledIndexSetter}) => {
+const SelectionList : FC<ISelectionList> = ({
+    fieldState,
+    buttonStyle,
+    options,
+    fieldName,
+    fieldSetter,
+    toggledIndex,
+    toggledIndexSetter,
+    submitFailed 
+}) => {
 
     const capitalizeFirst = (string : string) => {
         var result = string[0].toUpperCase()
@@ -24,21 +35,25 @@ const SelectionList : FC<ISelectionList> = ({buttonStyle, options, fieldName, fi
     }
 
     const handleClick = (index : number, value : string) => {
-        fieldSetter(value)
-        console.log(value)
-        toggledIndexSetter(index)
+        if(fieldState === value){
+            fieldSetter(null)
+            toggledIndexSetter(null)
+        } else {
+            fieldSetter(value)
+            toggledIndexSetter(index)
+        }
     }
     
     
     return(
-        <div className="flex flex-col items-center w-screen my-2 ">
-            <h1 className="text-xl">{fieldName}</h1>
+        <div className="flex flex-col items-center w-full my-2 ">
+            <h1 className={`text-xl ${submitFailed && "text-red-800 font-semibold"}`}>{fieldName}{submitFailed && "*"}</h1>
             <div className="grid grid-cols-3 gap-3">
                 {options.map((_field, i) => (
                     <input
                         key={`item_${i}`}
-                        className={`w-full border px-2 py-1 rounded ${buttonStyle} ${
-                            toggledIndex === i ? "bg-red-400 text-white" : "bg-white"  
+                        className={`w-full border px-2 py-1 rounded font-semibold hover:cursor-pointer ${buttonStyle} ${
+                            toggledIndex === i ? "bg-sky-500 text-white" : "bg-white"  
                         }`}
                         type="button"
                         onClick={() => handleClick(i, _field)}
