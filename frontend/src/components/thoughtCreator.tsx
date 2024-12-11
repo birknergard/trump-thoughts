@@ -7,7 +7,6 @@ import ImageHandler from "./imageHandler";
 import DropdownMenu from "./dropDownMenu";
 import ThoughtItem from "./thoughtItem";
 import IThought from "../interfaces/thought";
-import { spawn } from "child_process";
 
 interface IPreviewThought{
     title: string,
