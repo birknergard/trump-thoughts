@@ -236,14 +236,14 @@ const Creator : FC<ICreator> = ({
                     toggledIndex={toggledIndex}
                     toggledIndexSetter={setToggledIndex}
                 />
-                <div className="flex flex-row justify-between align-center items-center w-full">
+                <div className="flex flex-row justify-between align-end items-end w-full">
                     <ImageHandler 
                         elementStyle="w-1/2"
                         buttonStyle={attemptedSubmit && emptyFields.has(5) ? "w-full border-red-600 font-semibold text-red-800" : ""}
                         imageUrl={imageUrl}
                         setRawImageFile={setRawImageFile}
                     /> 
-                    <input className="border-2 bg-sky-400 font-semibold text-white text-xl rounded-lg w-1/2 h-12 m-2"
+                    <input className="border-2 bg-sky-400 h-12 font-semibold text-white text-xl rounded-lg w-1/2 h-14 m-2"
                         type="button" value="Save Thought"
                         onClick={() => stash()}
                     />

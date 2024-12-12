@@ -49,12 +49,12 @@ const SelectionList : FC<ISelectionList> = ({
     
     return(
         <div className={`${elementStyle} flex flex-col items-center w-full my-2 `}>
-            <h1 className={`text-xl ${submitFailed && "text-red-800 font-semibold"}`}>{fieldName}{submitFailed && "*"}</h1>
+            <h1 className={`text-xl mb-3 ${submitFailed && "text-red-800 font-semibold"}`}>{fieldName}{submitFailed && "*"}</h1>
             <div className="grid grid-cols-3 gap-3">
                 {options.map((_field, i) => (
                     <input
                         key={`item_${i}`}
-                        className={`w-full border px-2 py-1 rounded font-semibold hover:cursor-pointer ${buttonStyle} ${
+                        className={`w-full border border-sky-300 px-2 py-1 rounded hover:cursor-pointer hover:bg-sky-100 ${buttonStyle} ${
                             toggledIndex === i ? "bg-sky-500 text-white" : "bg-white"  
                         }`}
                         type="button"

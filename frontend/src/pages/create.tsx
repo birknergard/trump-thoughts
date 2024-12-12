@@ -100,19 +100,19 @@ function CreatePage(){
                     setResetState={initiateReset}
                 />
 
-                <section className="create__item flex flex-col items-center">
+                <section className="create__item flex flex-col max-md:flex-col-reverse items-center">
                     <Preview 
                         emptyFieldCount={emptyFields.size}
                         thoughtPreview={convertPreviewThought()}
                     />             
 
                     <div className="flex flex-row items-center justify-center my-2 w-full">
-                        <input className="border-2 rounded w-2/4 h-12 m-2"
+                        <input className="text-xl text-red-500 border-2 border-red-500 rounded w-2/4 h-12 m-2 hover:bg-red-500"
                             type="button" value="Reset"
                             onClick={() => initiateReset(true)}
                         />
                     {status !== "Uploading" &&
-                        <input className="border-2 rounded w-2/4 h-12 m-2"
+                        <input className="text-xl border-2 border-black rounded w-2/4 h-12 m-2 hover:bg-lime-400"
                             type="button" value="Submit"
                             onClick={handleSubmit}
                         />

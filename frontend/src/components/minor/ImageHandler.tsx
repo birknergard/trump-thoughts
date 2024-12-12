@@ -32,8 +32,8 @@ const ImageHandler : FC<IHandler> = ({
     }
     
     return(
-        <div className={`${elementStyle} flex flex-col items-center justify-center my-3 w-min`}>
-            <h2 className="text-lg">Reaction Image</h2>
+        <div className={`${elementStyle} flex flex-col items-center align-end justify-between mt-2 w-min`}>
+            <h2 className="font-semibold text-lg mb-1">Image</h2>
             <input className="hidden" 
                 ref={imageInputRef}
                 name="fileTag"
@@ -42,12 +42,12 @@ const ImageHandler : FC<IHandler> = ({
                 onChange={(e) => handle(e)}
             />
             <div className="flex flex-col items-center">
-                <input className={`border rounded-lg w-36 h-10 ${buttonStyle}`} 
+                <input className={`border-2 text-lg border-sky-300 rounded-lg w-36 h-10 ${buttonStyle}`} 
                     onClick={handleOnClick}
                     type="button" 
                     value={imageUrl === "" ? "Upload" : "Change"} 
                 />        
-                {imageUrl !== "" && <h2>... {imageUrl}</h2>}
+                {imageUrl !== "" && <h2 className="w-28 text-sm truncate">... {imageUrl}</h2>}
             </div>
 
         </div>
