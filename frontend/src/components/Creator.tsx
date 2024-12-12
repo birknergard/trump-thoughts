@@ -38,7 +38,7 @@ const Creator : FC<ICreator> = ({
     const [tone, setTone] = useState<string | null>(null)
     const [imageUrl, setImageUrl] = useState("")
 
-    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeImage, uploadImage} = useThoughtContext()
+    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeTempImage, uploadTempImage} = useThoughtContext()
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
     const updatePreview = () => {
@@ -59,23 +59,27 @@ const Creator : FC<ICreator> = ({
         }
     }, [initiateReset])
 
-    const reset = () => {
+    const reset = async() => {
         console.log("Reset has been toggled.")
+
+        if(imageUrl !== ""){
+            try {
+                await removeTempImage(imageUrl)
+            } catch (error) {
+                console.error("Could not delete temp image.")
+                return
+            } 
+        }
+
         setTitle("")
         setTopic("")
         setStatement("")
         setToggledIndex(null)
         setTone("")
         
-        if(imageUrl !== ""){
-            try{
-                removeImage(imageUrl)
-            } catch(error){
-                console.error("Error with delete request. line 77 : Creator.tsx")
-            }
-        }
 
         setImageUrl("")
+
         setRawImageFile(null)
 
         setEmptyFields(new Set([1,2,3,4,5]))
@@ -100,28 +104,29 @@ const Creator : FC<ICreator> = ({
         const storedData = localStorage.getItem("THOUGHT");
         console.log("Loaded storedData:", storedData);
 
-        // Validate the retrieved data
-        if (!storedData) {
+        if (storedData === undefined || storedData === null) {
             console.log("No previous thought found in localStorage.");
-            return; // Exit early if no data
+            return false
         }
 
         try {
             const storedThought = JSON.parse(storedData);
 
             if (storedThought) {
-                // Set state only if the specific key exists in the parsed object
                 setTitle(storedThought.savedTitle);
                 setTopic(storedThought.savedTopic);
                 setStatement(storedThought.savedStatement);
                 setToggledIndex(storedThought.savedToggledToneIndex);
                 setTone(storedThought.savedTone);
                 setImageUrl(storedThought.savedImageUrl);
+                return true
             } else {
-                console.error("Stored thought is null after parsing.");
+                console.error("Stored thought is null.");
+                return false
             }
         } catch (error) {
             console.error("Error parsing local storage data in loadPrevious:", error);
+            return false
         }
     };
 
@@ -130,23 +135,23 @@ const Creator : FC<ICreator> = ({
         if(rawImageFile !== null){
             if(imageUrl === rawImageFile[0].name) {
                 try {
-                    await removeImage(imageUrl)
-                    await uploadImage(rawImageFile[0])
+                    await removeTempImage(imageUrl)
+                    await uploadTempImage(rawImageFile[0])
                     setImageUrl(rawImageFile[0].name)
                 } catch(error){
                     console.error("Creator: Error with DELETE / POST request for images: line 108: Creator.tsx")
                 }
             } else if(imageUrl === "") {
                 try {
-                    await uploadImage(rawImageFile[0]) 
+                    await uploadTempImage(rawImageFile[0]) 
                     setImageUrl(rawImageFile[0].name)
                 } catch (error) {
                     console.error("Creator: Error with POST request for images: line 123 : creator.tsx ") 
                 }
             } else {
                 try {
-                    await removeImage(imageUrl) 
-                    await uploadImage(rawImageFile[0])
+                    await removeTempImage(imageUrl) 
+                    await uploadTempImage(rawImageFile[0])
                     setImageUrl(rawImageFile[0].name)
                 } catch (error) {
                    console.error("Creator: Errow with DELETE / POST request for iamges: line 130: Creator.tsx") 
@@ -155,9 +160,26 @@ const Creator : FC<ICreator> = ({
         }
     }
 
+    const deleteTempImageWhenNotSaved = () => {
+        console.log("PageLoad: attempting removal of image in temp, src:", imageUrl)
+        const tempImage = localStorage.getItem("URL") 
+        if(tempImage !== null){
+            try {
+                removeTempImage(tempImage)
+            } catch (error) {
+                console.log("PageLoad deleteion of tempimage error.", error)
+            }
+        }
+    }
+
     // Whenever an image is uploaded the data is loaded into the components image hooks
     useEffect(() => {
-        handleTempImageUpload()
+        if(rawImageFile !== null){
+            handleTempImageUpload()
+            setImageUrl(rawImageFile[0].name)
+            localStorage.setItem("URL", rawImageFile[0].name)
+            setRawImageFile(null)
+        }
     }, [rawImageFile])
 
     useEffect(() => {
@@ -166,8 +188,10 @@ const Creator : FC<ICreator> = ({
 
     // Pageload
     useEffect(() => {
-        // Loads text fields from localstorage. Image data is loaded from API.
-        loadPrevious()
+        // If an image was uploaded on last pagevist, but the thought was not saved, the image is deleted from temp.
+        if(loadPrevious() === false){
+            deleteTempImageWhenNotSaved()
+        }
     }, [])
 
     return (

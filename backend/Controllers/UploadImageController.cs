@@ -71,6 +71,28 @@ public class UploadImageController : ControllerBase{
         return Ok(new {FileName = file.FileName});
     }
 
+    [HttpPost("process/{imageUrl}")]
+    public IActionResult ProcessImage(string imageUrl){
+        if(string.IsNullOrEmpty(imageUrl)){
+            return BadRequest("No image url provided.");
+        }
+        string wwwrootPath = hosting.WebRootPath;
+        string currentPath = Path.Combine(wwwrootPath, "temp", imageUrl);
+        
+        string destinationPath = Path.Combine(wwwrootPath, "images", imageUrl);
+        try{
+            if(!System.IO.File.Exists(currentPath)){
+                return NotFound( new {message = "Image could not be found in temp.", path = currentPath});
+            }
+
+            System.IO.File.Move(currentPath, destinationPath);
+            return Ok("Image moved successfully from temporary storage to server.");
+
+        } catch (Exception e) {
+            return StatusCode(500, e);
+        }
+    }
+
     [HttpDelete("temp/{imageUrl}")]
      public IActionResult DeleteTempImage(string imageUrl){
         try {

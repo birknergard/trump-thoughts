@@ -15,6 +15,7 @@ function CreatePage(){
         postThought, 
         previewThought,
         resetState,
+        removeTempImage,
         initiateReset,
     } = useThoughtContext() 
 
@@ -61,19 +62,21 @@ function CreatePage(){
 
     const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false)
     
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         setAttemptedSubmit(true)
         if(emptyFields.size === 0 && previewThought !== null){
             const newThought = convertPreviewThought()
 
             if(previewThought !== null){
-                submitThought(newThought)
+                await submitThought(newThought)
             }
-
-            initiateReset(true)
         } else {
             console.log("Fields are not filled.")
         }
+    }
+    const handleReset = async() => {
+        initiateReset(true)
+        removeTempImage(previewThought.imageUrl)
     }
 
 

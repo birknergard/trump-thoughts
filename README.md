@@ -9,8 +9,7 @@
 - API documentation
 
 #### maybe?
-- Temp stored images are in a different folder from regular ones (new endpoint?)
-- Multiple GET requests (tone, topic or tone&&topic) with a single method
+- Multiple GET requests (tone, topic or tone&& topic) with a single method
 
 ### Frontend
 - Take a look at list responsive design when thoughts arent loaded and when thoughts are loading.
@@ -19,6 +18,7 @@
 - Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
 - Styling of Item in editmode.
 - general styling (using tailwind) 
+
 
 #### maybe?
 - :hover and other interactive styling (using css modules)
@@ -56,6 +56,8 @@
 - Delete method for ImageController
 - simplify other api databases (less fields)
 - Generate 8 database fields per entity from chatgpt
+- Temp stored images are in a different folder from regular ones (new endpoint?)
+- temp images can now be moved directly into images folder via the api.
 
 ### Frontend
 - Rudementary planning
@@ -93,6 +95,8 @@
 - remembers users unfinished thought creation
     - store incomplete created thought in localstorage when navigating out
     - Make uploaded image persistent even when not submitted
+- Unfinished thoughts are now saved with a button, and loaded when returning
+- When having selected an image for a thought but not saved it, and then reentering the page, the image is not deleted from the API.
 
 ## Useful commands
 

@@ -37,16 +37,14 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
 
     const [editMode, setEditMode] = useState<boolean>(false)
 
-    //if(!isPreview && editMode){
-        const [currentTitle, setNewTitle] = useState<string>(thought.title)
-        const [currentStatement, setNewStatement] = useState<string>(thought.statement)
-        const [currentTopic, setNewTopic] = useState<string>(thought.topic)
-        const [currentTone, setNewTone] = useState<string>(thought.tone)
+    const [currentTitle, setNewTitle] = useState<string>(thought.title)
+    const [currentStatement, setNewStatement] = useState<string>(thought.statement)
+    const [currentTopic, setNewTopic] = useState<string>(thought.topic)
+    const [currentTone, setNewTone] = useState<string>(thought.tone)
     
-        const [attemptingDelete, setDeleteVerificationState] = useState<boolean>(false)
-    //}
+    const [attemptingDelete, setDeleteVerificationState] = useState<boolean>(false)
     
-    const imageUrl = "http://localhost:5026/images"
+    const imageUrl = "http://localhost:5026/"
 
     const enableEditMode = () => {
         if(!isPreview){
@@ -97,8 +95,9 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     
     // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
-        if(thought.imageUrl !== "") return `${imageUrl}/${thought.imageUrl}`
-        return `${imageUrl}/trump_placeholder.jpg`
+        if(isPreview && thought.imageUrl !== "") return `${imageUrl}/temp/${thought.imageUrl}`
+        if(thought.imageUrl !== "") return `${imageUrl}/images/${thought.imageUrl}`
+        return `${imageUrl}/images/trump_placeholder.jpg`
     }
 
     return (

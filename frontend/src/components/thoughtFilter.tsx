@@ -9,12 +9,6 @@ interface IThoughtFilter{
     titleFilter : string,
     titleFilterSetter : Dispatch<SetStateAction<string>>,
 
-    topicFilter : string,
-    topicFilterSetter : Dispatch<SetStateAction<string>>,
-
-    toneFilter : string,
-    toneFilterSetter : Dispatch<SetStateAction<string>>
-    
     style? : string
     listLength : number
 }
@@ -23,19 +17,15 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
     style,
     titleFilter,
     titleFilterSetter,
-    topicFilter,
-    topicFilterSetter,
-    toneFilter,
-    toneFilterSetter,
     listLength 
 }) => {
 
-    const {toneList, topicList} = useThoughtContext()
+    const {toneList, topicList, topicFilter, setTopicFilter, toneFilter, setToneFilter} = useThoughtContext()
 
     const resetFilters = () => {
         titleFilterSetter("")
-        topicFilterSetter("")
-        toneFilterSetter("")
+        setTopicFilter("")
+        setToneFilter("")
     }
 
     return(
@@ -55,7 +45,7 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
                 <DropdownMenu
                     field={topicFilter}
                     className="min-w-26 max-w-52 p-2 mr-1 rounded bg-sky-100 border-sky-500"
-                    setter={topicFilterSetter}
+                    setter={setTopicFilter}
                     optionList={topicList}
                     isFilter={true}
                     filterFor="topic"
@@ -64,7 +54,7 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
                 <DropdownMenu
                     field={toneFilter}
                     className="min-w-26 max-w-52 p-2 ml-1 rounded bg-sky-100 border-sky-500"
-                    setter={toneFilterSetter}
+                    setter={setToneFilter}
                     optionList={toneList}
                     isFilter={true}
                     filterFor="tone"

@@ -8,29 +8,16 @@ import styles from "./main.module.css"
 function MainPage(){
     const {
         thoughts,
-        fetchThoughts, 
-        fetchThoughtsByTopic, 
-        fetchThoughtsByTone, 
-        fetchThoughtsByToneAndTopic
+        topicFilter,
+        toneFilter,
+        updateThoughtList
     } = useThoughtContext()
 
     const [titleFilter, setTitleFilter] = useState<string>("")
-    const [topicFilter, setTopicFilter] = useState<string>("")
-    const [toneFilter, setToneFilter] = useState<string>("")
+
 
     useEffect(() => {
-        if(topicFilter === "" && toneFilter === "") { 
-            fetchThoughts()
-
-        } else if(topicFilter !== "" && toneFilter === "") {
-            fetchThoughtsByTopic(topicFilter)
-
-        } else if(toneFilter !== "" && topicFilter === "") {
-            fetchThoughtsByTone(toneFilter)
-
-        } else if(toneFilter !== "" && topicFilter !== ""){
-            fetchThoughtsByToneAndTopic(toneFilter, topicFilter)
-        }
+        updateThoughtList()
     }, [topicFilter, toneFilter])
 
     return(
@@ -40,12 +27,6 @@ function MainPage(){
                 <ThoughtFilter
                     titleFilter={titleFilter}
                     titleFilterSetter={setTitleFilter}
-                    
-                    topicFilter={topicFilter}
-                    topicFilterSetter={setTopicFilter}
-
-                    toneFilter={toneFilter}
-                    toneFilterSetter={setToneFilter}
 
                     listLength={thoughts.length} 
                 />
