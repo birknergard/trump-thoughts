@@ -4,6 +4,7 @@ import ThoughtApi from "../services/thoughtService"
 import DropdownMenu from "./dropDownMenu"
 import Confirm from "./popUp"
 import "../App.css"
+import { useThoughtContext } from "../context/thoughtContext"
 
 interface ThoughtItemProps{
     thought : IThought,
@@ -32,9 +33,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     toneList,
     deleteMethod,
     modifyMethod,
-    previewImageSrc,
 }) => {
-
     const [editMode, setEditMode] = useState<boolean>(false)
 
     const [currentTitle, setNewTitle] = useState<string>(thought.title)
@@ -72,16 +71,40 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     const initiateDelete = () => {
         setDeleteVerificationState(true)
         if(thought.id === undefined) return 
-
     }
-    
+
+    const initializeSelf = () => {
+        setNewTitle(thought.title)
+        setNewStatement(thought.statement)
+        setNewTone(thought.tone)
+        setNewTopic(thought.topic)
+    }
+
+
+    const updateSelf = async() => {
+        if(!isPreview){
+            const newThought = await ThoughtApi.getById(thought.id!!)
+            if(newThought !== null){
+                setNewTitle(newThought.title)
+                setNewStatement(newThought.statement)
+                setNewTone(newThought.tone)
+                setNewTopic(newThought.topic)
+            }
+        }
+    }
+
     const handleDelete = async() => {
-        await deleteMethod!!(thought)
-        setDeleteVerificationState(false)
-        disableEditMode()
+        if(thought.id !== undefined){
+            deleteMethod!!(getNewThought())
+            setDeleteVerificationState(false)
+            disableEditMode()
+        } else {
+            console.error("Id is undefined!")
+            disableEditMode()
+        }
     }
 
-    const handleModify = async() => {
+    const handleModify = () => {
         if(!isPreview){
             if(thought.id !== undefined){
                 modifyMethod!!(getNewThought())
@@ -93,6 +116,15 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         }
     }
     
+    // On component mount
+    useEffect(() => {
+        initializeSelf()
+    }, [])
+
+    useEffect(() => {
+        initializeSelf()
+    }, [thought.title, thought.statement, thought.tone, thought.topic])
+
     // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
         if(isPreview && thought.imageUrl !== "") return `${imageUrl}/temp/${thought.imageUrl}`
@@ -110,20 +142,20 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                 <h2 className="text-red-600 text-2xl my-1 text-center text-pretty break-words max-w-72" 
                     onClick={enableEditMode}
                 >
-                    Trump on{thought.title === "" ? " ... " : ` ${thought.title}`}
+                    Trump on{currentTitle === "" ? " ... " : ` ${currentTitle}`}
                 </h2>
 
                 <div className="flex flex-row justify-center w-full my-1 bg-slate-150 w-full">
                     <h2 className="text-xl text-white bg-sky-400 rounded-l-lg px-2 pr-3 py-1 min-w-20 text-center">
-                       {thought.topic === "" ? " ... " : thought.topic} 
+                       {currentTopic === "" ? " ... " : currentTopic} 
                     </h2>
                     <h2 className="text-xl text-white bg-red-400 rounded-r-lg px-2 pl-3 py-1 min-w-20 text-center">
-                       {thought.tone === "" ? " ... " : thought.tone}
+                       {currentTone === "" ? " ... " : currentTone}
                     </h2>
                 </div>
             
                 <p className="min-h-20 text-base justify-self-center mx-4 text-center my-2 w-full max-w-384 text-balance break-words">
-                    {thought.statement === "" ? `Empty statement ... ` : `\"${thought.statement}\"`}
+                    {currentStatement === "" ? `Empty statement ... ` : `\"${currentStatement}\"`}
                 </p>
             </div>
             }
@@ -144,7 +176,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     <input className="text-2xl border w-36"  
                         type="text"
                         disabled={attemptingDelete}
-                        defaultValue={thought.title}
+                        value={currentTitle}
                         onChange={(e) => setNewTitle(e.target.value)}
                     />
                     <input 
@@ -161,7 +193,6 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         field={currentTopic}
                         setter={setNewTopic}
                         optionList={topicList!!}
-                        defaultSelection={thought.topic}
                     />
                     <DropdownMenu 
                         isDisabled={attemptingDelete}
@@ -169,11 +200,10 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         field={currentTone}
                         setter={setNewTone}
                         optionList={toneList!!}
-                        defaultSelection={thought.tone}
                     />
                 </div>
                 <textarea className="text-m border my-3 w-full h-36 p-1"
-                    defaultValue={thought.statement}
+                    value={currentStatement}
                     disabled={attemptingDelete}
                     onChange={(e) => setNewStatement(e.target.value)}
                 >

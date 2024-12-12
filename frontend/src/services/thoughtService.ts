@@ -15,6 +15,16 @@ const ThoughtApi = (() => {
         }
     }
 
+    const getById = async(id : number) => {
+        try {
+            const response = await axios.get<IThought>(`${url}/id=${id}`)
+            return response.data
+        } catch(error) {
+            console.error("Error with GET method: GetByID")
+            return null
+        }
+    }
+
     const getByTopic = async(topic : string) => {
         try {
             const response = await axios.get<IThought[]>(`${url}/topic=${topic}`)
@@ -65,7 +75,8 @@ const ThoughtApi = (() => {
 
     const modify = async(id : number, modifiedThought : IThought) : Promise<void> => {
         try{
-            await axios.put(`${url}/${id}`, modifiedThought)
+            const result = await axios.put(`${url}/${id}`, modifiedThought)
+            console.log(result)
         } catch(error) {
             console.error("Error with PUT method.", error)
         }
@@ -73,6 +84,7 @@ const ThoughtApi = (() => {
 
     return {
         getAll,
+        getById,
         getByTopic,
         getByTone,
         getByToneAndTopic,

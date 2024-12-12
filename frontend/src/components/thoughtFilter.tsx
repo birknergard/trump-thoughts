@@ -20,7 +20,7 @@ const ThoughtFilter : FC<IThoughtFilter> = ({
     listLength 
 }) => {
 
-    const {toneList, topicList, topicFilter, setTopicFilter, toneFilter, setToneFilter} = useThoughtContext()
+    const {toneList, topicList, topicFilter, setTopicFilter, toneFilter, setToneFilter, fetchThoughts} = useThoughtContext()
 
     const resetFilters = () => {
         titleFilterSetter("")

@@ -12,14 +12,10 @@ enum Status{
 }
 
 interface IThoughtList{
-    thoughtList : IThought[]
     titleFilter : string,
-    topicFilter : string,
-    toneFilter : string
 }
 
 const ThoughtList : FC<IThoughtList> = ({
-    thoughtList,
     titleFilter,
 }) =>{
 
@@ -28,15 +24,36 @@ const ThoughtList : FC<IThoughtList> = ({
         topicList, 
         toneList, 
         fetchThoughts, 
-        removeAndReload, 
-        modifyAndReload
+        setThoughts,
+        removeThought,
+        fetchThoughtsByTone,
+        fetchThoughtsByTopic,
+        fetchThoughtsByToneAndTopic,
+        modifyThought,
+        topicFilter, toneFilter
     } = useThoughtContext()
-    
+
+
+    const updateThoughtList = async() => {
+        if(topicFilter !== "" && toneFilter === "") {
+            await fetchThoughtsByTopic(topicFilter)
+
+        } else if(toneFilter !== "" && topicFilter === "") {
+            await fetchThoughtsByTone(toneFilter)
+
+        } else if(toneFilter !== "" && topicFilter !== ""){
+            await fetchThoughtsByToneAndTopic(toneFilter, topicFilter)
+
+        } else { 
+            await fetchThoughts()
+        }
+    } 
+
     const [listState, setStatus] = useState<Status>(Status.idle) 
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
     const getThoughtList = () => {
-        if(activeList !== null && activeList!!.length !== 0){
+        if(activeList !== null && activeList.length !== 0){
             const thoughtList = activeList.map((thought : IThought, i : number) => (
                 <ThoughtItem
                     key={i}
@@ -44,8 +61,8 @@ const ThoughtList : FC<IThoughtList> = ({
                     thought={thought}
                     toneList={toneList}
                     topicList={topicList}
-                    modifyMethod={modifyAndReload}
-                    deleteMethod={removeAndReload} 
+                    modifyMethod={modifyThought}
+                    deleteMethod={handleThoughtDeletion} 
                 />
             ))
             return thoughtList;
@@ -57,6 +74,16 @@ const ThoughtList : FC<IThoughtList> = ({
         )
     }
     
+    const handleThoughtDeletion = async(thought : IThought) => {
+        console.log("Deleting thought ...")
+        removeThought(thought)
+        setThoughts(thoughts.filter(thoughtItem => {
+            return thoughtItem.id !== thought.id 
+        }))
+        setActiveList(thoughts)
+        console.log("Thought deleted.")
+    } 
+
     // on pageload
     useEffect(() => {
         const loadThoughts = async() => {
@@ -69,12 +96,19 @@ const ThoughtList : FC<IThoughtList> = ({
     }, [])
 
     useEffect(() => {
-        setActiveList(thoughtList)
-    }, [thoughtList]) 
+        console.log("Filters:", topicFilter, toneFilter, "Previous list", thoughts)
+        updateThoughtList()
+        console.log("New list: ", thoughts)
+    }, [topicFilter, toneFilter])
 
     useEffect(() => {
         setActiveList(Filter(thoughts).byTitle(titleFilter))
     }, [titleFilter])
+
+    useEffect(() => {
+        setActiveList(thoughts)
+    }, [thoughts]) 
+
 
     return(
         <>

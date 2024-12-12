@@ -52,7 +52,7 @@ public class ThoughtController : ControllerBase{
         return thoughts;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("id={id}")]
     public async Task<ActionResult<Thought>> GetById(int id){
         Thought? thought = await context.Thoughts.FindAsync(id);
 

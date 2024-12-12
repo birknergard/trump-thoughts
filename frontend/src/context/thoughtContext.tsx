@@ -21,15 +21,11 @@ interface IThoughtContext{
     fetchThoughtsByTone: (tone : string) => Promise<void>
     fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>
     removeThought : (thought : IThought) => Promise<void>
-    removeAndReload: (thought : IThought) => Promise<void>
     modifyThought : (thought : IThought) => Promise<void>
-    modifyAndReload : (thought : IThought) => Promise<void>
     topicFilter : string,
     setTopicFilter : Dispatch<SetStateAction<string>>
     toneFilter : string,
     setToneFilter : Dispatch<SetStateAction<string>>
-    updateThoughtList : () => void
-
 
     postThought: (thought : IThought) => Promise<void>
     uploadTempImage : (image : File | null) => Promise<string> 
@@ -55,14 +51,12 @@ const ThoughtContext = createContext<IThoughtContext>({
     fetchThoughtsByTone: async() => {},
     fetchThoughtsByToneAndTopic: async() => {},
     removeThought: async() => {},
-    removeAndReload: async() => {},
     modifyThought: async() => {},
-    modifyAndReload: async() => {},
     topicFilter : "",
     toneFilter : "",
     setTopicFilter : () => {},
     setToneFilter: () => {},
-    updateThoughtList: () => {},
+
 
     postThought: async() => {},
     uploadTempImage: async() => "",
@@ -122,20 +116,6 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
 
-    const updateThoughtList = () => {
-        if(topicFilter === "" && toneFilter === "") { 
-            fetchThoughts()
-
-        } else if(topicFilter !== "" && toneFilter === "") {
-            fetchThoughtsByTopic(topicFilter)
-
-        } else if(toneFilter !== "" && topicFilter === "") {
-            fetchThoughtsByTone(toneFilter)
-
-        } else if(toneFilter !== "" && topicFilter !== ""){
-            fetchThoughtsByToneAndTopic(toneFilter, topicFilter)
-        }
-    } 
 
     const fetchThoughts = async() => {
         try {
@@ -143,6 +123,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts(thoughts)
         } catch(error){
             console.error(error);
+            setThoughts([])
         }
     }
 
@@ -152,6 +133,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts(thoughts)
         } catch(error){
             console.error(error)
+            setThoughts([])
         }
     }
 
@@ -161,6 +143,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts(thoughts)
         } catch(error) {
             console.error(error)
+            setThoughts([])
         }
     }
 
@@ -170,10 +153,9 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts(thoughts)
         } catch(error){
             console.error(error)
+            setThoughts([])
         }
     }
-
-
 
     const removeThought = async(thought : IThought) => {
         try {
@@ -186,27 +168,17 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         }
     } 
 
-    const removeAndReload = async(thoughts : IThought) => {
-        await removeThought(thoughts)
-        updateThoughtList()
-    }
- 
-
 
     const modifyThought = async(thought : IThought) => {
         try{
             if(thought.id === undefined) return
 
             await ThoughtApi.modify(thought.id, thought)
+            
         } catch (error){
             console.error(error)
         }
     }
-
-    const modifyAndReload = async(thought : IThought) => {
-        await modifyThought(thought)
-        updateThoughtList()
-    } 
 
 
     const uploadTempImage = async(image : File | null) => {
@@ -269,9 +241,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             fetchThoughtsByTone, 
             fetchThoughtsByToneAndTopic, 
             removeThought,
-            removeAndReload,
             modifyThought,
-            modifyAndReload,
             topicFilter,
             setTopicFilter,
             toneFilter,
@@ -283,7 +253,6 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setRawImageFile,
             resetState,
             initiateReset,
-            updateThoughtList
         }}>
             {children}
         </ThoughtContext.Provider>

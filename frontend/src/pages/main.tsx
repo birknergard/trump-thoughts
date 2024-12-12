@@ -10,15 +10,9 @@ function MainPage(){
         thoughts,
         topicFilter,
         toneFilter,
-        updateThoughtList
     } = useThoughtContext()
 
     const [titleFilter, setTitleFilter] = useState<string>("")
-
-
-    useEffect(() => {
-        updateThoughtList()
-    }, [topicFilter, toneFilter])
 
     return(
         <main className="w-screen flex flex-col items-center mt-24">
@@ -31,10 +25,7 @@ function MainPage(){
                     listLength={thoughts.length} 
                 />
                 <ThoughtList 
-                    thoughtList={thoughts}
                     titleFilter={titleFilter}
-                    toneFilter={toneFilter}
-                    topicFilter={topicFilter}
                 />
             </section>
         </main>
