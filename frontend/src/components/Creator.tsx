@@ -4,6 +4,8 @@ import SelectionList from "./inputSelector";
 import Field from "./inputField";
 import ImageHandler from "./imageHandler";
 import DropdownMenu from "./dropDownMenu";
+import IPreviewThought from "../interfaces/previewThought";
+import { upload } from "@testing-library/user-event/dist/upload";
 
 interface ICreator {
     elementStyle? : string
@@ -36,10 +38,10 @@ const Creator : FC<ICreator> = ({
     const [topic, setTopic] = useState("")
     const [statement, setStatement] = useState("")
     const [tone, setTone] = useState<string | null>(null)
-    const [imageFile, setImageFile] = useState<File | null>(null)
     const [imageUrl, setImageUrl] = useState("")
+    const [rawImageUrl, setRawImageUrl] = useState<string>("")
 
-    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile } = useThoughtContext()
+    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeImage, uploadImage, previewThought } = useThoughtContext()
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
     const updatePreview = () => {
@@ -48,26 +50,17 @@ const Creator : FC<ICreator> = ({
             topic : topic,
             statement : statement,
             tone : tone !== null ? tone : "",
-            image : imageFile,
-            imageUrl : imageUrl,
-            rawImageUrl : rawImageFile !== null ? URL.createObjectURL(rawImageFile[0]) : undefined
+            imageUrl : imageUrl, 
         })
     }
 
-    // Resets the fields when a reset request (initiateReset == true) is sent
+    // Resets the fields when a reset request (initiateReset == true) is registered 
     useEffect(() => {
         if(initiateReset){
             reset()
-            setResetState(false)
+            setResetState(false) // resets the reset (haha)
         }
     }, [initiateReset])
-
-    useEffect(() => {
-        if(rawImageFile != null){
-            setImageFile(rawImageFile[0])
-            setImageUrl(rawImageFile[0].name)
-        }
-    }, [rawImageFile])
 
     const reset = () => {
         setTitle("")
@@ -75,17 +68,88 @@ const Creator : FC<ICreator> = ({
         setStatement("")
         setToggledIndex(null)
         setTone("")
-        setImageFile(null)
+        
+        if(imageUrl !== ""){
+            try{
+                removeImage(imageUrl)
+            } catch(error){
+                console.error("Error with delete request. line 77 : Creator.tsx")
+            }
+        }
+
         setImageUrl("")
-        setRawImageFile(null)
 
         setEmptyFields(new Set([1,2,3,4,5]))
         setAttemptedSubmit(false)
     }
 
+    const stash = () => {
+        if(localStorage.getItem("THOUGHT IN PROGRESS") === null){
+            localStorage.setItem("THOUGHT IN PROGRESS", JSON.stringify(previewThought))
+        }
+        localStorage.setItem("THOUGHT IN PROGRESS", JSON.stringify([previewThought, toggledIndex]))
+    }
+    
+    const loadPrevious = () => {
+        const data : [IPreviewThought, number] = JSON.parse(localStorage.getItem("THOUGHT IN PROGRESS")!!)
+
+        const previousThought = data[0]
+        setToggledIndex(data[1])
+
+        setTitle(previousThought.title !== undefined ? previewThought.title : "")
+        setTopic(previewThought.topic !== undefined ? previousThought.topic : "")
+        setStatement(previousThought.statement !== undefined ? previewThought.statement : "")
+        setTone(previousThought.tone !== undefined ? previewThought.tone : "")
+        setImageUrl(previousThought.imageUrl !== undefined ? previewThought.imageUrl : "")
+    }
+    
+
+    const handleTempImageUpload = async() => {
+        if(rawImageFile !== null){
+            if(imageUrl === rawImageFile[0].name) {
+                try {
+                    await removeImage(imageUrl)
+                    await uploadImage(rawImageFile[0])
+                    setImageUrl(rawImageFile[0].name)
+                } catch(error){
+                    console.error("Creator: Error with DELETE / POST request for images: line 108: Creator.tsx")
+                }
+            } else if(imageUrl === "") {
+                try {
+                    await uploadImage(rawImageFile[0]) 
+                    setImageUrl(rawImageFile[0].name)
+                } catch (error) {
+                    console.error("Creator: Error with POST request for images: line 123 : creator.tsx ") 
+                }
+            } else {
+                try {
+                    await removeImage(imageUrl) 
+                    await uploadImage(rawImageFile[0])
+                    setImageUrl(rawImageFile[0].name)
+                } catch (error) {
+                   console.error("Creator: Errow with DELETE / POST request for iamges: line 130: Creator.tsx") 
+                }
+            }
+        }
+    }
+    // Whenever an image is uploaded the data is loaded into the components image hooks
+    useEffect(() => {
+        handleTempImageUpload()
+    }, [rawImageFile])
+
     useEffect(() => {
         updatePreview()
-    }, [title, topic, statement, tone, imageFile, imageUrl, toggledIndex])
+        stash()
+    }, [title, topic, statement, tone, imageUrl, toggledIndex])
+
+    // Pageload
+    useEffect(() => {
+        // Resets information on pageload rather than when leaving the page
+        reset()
+
+        // Loads text fields from localstorage. Image data is loaded from API.
+        loadPrevious()
+    }, [])
 
     return (
         <>
@@ -132,9 +196,8 @@ const Creator : FC<ICreator> = ({
 
                 <ImageHandler 
                     buttonStyle={attemptedSubmit && emptyFields.has(5) ? "border-red-600 font-semibold text-red-800" : ""}
-                    image={imageFile}
                     imageUrl={imageUrl}
-                    fileListSetter={setRawImageFile}
+                    setRawImageFile={setRawImageFile}
                 /> 
             </section>
         

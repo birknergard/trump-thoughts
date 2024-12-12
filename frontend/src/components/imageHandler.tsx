@@ -5,18 +5,15 @@ import ImageUploadService from "../services/imageUploadService";
 interface IHandler{
     elementStyle? : string
     buttonStyle? : string
-    image : File | null
     imageUrl : string
-    fileListSetter : Dispatch<SetStateAction<FileList | null>>
-
+    setRawImageFile : Dispatch<SetStateAction<FileList | null>>
 }
 
 const ImageHandler : FC<IHandler> = ({
     elementStyle,
     buttonStyle,
-    image,
     imageUrl,
-    fileListSetter
+    setRawImageFile
 }) => {
 
     const imageInputRef = useRef<HTMLInputElement>(null)
@@ -31,7 +28,7 @@ const ImageHandler : FC<IHandler> = ({
         const {files} = event.target
         if(files != null){
             console.log(URL.createObjectURL(files[0]))
-            fileListSetter(files)
+            setRawImageFile(files)
         }
     }
     
@@ -49,9 +46,9 @@ const ImageHandler : FC<IHandler> = ({
                 <input className={`border rounded-lg w-36 h-10 ${buttonStyle}`} 
                     onClick={handleOnClick}
                     type="button" 
-                    value={image === null ? "Upload" : "Change"} 
+                    value={imageUrl === "" ? "Upload" : "Change"} 
                 />        
-                {image && <h2>... {imageUrl}</h2>}
+                {imageUrl !== "" && <h2>... {imageUrl}</h2>}
             </div>
 
         </div>

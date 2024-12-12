@@ -18,8 +18,9 @@ interface IThoughtContext{
     fetchThoughtsByTopic: (topic : string) => Promise<void>
     fetchThoughtsByTone: (tone : string) => Promise<void>
     fetchThoughtsByToneAndTopic: (tone : string, topic : string) => Promise<void>
-    postThought: (thought : IThought, imageFile : File) => Promise<void>
+    postThought: (thought : IThought) => Promise<void>
     uploadImage : (image : File | null) => Promise<string> 
+    removeImage : (imageUrl : string) => Promise<void>
     removeThought : (thought : IThought) => Promise<void>
     removeAndReload: (thought : IThought) => Promise<void>
     modifyThought : (thought : IThought) => Promise<void>
@@ -29,6 +30,9 @@ interface IThoughtContext{
     status: PostStatus,
     topicList: string[]
     toneList: string[]
+    reset : () => void
+    resetState : boolean
+    initiateReset: Dispatch<SetStateAction<boolean>> 
 
     previewThought : IPreviewThought,
     updatePreviewThought : Dispatch<SetStateAction<IPreviewThought>>
@@ -43,6 +47,7 @@ const ThoughtContext = createContext<IThoughtContext>({
     fetchThoughtsByToneAndTopic: async() => {},
     postThought: async() => {},
     uploadImage: async() => "",
+    removeImage: async() => {},
     removeThought: async() => {},
     removeAndReload: async() => {},
     modifyThought: async() => {},
@@ -52,14 +57,16 @@ const ThoughtContext = createContext<IThoughtContext>({
     status : PostStatus.Idle,
     topicList : [],
     toneList : [],
+    reset : () => {},
+    resetState : false,
+    initiateReset: () => {},
 
     previewThought : {
-        title : "",
-        topic : "",
-        tone : "",
-        statement : "",
-        image : null,
-        imageUrl : "",
+        title: "",
+        topic: "",
+        tone: "",
+        statement: "",
+        imageUrl: "",
     },
     updatePreviewThought: () => null 
 })
@@ -95,12 +102,12 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         topic : "",
         tone : "",
         statement : "",
-        image : null,
         imageUrl : "",
     })
-
-
     
+    const [resetState, initiateReset] = useState<boolean>(false)    
+    const reset = () => initiateReset(true)
+
     const fetchThoughts = async() => {
         try {
             const thoughts = await ThoughtApi.getAll()
@@ -176,6 +183,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
     const uploadImage = async(image : File | null) => {
         try{
             if(image != null){
+                console.debug("Uploading image with name: ", image.name)
                 const response = await ImageUploadService.upload(image)
                 return response.data.fileName
             }  
@@ -184,17 +192,24 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         }
     }
 
+    const removeImage = async(imageUrl : string) => {
+        try {
+            console.debug("Removing image with name:", imageUrl)
+            await ImageUploadService.remove(imageUrl)
+        } catch (error) {
+            console.error("thoughtContext: line 195 - Error caught.", error) 
+        }
+    }
+
 
     const postThought = async(
-        newThought : IThought,
-        imageFile : File
+        newThought : IThought
     ) => {
         try{
             setStatus(PostStatus.Uploading)
 
             console.log("ThoughtContext: Posted new thought:" + newThought)
             await ThoughtApi.create(newThought)
-            await uploadImage(imageFile)
 
             setStatus(PostStatus.Completed)
 
@@ -216,6 +231,7 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setThoughts, 
             postThought, 
             uploadImage,
+            removeImage,
             fetchThoughts,
             fetchThoughtsByTopic, 
             fetchThoughtsByTone, 
@@ -229,6 +245,10 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             toneList,
             rawImageFile,
             setRawImageFile,
+            reset,
+            resetState,
+            initiateReset,
+
         }}>
             {children}
         </ThoughtContext.Provider>

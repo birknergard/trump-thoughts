@@ -3,6 +3,7 @@
 ## Tasks (Ordered by most important)
 - Report
 - Sort frontend folder structure (components)
+- Video demonstration
 
 ### Backend 
 - API documentation
@@ -18,7 +19,6 @@
 - :hover and other interactive styling (using css modules)
 - if search does not find any matches for title, check statement instead
 - query filter for statement, where text is highlighted on result
-- store incomplete created thought in localstorage when navigating out
 - restrictions on input (word limit etc.)
 
 ## Completed tasks
@@ -84,6 +84,11 @@
 
 - link back to main on NotFound page
 - Create more entries
+- Fix bug where image filename and preview does not reset when navigating from create 
+- remembers users unfinished thought creation
+    - store incomplete created thought in localstorage when navigating out
+    - Make uploaded image persistent even when not submitted
+
 ## Useful commands
 
 Launch for backend

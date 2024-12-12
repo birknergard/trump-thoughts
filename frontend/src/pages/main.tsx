@@ -6,7 +6,8 @@ import ThoughtFilter from "../components/thoughtFilter";
 import styles from "./main.module.css"
 
 function MainPage(){
-    const {thoughts,
+    const {
+        thoughts,
         fetchThoughts, 
         fetchThoughtsByTopic, 
         fetchThoughtsByTone, 

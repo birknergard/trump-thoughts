@@ -3,8 +3,8 @@ interface IPreviewThought{
     topic: string,
     statement : string,
     tone : string | null,
-    image : File | null,
     imageUrl : string,
-    rawImageUrl? : string
+
+    // Potentially deletable
 }
 export default IPreviewThought
