@@ -1,6 +1,6 @@
 import React, {useRef, useState , FC, ChangeEvent, InputHTMLAttributes, SetStateAction, Dispatch} from "react";
-import IThought from "../interfaces/thought";
-import ImageUploadService from "../services/imageUploadService";
+import IThought from "../../interfaces/Thought";
+import ImageUploadService from "../../services/ImageUploadService";
 
 interface IHandler{
     elementStyle? : string

@@ -2,14 +2,7 @@
 
 ## Tasks (Ordered by most important)
 - Report (mostly complete)
-- Sort frontend folder structure (components)
 - Video demonstration
-
-### Backend 
-- API documentation
-
-#### maybe?
-- Multiple GET requests (tone, topic or tone&& topic) with a single method
 
 ### Frontend
 - Take a look at list responsive design when thoughts arent loaded and when thoughts are loading.
@@ -58,6 +51,7 @@
 - Generate 8 database fields per entity from chatgpt
 - Temp stored images are in a different folder from regular ones (new endpoint?)
 - temp images can now be moved directly into images folder via the api.
+- API documentation
 
 ### Frontend
 - Rudementary planning
@@ -97,6 +91,7 @@
     - Make uploaded image persistent even when not submitted
 - Unfinished thoughts are now saved with a button, and loaded when returning
 - When having selected an image for a thought but not saved it, and then reentering the page, the image is not deleted from the API.
+- Sort frontend folder structure (components)
 
 ## Useful commands
 

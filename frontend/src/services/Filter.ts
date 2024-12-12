@@ -1,4 +1,4 @@
-import IThought from "../interfaces/thought"
+import IThought from "../interfaces/Thought"
 
 const Filter = ((thoughts : IThought[]) => { 
     return { 

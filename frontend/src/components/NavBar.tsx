@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useThoughtContext } from '../context/thoughtContext';
 
 interface INavController {
     navState : boolean

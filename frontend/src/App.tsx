@@ -1,12 +1,10 @@
-import React from 'react';
-import './components/navController'
+import './components/NavBar'
 import './App.css';
-import MainPage from './pages/main';
-import CreatePage from './pages/create';
-import { ThoughtProvider } from "./context/thoughtContext";
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import NavController from './components/navController';
-import NotFound from './pages/notFound';
+import MainPage from './pages/Main';
+import CreatePage from './pages/Create';
+import { ThoughtProvider } from "./context/ThoughtContext";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import NotFound from './pages/NotFound';
 
 function App(){
   return (

@@ -1,9 +1,9 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { useThoughtContext } from "../context/thoughtContext";
-import SelectionList from "./inputSelector";
-import Field from "./inputField";
-import ImageHandler from "./imageHandler";
-import DropdownMenu from "./dropDownMenu";
+import { useThoughtContext } from "../context/ThoughtContext";
+import SelectionList from "./minor/SelectionList";
+import Field from "./minor/Field";
+import ImageHandler from "./minor/ImageHandler";
+import DropdownMenu from "./minor/DropDownMenu";
 
 interface ICreator {
     elementStyle? : string

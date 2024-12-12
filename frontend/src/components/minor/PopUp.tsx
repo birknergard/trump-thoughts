@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import styles from './popUp.module.css'
+import styles from './PopUp.module.css'
 
 interface IConfirm{
     exitState : Dispatch<SetStateAction<boolean>>, 

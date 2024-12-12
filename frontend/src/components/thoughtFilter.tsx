@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useContext } from "react"
-import DropdownMenu from "./dropDownMenu"
+import DropdownMenu from "./minor/DropDownMenu"
 import { RiResetLeftLine } from "react-icons/ri"
-import { useThoughtContext } from "../context/thoughtContext"
+import { useThoughtContext } from "../context/ThoughtContext"
 import "../App.css"
 
 interface IThoughtFilter{

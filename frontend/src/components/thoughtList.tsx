@@ -1,7 +1,7 @@
 import { useState, useEffect, FC } from "react";
-import IThought from "../interfaces/thought";
-import { useThoughtContext } from "../context/thoughtContext";
-import ThoughtItem from "./thoughtItem";
+import IThought from "../interfaces/Thought";
+import { useThoughtContext } from "../context/ThoughtContext";
+import ThoughtItem from "./ThoughtItem";
 import Filter from "../services/Filter";
 import "../App.css"
 

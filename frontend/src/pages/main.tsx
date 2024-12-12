@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { useThoughtContext } from "../context/thoughtContext";
-import ThoughtList from "../components/thoughtList";
-import NavController from "../components/navController";
-import ThoughtFilter from "../components/thoughtFilter";
+import { useThoughtContext } from "../context/ThoughtContext";
+import ThoughtList from "../components/ThoughtList";
+import NavController from "../components/NavBar";
+import ThoughtFilter from "../components/ThoughtFilter";
 import styles from "./main.module.css"
 
 function MainPage(){

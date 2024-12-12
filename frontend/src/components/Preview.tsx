@@ -1,8 +1,8 @@
 
-import React, { Dispatch, FC, SetStateAction, useContext, useEffect, useRef, useState } from "react";
-import ThoughtItem from "../components/thoughtItem";
-import IThought from "../interfaces/thought";
-import { useThoughtContext } from "../context/thoughtContext";
+import { FC } from "react";
+import ThoughtItem from "./ThoughtItem";
+import IThought from "../interfaces/Thought";
+import { useThoughtContext } from "../context/ThoughtContext";
 
 interface IThoughtPreview {
     emptyFieldCount : number

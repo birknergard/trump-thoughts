@@ -5,6 +5,5 @@ interface IPreviewThought{
     tone : string | null,
     imageUrl : string,
 
-    // Potentially deletable
 }
 export default IPreviewThought

@@ -1,10 +1,9 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useState} from "react"
-import IThought from "../interfaces/thought"
-import ThoughtApi from "../services/thoughtService"
-import DropdownMenu from "./dropDownMenu"
-import Confirm from "./popUp"
+import { FC, useEffect, useState} from "react"
+import IThought from "../interfaces/Thought"
+import ThoughtApi from "../services/ThoughtAPI"
+import DropdownMenu from "./minor/DropDownMenu"
+import Confirm from "./minor/PopUp"
 import "../App.css"
-import { useThoughtContext } from "../context/thoughtContext"
 
 interface ThoughtItemProps{
     thought : IThought,
@@ -18,14 +17,7 @@ interface ThoughtItemProps{
     modifyMethod?: (newThought : IThought) => Promise<void>
 }
 
-// you can edit anything but the image url (perhaps later) or id (never)
-export interface IModifiedThought{
-    title : string,
-    statement : string,
-    topic : string,
-    tone : string,
-}
-
+// you can edit anything but the image url or id (never)
 const ThoughtItem : FC<ThoughtItemProps> = ({
     thought,
     isPreview,
@@ -80,18 +72,6 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         setNewTopic(thought.topic)
     }
 
-
-    const updateSelf = async() => {
-        if(!isPreview){
-            const newThought = await ThoughtApi.getById(thought.id!!)
-            if(newThought !== null){
-                setNewTitle(newThought.title)
-                setNewStatement(newThought.statement)
-                setNewTone(newThought.tone)
-                setNewTopic(newThought.topic)
-            }
-        }
-    }
 
     const handleDelete = async() => {
         if(thought.id !== undefined){

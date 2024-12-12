@@ -1,8 +1,8 @@
-import { createContext, Dispatch, FC, Provider, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
-import ThoughtApi from "../services/thoughtService";
-import IThought from "../interfaces/thought";
-import ImageUploadService from "../services/imageUploadService";
-import IPreviewThought from "../interfaces/previewThought";
+import { createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
+import ThoughtApi from "../services/ThoughtAPI";
+import IThought from "../interfaces/Thought";
+import ImageUploadService from "../services/ImageUploadService";
+import IPreviewThought from "../interfaces/PreviewThought";
 
 enum PostStatus{
     Idle = "Idle",

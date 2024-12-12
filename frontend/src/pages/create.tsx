@@ -1,8 +1,8 @@
-import NavController from "../components/navController";
+import NavController from "../components/NavBar";
 
 import {useEffect, useState } from "react";
-import { useThoughtContext } from "../context/thoughtContext";
-import IThought from "../interfaces/thought";
+import { useThoughtContext } from "../context/ThoughtContext";
+import IThought from "../interfaces/Thought";
 import Creator from "../components/Creator";
 import Preview from "../components/Preview";
 

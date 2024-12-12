@@ -1,5 +1,5 @@
 import axios from 'axios';
-import IThought from '../interfaces/thought';
+import IThought from '../interfaces/Thought';
 
 const ThoughtApi = (() => {
 
