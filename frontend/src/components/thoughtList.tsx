@@ -13,7 +13,6 @@ enum Status{
 
 interface IThoughtList{
     thoughtList : IThought[]
-
     titleFilter : string,
     topicFilter : string,
     toneFilter : string
@@ -26,25 +25,15 @@ const ThoughtList : FC<IThoughtList> = ({
 
     const {
         thoughts,
-        fetchThoughts, 
         topicList, 
         toneList, 
+        fetchThoughts, 
         removeAndReload, 
         modifyAndReload
     } = useThoughtContext()
     
     const [listState, setStatus] = useState<Status>(Status.idle) 
     const [activeList, setActiveList] = useState<IThought[] | null>(null)
-
-
-    useEffect(() => {
-        setActiveList(thoughtList)
-    }, [thoughtList]) 
-
-    useEffect(() => {
-        setActiveList(Filter(thoughts).byTitle(titleFilter))
-    }, [titleFilter])
-    
 
     const getThoughtList = () => {
         if(activeList !== null && activeList!!.length !== 0){
@@ -62,12 +51,13 @@ const ThoughtList : FC<IThoughtList> = ({
             return thoughtList;
         }
         return (
-            <h2>
+            <h2 className="list__item--error text-2xl">
                 Thoughts not found.
             </h2>
         )
     }
     
+    // on pageload
     useEffect(() => {
         const loadThoughts = async() => {
             setStatus(Status.loading)
@@ -78,10 +68,17 @@ const ThoughtList : FC<IThoughtList> = ({
         loadThoughts()
     }, [])
 
+    useEffect(() => {
+        setActiveList(thoughtList)
+    }, [thoughtList]) 
+
+    useEffect(() => {
+        setActiveList(Filter(thoughts).byTitle(titleFilter))
+    }, [titleFilter])
 
     return(
         <>
-            {listState === Status.loading && <h2>Loading thoughts ...</h2>}
+            {listState === Status.loading && <h2 className="list__item--error text-2xl" >Loading thoughts ...</h2>}
             {listState === Status.complete && getThoughtList()}
         </>
     )

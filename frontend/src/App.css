@@ -34,6 +34,10 @@
     .list__item{
         grid-column: auto / span 6;
     }
+    
+    .list__item--error{
+        grid-column: auto / span 12;
+    }
 
     .create__item{
         grid-column: auto / span 6;

@@ -97,8 +97,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     
     // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
-        if(previewImageSrc !== undefined && previewImageSrc !== null && previewImageSrc !== "") return previewImageSrc
-        if(thought.imageUrl !== null && thought.imageUrl !== "") return `${imageUrl}/${thought.imageUrl}`
+        if(thought.imageUrl !== "") return `${imageUrl}/${thought.imageUrl}`
         return `${imageUrl}/trump_placeholder.jpg`
     }
 

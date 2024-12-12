@@ -32,7 +32,6 @@ function CreatePage(){
     // using Set because its a lot more reliable than a number[], and elements have to be unique
     const [emptyFields, setEmptyFields] = useState<Set<number>>(new Set([1,2,3,4,5]))
 
-    
 
     const findEmptyFields = () => {
         const newSet = new Set<number>()
@@ -66,7 +65,8 @@ function CreatePage(){
         setAttemptedSubmit(true)
         if(emptyFields.size === 0 && previewThought !== null){
             const newThought = convertPreviewThought()
-            if(previewThought.imageUrl !== ""){
+
+            if(previewThought !== null){
                 submitThought(newThought)
             }
 

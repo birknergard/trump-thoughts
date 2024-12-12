@@ -27,7 +27,6 @@ const ImageHandler : FC<IHandler> = ({
     const handle = (event : ChangeEvent<HTMLInputElement>) => {
         const {files} = event.target
         if(files != null){
-            console.log(URL.createObjectURL(files[0]))
             setRawImageFile(files)
         }
     }

@@ -11,8 +11,6 @@ interface IThoughtPreview {
 
 const Preview : FC<IThoughtPreview> = ({emptyFieldCount, thoughtPreview}) => {
 
-    const {rawImageFile} = useThoughtContext()
-
     return (
         <div className="flex flex-col items-center justify-center w-full">
             <h2 className="text-2xl mb-2">
@@ -24,7 +22,6 @@ const Preview : FC<IThoughtPreview> = ({emptyFieldCount, thoughtPreview}) => {
                     <ThoughtItem 
                         isPreview={true}
                         thought={thoughtPreview}
-                        previewImageSrc={rawImageFile !== null ? URL.createObjectURL(rawImageFile[0]) : ""}
                     />
                 </div>
             }  

@@ -1,11 +1,9 @@
-import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { useThoughtContext } from "../context/thoughtContext";
 import SelectionList from "./inputSelector";
 import Field from "./inputField";
 import ImageHandler from "./imageHandler";
 import DropdownMenu from "./dropDownMenu";
-import IPreviewThought from "../interfaces/previewThought";
-import { upload } from "@testing-library/user-event/dist/upload";
 
 interface ICreator {
     elementStyle? : string
@@ -39,9 +37,8 @@ const Creator : FC<ICreator> = ({
     const [statement, setStatement] = useState("")
     const [tone, setTone] = useState<string | null>(null)
     const [imageUrl, setImageUrl] = useState("")
-    const [rawImageUrl, setRawImageUrl] = useState<string>("")
 
-    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeImage, uploadImage, previewThought } = useThoughtContext()
+    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeImage, uploadImage} = useThoughtContext()
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
     const updatePreview = () => {
@@ -63,6 +60,7 @@ const Creator : FC<ICreator> = ({
     }, [initiateReset])
 
     const reset = () => {
+        console.log("Reset has been toggled.")
         setTitle("")
         setTopic("")
         setStatement("")
@@ -78,31 +76,55 @@ const Creator : FC<ICreator> = ({
         }
 
         setImageUrl("")
+        setRawImageFile(null)
 
         setEmptyFields(new Set([1,2,3,4,5]))
         setAttemptedSubmit(false)
+
+        localStorage.removeItem("THOUGHT")
     }
 
     const stash = () => {
-        if(localStorage.getItem("THOUGHT IN PROGRESS") === null){
-            localStorage.setItem("THOUGHT IN PROGRESS", JSON.stringify(previewThought))
-        }
-        localStorage.setItem("THOUGHT IN PROGRESS", JSON.stringify([previewThought, toggledIndex]))
+        console.log("stashed")
+        localStorage.setItem("THOUGHT", JSON.stringify({
+            savedTitle: title,
+            savedTopic: topic, 
+            savedStatement : statement,
+            savedTone : tone !== null ? tone : null, 
+            savedToggledToneIndex: toggledIndex !== null ? toggledIndex : null ,
+            savedImageUrl:  imageUrl,
+        }))
     }
     
     const loadPrevious = () => {
-        const data : [IPreviewThought, number] = JSON.parse(localStorage.getItem("THOUGHT IN PROGRESS")!!)
+        const storedData = localStorage.getItem("THOUGHT");
+        console.log("Loaded storedData:", storedData);
 
-        const previousThought = data[0]
-        setToggledIndex(data[1])
+        // Validate the retrieved data
+        if (!storedData) {
+            console.log("No previous thought found in localStorage.");
+            return; // Exit early if no data
+        }
 
-        setTitle(previousThought.title !== undefined ? previewThought.title : "")
-        setTopic(previewThought.topic !== undefined ? previousThought.topic : "")
-        setStatement(previousThought.statement !== undefined ? previewThought.statement : "")
-        setTone(previousThought.tone !== undefined ? previewThought.tone : "")
-        setImageUrl(previousThought.imageUrl !== undefined ? previewThought.imageUrl : "")
-    }
-    
+        try {
+            const storedThought = JSON.parse(storedData);
+
+            if (storedThought) {
+                // Set state only if the specific key exists in the parsed object
+                setTitle(storedThought.savedTitle);
+                setTopic(storedThought.savedTopic);
+                setStatement(storedThought.savedStatement);
+                setToggledIndex(storedThought.savedToggledToneIndex);
+                setTone(storedThought.savedTone);
+                setImageUrl(storedThought.savedImageUrl);
+            } else {
+                console.error("Stored thought is null after parsing.");
+            }
+        } catch (error) {
+            console.error("Error parsing local storage data in loadPrevious:", error);
+        }
+    };
+
 
     const handleTempImageUpload = async() => {
         if(rawImageFile !== null){
@@ -132,6 +154,7 @@ const Creator : FC<ICreator> = ({
             }
         }
     }
+
     // Whenever an image is uploaded the data is loaded into the components image hooks
     useEffect(() => {
         handleTempImageUpload()
@@ -139,14 +162,10 @@ const Creator : FC<ICreator> = ({
 
     useEffect(() => {
         updatePreview()
-        stash()
     }, [title, topic, statement, tone, imageUrl, toggledIndex])
 
     // Pageload
     useEffect(() => {
-        // Resets information on pageload rather than when leaving the page
-        reset()
-
         // Loads text fields from localstorage. Image data is loaded from API.
         loadPrevious()
     }, [])
@@ -193,12 +212,18 @@ const Creator : FC<ICreator> = ({
                     toggledIndex={toggledIndex}
                     toggledIndexSetter={setToggledIndex}
                 />
-
-                <ImageHandler 
-                    buttonStyle={attemptedSubmit && emptyFields.has(5) ? "border-red-600 font-semibold text-red-800" : ""}
-                    imageUrl={imageUrl}
-                    setRawImageFile={setRawImageFile}
-                /> 
+                <div className="flex flex-row justify-between align-center items-center w-full">
+                    <ImageHandler 
+                        elementStyle="w-1/2"
+                        buttonStyle={attemptedSubmit && emptyFields.has(5) ? "w-full border-red-600 font-semibold text-red-800" : ""}
+                        imageUrl={imageUrl}
+                        setRawImageFile={setRawImageFile}
+                    /> 
+                    <input className="border-2 bg-sky-400 font-semibold text-white text-xl rounded-lg w-1/2 h-12 m-2"
+                        type="button" value="Save Thought"
+                        onClick={() => stash()}
+                    />
+                </div>
             </section>
         
         </>

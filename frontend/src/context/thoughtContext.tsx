@@ -187,8 +187,8 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
                 const response = await ImageUploadService.upload(image)
                 return response.data.fileName
             }  
-        } catch(e) {
-            console.error()
+        } catch(error) {
+            console.error(error)
         }
     }
 
