@@ -3,9 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Trump API Documentation</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <p>Gang</p>
+
+    <h1>Trump API</h1>
+    <p>Welcome to the TrumpAPI! This page contains documentation for the various API endpoints related to Donald Trump.</p>
+
+    <h2>Briefly</h2>
+    <p>On every endpoint except ImageUpload, the <code>id</code> is a unique (to its API) integer.</p>
+
+    <h2>Personell Endpoint</h2>
+    <p><strong>Endpoint:</strong> <code>/api/Personell</code></p>
+
+    <h3>Data Structure for Entry (JSON):</h3>
+    <pre>{
+        "id": 0,
+        "name": "Donald Trump",
+        "age": 77,
+        "title": "President",
+        "description": "45th President of the United States."
+    }</pre>
+
+    <h3>Methods</h3>
+
+    <h4>POST</h4>
+    <p>Creates a new entry for personnel. Requires this JSON structure:</p>
+    <pre>{
+        "id": 0,
+        "name": "Donald Trump",
+        "age": 77,
+        "title": "President",
+        "description": "45th President of the United States."
+    }</pre>
+
+    <h4>GET</h4>
+    <p>Fetches all entries from the API. Example:</p>
+    <pre>[
+        { "id": 1, "name": "Donald Trump", "age": 77, "title": "President", "description": "45th President of the United States." },
+        { "id": 2, "name": "Ivanka Trump", "age": 42, "title": "Businesswoman", "description": "Daughter of Donald Trump" }
+    ]</pre>
+
+    <h4>GET by ID</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Personell/{id}</code></p>
+    <p>Fetches an entry by its unique <code>id</code>. Response structure:</p>
+    <pre>{
+        "id": 1,
+        "name": "Donald Trump",
+        "age": 77,
+        "title": "President",
+        "description": "45th President of the United States."
+    }</pre>
+
+    <h4>PUT</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Personell/{id}</code></p>
+    <p>Modifies an existing entry. Uses <code>id</code> as an identifier.</p>
+
+    <h4>DELETE</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Personell/{id}</code></p>
+    <p>Deletes an entry by its unique <code>id</code>.</p>
+
+    <h2>Merch Endpoint</h2>
+    <p><strong>Endpoint:</strong> <code>/api/Merch</code></p>
+
+    <h3>Data Structure for Entry (JSON):</h3>
+    <pre>{
+        "id": 0,
+        "price": 20.00,
+        "itemName": "Make America Great Again Hat",
+        "description": "A red cap with a powerful message."
+    }</pre>
+
+    <h3>Methods</h3>
+
+    <h4>POST</h4>
+    <p>Creates a new inventory item. Requires this JSON structure:</p>
+    <pre>{
+        "id": 0,
+        "price": 20.00,
+        "itemName": "Make America Great Again Hat",
+        "description": "A red cap with a powerful message."
+    }</pre>
+
+    <h4>GET</h4>
+    <p>Fetches all inventory items from the API. Example:</p>
+    <pre>[
+        { "id": 0, "price": 20.00, "itemName": "Make America Great Again Hat", "description": "A red cap with a powerful message." },
+        { "id": 1, "price": 25.00, "itemName": "Trump T-shirt", "description": "A shirt to show your support." }
+    ]</pre>
+
+    <h4>GET by ID</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Merch/{id}</code></p>
+    <p>Fetches an inventory item by its unique <code>id</code>. Response structure:</p>
+    <pre>{
+        "id": 0,
+        "price": 20.00,
+        "itemName": "Make America Great Again Hat",
+        "description": "A red cap with a powerful message."
+    }</pre>
+
+    <h4>PUT</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Merch/{id}</code></p>
+    <p>Modifies an existing inventory item. Uses <code>id</code> as an identifier.</p>
+
+    <h4>DELETE</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Merch/{id}</code></p>
+    <p>Deletes an inventory item by its unique <code>id</code>.</p>
+
+    <h2>Thought Endpoint</h2>
+    <p><strong>Endpoint:</strong> <code>/api/Thought</code></p>
+
+    <h3>Data Structure for Entry (JSON):</h3>
+    <pre>{
+        "id": 0,
+        "imageUrl": "string",
+        "statement": "Make America Great Again!",
+        "topic": "Politics",
+        "title": "Trump's Statement",
+        "tone": "Inspirational"
+    }</pre>
+
+    <h3>Methods</h3>
+
+    <h4>GET</h4>
+    <p>Fetches all thoughts from the API. Example:</p>
+    <pre>[
+        {
+            "id": 1,
+            "imageUrl": "https://example.com/image1.jpg",
+            "statement": "Make America Great Again!",
+            "topic": "Politics",
+            "title": "Trump's Statement",
+            "tone": "Inspirational"
+        }
+    ]</pre>
+
+    <h4>GET by ID</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Thought/id={id}</code></p>
+    <p>Fetches a specific thought entry by its unique <code>id</code>. Response structure:</p>
+    <pre>{
+        "id": 1,
+        "imageUrl": "https://example.com/image1.jpg",
+        "statement": "Make America Great Again!",
+        "topic": "Politics",
+        "title": "Trump's Statement",
+        "tone": "Inspirational"
+    }</pre>
+
+    <h4>GET by Topic</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Thought/topic={topic}</code></p>
+    <p>Fetches thoughts filtered by a specific <code>topic</code>. Example response:</p>
+    <pre>[
+        {
+            "id": 2,
+            "imageUrl": "https://example.com/image2.jpg",
+            "statement": "Winning is everything.",
+            "topic": "Motivation",
+            "title": "Trump's Winning Mindset",
+            "tone": "Inspirational"
+        }
+    ]</pre>
+
+    <h4>GET by Tone and Topic</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Thought/multi/{tone}+{topic}</code></p>
+    <p>Fetches thoughts filtered by both <code>tone</code> and <code>topic</code>. Example response:</p>
+    <pre>[
+        {
+            "id": 3,
+            "imageUrl": "https://example.com/image3.jpg",
+            "statement": "You're going to love it!",
+            "topic": "Motivation",
+            "title": "Trump's Promise",
+            "tone": "Positive"
+        }
+    ]</pre>
+
+    <h4>PUT</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Thought/{id}</code></p>
+    <p>Modifies an existing thought entry. Uses <code>id</code> as an identifier.</p>
+
+    <h4>DELETE</h4>
+    <p><strong>Endpoint:</strong> <code>/api/Thought/{id}</code></p>
+    <p>Deletes a specific thought entry by its unique <code>id</code>.</p>
+
+    <h2>ImageUpload API</h2>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage</code></p>
+
+    <h3>Methods</h3>
+
+    <h4>POST: Direct</h4>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage</code></p>
+    <p>Uploads an image to the API.</p>
+
+    <h4>POST: Temporary image</h4>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage/temp</code></p>
+    <p>Uploads an image to the temp directory. Works similarly to <code>POST: /UploadImage</code>.</p>
+
+    <h4>POST: Process temporary image</h4>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage/process/{imageUrl}</code></p>
+    <p>Moves an image from the temp folder to the images folder. Uses <code>imageUrl</code> as the identifier.</p>
+
+    <h4>DELETE from images</h4>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage/{imageUrl}</code></p>
+    <p>Deletes an image directly from the images folder.</p>
+
+    <h4>DELETE from temp</h4>
+    <p><strong>Endpoint:</strong> <code>/api/UploadImage/{imageUrl}</code></p>
+    <p>Deletes an image from the temp folder.</p>
+
 </body>
 </html>
