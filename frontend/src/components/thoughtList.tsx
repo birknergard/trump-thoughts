@@ -115,7 +115,7 @@ const ThoughtList : FC<IThoughtList> = ({
 
     return(
         <>
-            {listState === Status.loading && <h2 className="list__item--error text-2xl" >Loading thoughts ...</h2>}
+            {listState === Status.loading && <h2 className="list__item--error text-2xl">Loading thoughts ...</h2>}
             {listState === Status.complete && getThoughtList()}
         </>
     )

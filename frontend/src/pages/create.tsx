@@ -1,7 +1,7 @@
 import NavController from "../components/NavBar";
 
 import {useEffect, useState } from "react";
-import { useThoughtContext } from "../context/ThoughtContext";
+import { useCreatorContext } from "../context/CreatorContext";
 import IThought from "../interfaces/Thought";
 import Creator from "../components/Creator";
 import Preview from "../components/Preview";
@@ -17,7 +17,7 @@ function CreatePage(){
         resetState,
         removeTempImage,
         initiateReset,
-    } = useThoughtContext() 
+    } = useCreatorContext() 
 
     const convertPreviewThought = () : IThought => {
         return {
@@ -85,6 +85,7 @@ function CreatePage(){
     }, [previewThought])
 
     return(
+        
         <main className="flex flex-col items-center">
             <NavController 
                 navState={true}

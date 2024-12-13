@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react"
-import { useThoughtContext } from "../context/ThoughtContext";
+import {useState} from "react"
 import ThoughtList from "../components/ThoughtList";
 import NavController from "../components/NavBar";
 import ThoughtFilter from "../components/ThoughtFilter";
@@ -16,7 +15,6 @@ function MainPage(){
                 <ThoughtFilter
                     titleFilter={titleFilter}
                     titleFilterSetter={setTitleFilter}
-
                     listLength={activeList.length} 
                 />
                 <ThoughtList 

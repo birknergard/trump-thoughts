@@ -2,7 +2,6 @@ import { FC, useEffect, useState} from "react"
 import IThought from "../interfaces/Thought"
 import DropdownMenu from "./minor/DropDownMenu"
 import Confirm from "./minor/PopUp"
-import { IoTrashBin } from "react-icons/io5"
 import "../App.css"
 
 interface ThoughtItemProps{
@@ -35,7 +34,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     
     const [attemptingDelete, setDeleteVerificationState] = useState<boolean>(false)
     
-    const imageUrl = "http://localhost:5026/"
+    const BASE_URL = "http://localhost:5026/"
 
     const enableEditMode = () => {
         if(!isPreview){
@@ -109,9 +108,9 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     }, [editMode]);
     // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
-        if(isPreview && thought.imageUrl !== "") return `${imageUrl}/temp/${thought.imageUrl}`
-        if(thought.imageUrl !== "") return `${imageUrl}/images/${thought.imageUrl}`
-        return `${imageUrl}/images/trump_placeholder.jpg`
+        if(isPreview && thought.imageUrl !== "") return `${BASE_URL}/temp/${thought.imageUrl}`
+        if(thought.imageUrl !== "") return `${BASE_URL}/images/${thought.imageUrl}`
+        return `${BASE_URL}/images/trump_placeholder.jpg`
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { useThoughtContext } from "../context/ThoughtContext";
+import { useCreatorContext } from "../context/CreatorContext";
 import SelectionList from "./minor/SelectionList";
 import Field from "./minor/Field";
 import ImageHandler from "./minor/ImageHandler";
@@ -29,7 +29,6 @@ const Creator : FC<ICreator> = ({
     
     emptyFields,
     setEmptyFields,
-
 }) => {
 
     const [title, setTitle] = useState("")
@@ -38,7 +37,16 @@ const Creator : FC<ICreator> = ({
     const [tone, setTone] = useState<string | null>(null)
     const [imageUrl, setImageUrl] = useState("")
 
-    const { topicList, toneList, updatePreviewThought, rawImageFile, setRawImageFile, removeTempImage, uploadTempImage} = useThoughtContext()
+    const {
+        topicList,
+        toneList,
+        updatePreviewThought, 
+        rawImageFile, 
+        setRawImageFile, 
+        removeTempImage, 
+        uploadTempImage
+    } = useCreatorContext()
+
     const [toggledIndex, setToggledIndex] = useState<number | null>(null)
 
     const updatePreview = () => {
@@ -74,6 +82,8 @@ const Creator : FC<ICreator> = ({
 
         localStorage.removeItem("THOUGHT")
     }
+
+
     const [saveButtonState, setSaveButtonState] = useState<boolean>(false)
     const stash = () => {
         console.log("stashed")
@@ -154,7 +164,7 @@ const Creator : FC<ICreator> = ({
             try {
                 removeTempImage(tempImage)
             } catch (error) {
-                console.log("PageLoad deleteion of tempimage error.", error)
+                console.log("PageLoad deletion of tempimage error.", error)
             }
         }
     }
@@ -232,7 +242,10 @@ const Creator : FC<ICreator> = ({
                         setRawImageFile={setRawImageFile}
                     /> 
                     <div className="w-1/2 flex flex-col items-center align-end">
-                        <input className="border-2 bg-sky-400 h-12 font-semibold text-white text-xl rounded-lg w-full h-14 m-2"
+                        <input 
+                        className="hover:border-2 hover:border-emerald-400 
+                        hover:bg-emerald-100 hover:text-emerald-400 h-12 font-semibold
+                        bg-emerald-400 text-white text-xl rounded-lg w-full h-14 m-2"
                             type="button" value="Save Thought"
                             onClick={() => {
                                 stash()

@@ -5,16 +5,12 @@ import { useThoughtContext } from "../context/ThoughtContext"
 import "../App.css"
 
 interface IThoughtFilter{
-    
     titleFilter : string,
     titleFilterSetter : Dispatch<SetStateAction<string>>,
-
-    style? : string
     listLength : number
 }
 
 const ThoughtFilter : FC<IThoughtFilter> = ({
-    style,
     titleFilter,
     titleFilterSetter,
     listLength 

@@ -26,18 +26,6 @@ interface IThoughtContext{
     setTopicFilter : Dispatch<SetStateAction<string>>
     toneFilter : string,
     setToneFilter : Dispatch<SetStateAction<string>>
-
-    postThought: (thought : IThought) => Promise<void>
-    uploadTempImage : (image : File | null) => Promise<string> 
-    removeTempImage : (imageUrl : string) => Promise<void>
-    setRawImageFile : Dispatch<SetStateAction<FileList | null>>
-    rawImageFile : FileList | null,
-    status: PostStatus,
-    previewThought : IPreviewThought,
-    updatePreviewThought : Dispatch<SetStateAction<IPreviewThought>>
-
-    resetState : boolean
-    initiateReset: Dispatch<SetStateAction<boolean>> 
 }
 
 const ThoughtContext = createContext<IThoughtContext>({
@@ -56,25 +44,6 @@ const ThoughtContext = createContext<IThoughtContext>({
     toneFilter : "",
     setTopicFilter : () => {},
     setToneFilter: () => {},
-
-
-    postThought: async() => {},
-    uploadTempImage: async() => "",
-    removeTempImage: async() => {},
-    rawImageFile : null,
-    setRawImageFile : () => null,
-    status : PostStatus.Idle,
-    resetState : false,
-    initiateReset: () => {},
-
-    previewThought : {
-        title: "",
-        topic: "",
-        tone: "",
-        statement: "",
-        imageUrl: "",
-    },
-    updatePreviewThought: () => null 
 })
 
 interface IThoughtProvider {
@@ -84,7 +53,6 @@ interface IThoughtProvider {
 export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     const [thoughts, setThoughts] = useState<IThought[]>([]) 
-    const [status, setStatus] = useState<PostStatus>(PostStatus.Idle)
 
     const topicList = [
         "healthcare", "education", "immigration", "economy",
@@ -115,7 +83,6 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
 
     const [topicFilter, setTopicFilter] = useState<string>("")
     const [toneFilter, setToneFilter] = useState<string>("")
-
 
     const fetchThoughts = async() => {
         try {
@@ -180,64 +147,10 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
         }
     }
 
-
-    const uploadTempImage = async(image : File | null) => {
-        try{
-            if(image != null){
-                console.debug("Uploading image with name: ", image.name)
-                const response = await ImageUploadService.upload(image, true)
-                return response.data.fileName
-            }  
-        } catch(error) {
-            console.error(error)
-        }
-    }
-
-    const removeTempImage = async(imageUrl : string) => {
-        try {
-            console.debug("Removing image with name:", imageUrl)
-            const result = await ImageUploadService.remove(imageUrl, true)
-            console.log(result)
-        } catch (error) {
-            console.error("thoughtContext: removeTempImage", error) 
-        }
-    }
-
-
-    const postThought = async(
-        newThought : IThought
-    ) => {
-        try{
-            setStatus(PostStatus.Uploading)
-
-            await ThoughtApi.create(newThought)
-            await ImageUploadService.process(newThought.imageUrl)
-            //await ImageUploadService.upload(rawImageFile![0], false)
-            console.log("ThoughtContext: Posted new thought:" + newThought)
-            initiateReset(true);
-            setStatus(PostStatus.Completed)
-            setTimeout(() => {
-                setStatus(PostStatus.Idle)
-            }, 2000)
-        } catch(e){
-            setStatus(PostStatus.Error)
-            console.error("Error with post method.", e)
-        }
-    }
-
-    useEffect(() => {
-        setStatus(PostStatus.Idle)
-    }, [])
-
     return(
         <ThoughtContext.Provider value={{
-            previewThought,
-            updatePreviewThought,
             thoughts, 
             setThoughts, 
-            postThought, 
-            uploadTempImage,
-            removeTempImage,
             fetchThoughts,
             fetchThoughtsByTopic, 
             fetchThoughtsByTone, 
@@ -248,13 +161,8 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             setTopicFilter,
             toneFilter,
             setToneFilter,
-            status, 
             topicList, 
             toneList,
-            rawImageFile,
-            setRawImageFile,
-            resetState,
-            initiateReset,
         }}>
             {children}
         </ThoughtContext.Provider>
