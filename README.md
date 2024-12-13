@@ -1,16 +1,16 @@
 # Exam for web-development course
 
 ## Tasks (Ordered by most important)
-- Report (mostly complete)
-- Video demonstration
 
-### Frontend
 #### maybe?
 - if search does not find any matches for title, check statement instead
 - query filter for statement, where text is highlighted on result
 - restrictions on input (word limit etc.)
 
 ## Completed tasks
+- Video demonstration
+- Report (mostly complete)
+
 ### Pre exam
 - Set up Route controller
 - Set up frontend boilerplate
