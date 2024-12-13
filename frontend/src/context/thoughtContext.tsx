@@ -216,7 +216,9 @@ export const ThoughtProvider : FC<IThoughtProvider> = ({ children }) => {
             console.log("ThoughtContext: Posted new thought:" + newThought)
             initiateReset(true);
             setStatus(PostStatus.Completed)
-
+            setTimeout(() => {
+                setStatus(PostStatus.Idle)
+            }, 2000)
         } catch(e){
             setStatus(PostStatus.Error)
             console.error("Error with post method.", e)

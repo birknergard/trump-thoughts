@@ -62,32 +62,19 @@ const Creator : FC<ICreator> = ({
     const reset = async() => {
         console.log("Reset has been toggled.")
 
-        if(imageUrl !== ""){
-            try {
-                await removeTempImage(imageUrl)
-            } catch (error) {
-                console.error("Could not delete temp image.")
-                return
-            } 
-        }
-
         setTitle("")
         setTopic("")
         setStatement("")
         setToggledIndex(null)
         setTone("")
-        
-
         setImageUrl("")
-
         setRawImageFile(null)
-
         setEmptyFields(new Set([1,2,3,4,5]))
         setAttemptedSubmit(false)
 
         localStorage.removeItem("THOUGHT")
     }
-
+    const [saveButtonState, setSaveButtonState] = useState<boolean>(false)
     const stash = () => {
         console.log("stashed")
         localStorage.setItem("THOUGHT", JSON.stringify({
@@ -188,6 +175,7 @@ const Creator : FC<ICreator> = ({
 
     // Pageload
     useEffect(() => {
+        setSaveButtonState(false)
         // If an image was uploaded on last pagevist, but the thought was not saved, the image is deleted from temp.
         if(loadPrevious() === false){
             deleteTempImageWhenNotSaved()
@@ -243,10 +231,16 @@ const Creator : FC<ICreator> = ({
                         imageUrl={imageUrl}
                         setRawImageFile={setRawImageFile}
                     /> 
-                    <input className="border-2 bg-sky-400 h-12 font-semibold text-white text-xl rounded-lg w-1/2 h-14 m-2"
-                        type="button" value="Save Thought"
-                        onClick={() => stash()}
-                    />
+                    <div className="w-1/2 flex flex-col items-center align-end">
+                        <input className="border-2 bg-sky-400 h-12 font-semibold text-white text-xl rounded-lg w-full h-14 m-2"
+                            type="button" value="Save Thought"
+                            onClick={() => {
+                                stash()
+                                setSaveButtonState(true)
+                            }}
+                        />
+                        {saveButtonState && <p className="text-sm text-lime-600">Saved progress!</p>}
+                    </div>
                 </div>
             </section>
         

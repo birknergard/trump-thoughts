@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, SetStateAction, Dispatch } from "react";
 import IThought from "../interfaces/Thought";
 import { useThoughtContext } from "../context/ThoughtContext";
 import ThoughtItem from "./ThoughtItem";
@@ -13,10 +13,14 @@ enum Status{
 
 interface IThoughtList{
     titleFilter : string,
+    activeList : IThought[],
+    setActiveList : Dispatch<SetStateAction<IThought[]>>
 }
 
 const ThoughtList : FC<IThoughtList> = ({
     titleFilter,
+    activeList,
+    setActiveList
 }) =>{
 
     const {
@@ -50,7 +54,6 @@ const ThoughtList : FC<IThoughtList> = ({
     } 
 
     const [listState, setStatus] = useState<Status>(Status.idle) 
-    const [activeList, setActiveList] = useState<IThought[] | null>(null)
 
     const getThoughtList = () => {
         if(activeList !== null && activeList.length !== 0){

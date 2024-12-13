@@ -106,19 +106,22 @@ function CreatePage(){
                         thoughtPreview={convertPreviewThought()}
                     />             
 
+                    {(status === "Idle" || status === "Error") &&
                     <div className="flex flex-row items-center justify-center my-2 w-full">
-                        <input className="text-xl text-red-500 border-2 border-red-500 rounded w-2/4 h-12 m-2 hover:bg-red-500"
+                        <input className="text-xl text-red-500 border-2 border-red-500 rounded w-3/4 h-12 m-2 hover:bg-red-500"
                             type="button" value="Reset"
                             onClick={() => initiateReset(true)}
                         />
-                    {status !== "Uploading" &&
-                        <input className="text-xl border-2 border-black rounded w-2/4 h-12 m-2 hover:bg-lime-400"
+                        <input className="text-xl border-2 border-black rounded w-3/4 h-12 m-2 hover:bg-lime-400"
                             type="button" value="Submit"
                             onClick={handleSubmit}
                         />
-                    }
                     </div>
-
+                    }{status === "Uploading" &&
+                        <h2 className="text-2xl text-amber-400 my-2">Uploading to API ...</h2>
+                    }{status === "Completed" &&
+                        <h2 className="text-2xl text-lime-500 my-2">Post was successful!</h2>
+                    }
                 </section>
             </section>
         </main>

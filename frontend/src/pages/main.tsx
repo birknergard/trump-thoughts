@@ -3,15 +3,10 @@ import { useThoughtContext } from "../context/ThoughtContext";
 import ThoughtList from "../components/ThoughtList";
 import NavController from "../components/NavBar";
 import ThoughtFilter from "../components/ThoughtFilter";
-import styles from "./main.module.css"
+import IThought from "../interfaces/Thought";
 
 function MainPage(){
-    const {
-        thoughts,
-        topicFilter,
-        toneFilter,
-    } = useThoughtContext()
-
+    const [activeList, setActiveList] = useState<IThought[]>([])
     const [titleFilter, setTitleFilter] = useState<string>("")
 
     return(
@@ -22,10 +17,12 @@ function MainPage(){
                     titleFilter={titleFilter}
                     titleFilterSetter={setTitleFilter}
 
-                    listLength={thoughts.length} 
+                    listLength={activeList.length} 
                 />
                 <ThoughtList 
                     titleFilter={titleFilter}
+                    activeList={activeList}
+                    setActiveList={setActiveList}
                 />
             </section>
         </main>

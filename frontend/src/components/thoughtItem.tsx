@@ -1,8 +1,8 @@
 import { FC, useEffect, useState} from "react"
 import IThought from "../interfaces/Thought"
-import ThoughtApi from "../services/ThoughtAPI"
 import DropdownMenu from "./minor/DropDownMenu"
 import Confirm from "./minor/PopUp"
+import { IoTrashBin } from "react-icons/io5"
 import "../App.css"
 
 interface ThoughtItemProps{
@@ -104,7 +104,9 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
     useEffect(() => {
         initializeSelf()
     }, [thought.title, thought.statement, thought.tone, thought.topic])
-
+    useEffect(() => {
+        console.log('Edit Mode is now:', editMode);
+    }, [editMode]);
     // Generates an image SRC appropriate to program state
     const getSrc = () : string => {
         if(isPreview && thought.imageUrl !== "") return `${imageUrl}/temp/${thought.imageUrl}`
@@ -118,10 +120,10 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
         >
 
             {editMode === false && 
-            <div className="flex flex-col items-center px-5 w-full">
-                <h2 className="text-red-600 text-2xl my-1 text-center text-pretty break-words max-w-72" 
-                    onClick={enableEditMode}
-                >
+            <div className="flex flex-col items-center px-5 w-full" 
+                onClick={enableEditMode}
+            >
+                <h2 className="text-red-600 text-2xl my-1 text-center text-pretty break-words max-w-72">
                     Trump on{currentTitle === "" ? " ... " : ` ${currentTitle}`}
                 </h2>
 
@@ -141,7 +143,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
             }
 
             { editMode === true && 
-            <div className="flex flex-col items-center px-5">
+            <div className="flex flex-col items-center px-5 w-full">
                 {attemptingDelete && 
                     <Confirm 
                         message="You are attempting to delete a thought. This action cannot be undone."
@@ -149,25 +151,27 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         method={handleDelete}
                     />
                 }
-                <div className="flex flex-row items-center my-3 ">
-                    <h2 className="text-red-400 text-2xl mr-2">
+                <div className="flex flex-row items-end justify-center w-full my-3">
+                    <h2 className="text-red-600 text-2xl mr-2">
                         Trump on  
                     </h2>            
-                    <input className="text-2xl border w-36"  
+                    <input className="text-red-600 text-2xl border w-36"  
                         type="text"
                         disabled={attemptingDelete}
                         value={currentTitle}
                         onChange={(e) => setNewTitle(e.target.value)}
                     />
-                    <input 
+                    <input className="ml-2 text-2xl hover:cursor-pointer border border-black rounded px-2 font-light hover:bg-black hover:text-white"
                         disabled={attemptingDelete}
                         type="button" 
-                        value="Delete"
+                        value="x"
                         onClick={initiateDelete}
                     />
+                    
                 </div>
                 <div className="flex flex-row items-center justify-around w-full my-1">
                     <DropdownMenu 
+                        className="text-xl text-white bg-sky-400 rounded-lg text-center w-36 h-10 "
                         isDisabled={attemptingDelete}
                         isFilter={false}
                         field={currentTopic}
@@ -175,6 +179,7 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                         optionList={topicList!!}
                     />
                     <DropdownMenu 
+                        className="text-xl text-white bg-red-400 rounded-lg text-center w-36 h-10 "
                         isDisabled={attemptingDelete}
                         isFilter={false}
                         field={currentTone}
@@ -188,14 +193,14 @@ const ThoughtItem : FC<ThoughtItemProps> = ({
                     onChange={(e) => setNewStatement(e.target.value)}
                 >
                 </textarea>
-                <div className="flex flex-row justify-evenly w-full my-1">
-                    <input className="border w-28 h-10"
+                <div className="flex flex-row justify-evenly w-full my-1 ">
+                    <input className="text-lg border border-gray-400 hover:bg-gray-400 hover:text-white rounded w-28 h-10 hover:cursor-pointer"
                         type="button" 
                         value="Discard"
                         disabled={attemptingDelete}
                         onClick={disableEditMode}
                     />
-                    <input className="border w-28 h-10"
+                    <input className="text-lg border border-sky-400 text-sky-500 hover:bg-sky-400 hover:text-white rounded w-28 h-10 hover:cursor-pointer"
                         type="button" 
                         value="Save" 
                         disabled={attemptingDelete}

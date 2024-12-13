@@ -5,15 +5,7 @@
 - Video demonstration
 
 ### Frontend
-- Take a look at list responsive design when thoughts arent loaded and when thoughts are loading.
-- Make a dedicated button or indicator for editing thoughts in thoughtlist 
-- Delete button should be an x-icon in the corner, harder to misclick.
-- Styling of Item in editmode.
-- general styling (using tailwind) 
-
-
 #### maybe?
-- :hover and other interactive styling (using css modules)
 - if search does not find any matches for title, check statement instead
 - query filter for statement, where text is highlighted on result
 - restrictions on input (word limit etc.)
@@ -92,7 +84,14 @@
 - When having selected an image for a thought but not saved it, and then reentering the page, the image is not deleted from the API.
 - Sort frontend folder structure (components)
 
--(note: only halfway working, gave up on trying to preserve state after deletion for my own sanity) Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
+- (note: only halfway working, gave up on trying to preserve state after deletion for my own sanity) Modify/remove thought while having a filter on, so that if you edit it it stays on the previous filter (perhaps move filter for topic and tone into context and based on that run different fetches?)
+
+- Make a dedicated button or indicator for editing thoughts in thoughtlist 
+- Delete button should be an x-icon in the corner, harder to misclick.
+- Styling of Item in editmode.
+- general styling (using tailwind) 
+- Take a look at list responsive design when thoughts arent loaded and when thoughts are loading.
+- :hover and other interactive styling (using css modules)
 
 ## Useful commands
 
